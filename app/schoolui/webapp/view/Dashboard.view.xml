@@ -137,7 +137,7 @@
                                         class="sapUiSmallMarginBottom"/>
 
                                     <Label
-                                        text="Rejected"
+                                        text="REJECTED"
                                         design="Bold"/>
 
                                     <Title

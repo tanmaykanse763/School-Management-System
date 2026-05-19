@@ -1,40 +1,30 @@
 {
   "name": "school-capm",
   "version": "1.0.0",
-
   "dependencies": {
     "@cap-js/hana": "^2",
-    "@sap/cds": "^9"
+    "@sap/cds": "^9",
+    "hdb": "^2.27.1"
   },
-
   "devDependencies": {
-    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9",
     "cds-plugin-ui5": "^0.13.0"
   },
-
   "scripts": {
-    "start": "cds watch",
-
-    "watch-schoolui":
-      "cds watch --open schoolui/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "start": "npx cds run",
+    "watch-schoolui": "cds watch --open schoolui/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
-
+  "engines": {
+    "node": ">=18"
+  },
   "cds": {
-
     "requires": {
-
       "db": {
-
-        "kind": "sqlite"
-
+        "kind": "hana"
       }
-
     }
-
   },
-
   "private": true,
-
   "workspaces": [
     "app/*"
   ]
