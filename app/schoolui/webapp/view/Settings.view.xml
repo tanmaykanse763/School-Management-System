@@ -1,0 +1,208 @@
+<mvc:View
+    controllerName="schoolui.controller.Settings"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page
+        showHeader="false"
+        backgroundDesign="Transparent">
+
+        <content>
+
+            <VBox class="sapUiLargeMargin">
+
+                <!-- PAGE TITLE -->
+
+                <Title
+                    text="Settings"
+                    level="H2"
+                    class="sapUiMediumMarginBottom"/>
+
+                <!-- HEADER -->
+
+                <HBox
+                    alignItems="Center"
+                    class="sapUiMediumMarginBottom">
+
+                    <core:Icon
+                        src="sap-icon://action-settings"
+                        color="#6b7280"
+                        size="1.2rem"
+                        class="sapUiTinyMarginEnd"/>
+
+                    <Title
+                        text="Application Settings"
+                        level="H3"/>
+
+                </HBox>
+
+                <!-- SETTINGS CARD -->
+
+                <f:Card
+                    width="550px"
+                    class="sapUiMediumMarginBottom">
+
+                    <f:content>
+
+                        <VBox class="sapUiMediumMargin">
+
+                            <!-- TITLE -->
+
+                            <Title
+                                text="Notification Preferences"
+                                level="H4"
+                                class="sapUiSmallMarginBottom"/>
+
+                            <ToolbarSeparator
+                                class="sapUiMediumMarginBottom"/>
+
+                            <!-- EMAIL NOTIFICATIONS -->
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%"
+                                class="sapUiSmallMarginBottom">
+
+                                <VBox>
+
+                                    <Text
+                                        text="Email notifications:"/>
+
+                                    <ObjectStatus
+                                        text="{= ${emailSwitch>/enabled} ? 'Enabled' : 'Disabled' }"
+                                        state="{= ${emailSwitch>/enabled} ? 'Success' : 'Error' }"/>
+
+                                </VBox>
+
+                                <Switch
+                                    state="{emailSwitch>/enabled}"
+                                    customTextOn="ON"
+                                    customTextOff="OFF"
+                                    change="onEmailNotificationChange"/>
+
+                            </HBox>
+
+                            <!-- SMS ALERTS -->
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%"
+                                class="sapUiSmallMarginBottom">
+
+                                <VBox>
+
+                                    <Text
+                                        text="SMS alerts:"/>
+
+                                    <ObjectStatus
+                                        text="{= ${smsSwitch>/enabled} ? 'Enabled' : 'Disabled' }"
+                                        state="{= ${smsSwitch>/enabled} ? 'Success' : 'Error' }"/>
+
+                                </VBox>
+
+                                <Switch
+                                    state="{smsSwitch>/enabled}"
+                                    customTextOn="ON"
+                                    customTextOff="OFF"
+                                    change="onSmsChange"/>
+
+                            </HBox>
+
+                            <!-- LEAVE STATUS -->
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%"
+                                class="sapUiSmallMarginBottom">
+
+                                <VBox>
+
+                                    <Text
+                                        text="Leave status updates:"/>
+
+                                    <ObjectStatus
+                                        text="{= ${leaveSwitch>/enabled} ? 'Enabled' : 'Disabled' }"
+                                        state="{= ${leaveSwitch>/enabled} ? 'Success' : 'Error' }"/>
+
+                                </VBox>
+
+                                <Switch
+                                    state="{leaveSwitch>/enabled}"
+                                    customTextOn="ON"
+                                    customTextOff="OFF"
+                                    change="onLeaveStatusChange"/>
+
+                            </HBox>
+
+                            <!-- BONAFIDE ALERTS -->
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%"
+                                class="sapUiMediumMarginBottom">
+
+                                <VBox>
+
+                                    <Text
+                                        text="Bonafide ready alerts:"/>
+
+                                    <ObjectStatus
+                                        text="{= ${bonafideSwitch>/enabled} ? 'Enabled' : 'Disabled' }"
+                                        state="{= ${bonafideSwitch>/enabled} ? 'Success' : 'Error' }"/>
+
+                                </VBox>
+
+                                <Switch
+                                    state="{bonafideSwitch>/enabled}"
+                                    customTextOn="ON"
+                                    customTextOff="OFF"
+                                    change="onBonafideChange"/>
+
+                            </HBox>
+
+                            <!-- DARK MODE -->
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%">
+
+                                <VBox>
+
+                                    <Text
+                                        text="Dark Mode"/>
+
+                                    <ObjectStatus
+                                        text="{= ${themeSwitch>/enabled} ? 'Enabled' : 'Disabled' }"
+                                        state="{= ${themeSwitch>/enabled} ? 'Success' : 'Error' }"/>
+
+                                </VBox>
+
+                                <Switch
+                                    state="{themeSwitch>/enabled}"
+                                    customTextOn="ON"
+                                    customTextOff="OFF"
+                                    change="onThemeChange"/>
+
+                            </HBox>
+
+                        </VBox>
+
+                    </f:content>
+
+                </f:Card>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

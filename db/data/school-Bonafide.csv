@@ -1,0 +1,4 @@
+ID,studentName,studentEmail,department,purpose,noOfCopies,status,comment
+1,Rahul,rahul@gmail.com,Computer Science,Scholarship,2,Issued,
+2,Priya,priya@gmail.com,Information Technology,Bank Account,1,Rejected,Documents incomplete
+3,Amit,amit@gmail.com,Mechanical,Passport,3,Pending,

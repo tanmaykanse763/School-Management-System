@@ -1,0 +1,1 @@
+using SchoolService as service from '../../srv/service';

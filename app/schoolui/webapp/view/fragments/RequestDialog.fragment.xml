@@ -1,0 +1,205 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+    id="requestDialog"
+    title="📜 Request Bonafide Certificate"
+    contentWidth="600px"
+    contentHeight="550px"
+    stretchOnPhone="true"
+    draggable="true"
+    resizable="true">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                
+                <Text
+                    text="Specify the purpose and recipient details"
+                    class="sapUiSmallMarginBottom"/>
+
+               
+                <Label
+                    text="PURPOSE"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Select
+                    id="dialogPurposeSelect"
+                    width="100%"
+                    class="sapUiMediumMarginBottom">
+
+                    <items>
+
+                        <core:Item
+                            key="--Select--"
+                            text="--Select--"/>
+
+                        <core:Item
+                            key="Bank Account Opening"
+                            text="Bank Account Opening"/>
+
+                        <core:Item
+                            key="Passport Application"
+                            text="Passport Application"/>
+
+                        <core:Item
+                            key="Education Loan"
+                            text="Education Loan"/>
+
+                        <core:Item
+                            key="Scholarship"
+                            text="Scholarship"/>
+
+                        <core:Item
+                            key="Visa Application"
+                            text="Visa Application"/>
+
+                        <core:Item
+                            key="Others"
+                            text="Others"/>
+
+                    </items>
+
+                </Select>
+
+                
+                <Label
+                    text="STUDENT NAME"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Input
+                    id="dialogIssuedTo"
+                    placeholder="Enter student name"
+                    liveChange="onNameLiveChange"
+                    class="sapUiMediumMarginBottom"/>
+
+                
+                <Label
+                    text="STUDENT EMAIL"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Input
+                    id="dialogStudentEmail"
+                    placeholder="Enter student email"
+                    liveChange="onEmailLiveChange"
+                    class="sapUiMediumMarginBottom"/>
+
+                
+                <Label
+                    text="DEPARTMENT"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Select
+                    id="dialogDepartment"
+                    width="100%"
+                    class="sapUiMediumMarginBottom">
+
+                    <items>
+
+                        <core:Item
+                            key="--Select--"
+                            text="--Select Department--"/>
+
+                        <core:Item
+                            key="Computer Science"
+                            text="Computer Science"/>
+
+                        <core:Item
+                            key="Information Technology"
+                            text="Information Technology"/>
+
+                        <core:Item
+                            key="Electronics"
+                            text="Electronics"/>
+
+                        <core:Item
+                            key="Mechanical"
+                            text="Mechanical"/>
+
+                    </items>
+
+                </Select>
+
+                
+                <Label
+                    text="REMARKS"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <TextArea
+                     id="dialogRemarks"
+                     rows="8"
+                     growing="true"
+                     growingMaxLines="8"
+                     width="100%"
+                     placeholder="Additional details..."
+                     class="sapUiTinyMarginBottom"/>
+
+                <!-- COPIES -->
+                <Label
+                    text="NUMBER OF COPIES"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Select
+                    id="dialogCopiesSelect"
+                    width="100%">
+
+                    <items>
+
+                        <core:Item
+                            key="1"
+                            text="1"/>
+
+                        <core:Item
+                            key="2"
+                            text="2"/>
+
+                        <core:Item
+                            key="3"
+                            text="3"/>
+
+                        <core:Item
+                            key="4"
+                            text="4"/>
+
+                        <core:Item
+                            key="5"
+                            text="5"/>
+
+                    </items>
+
+                </Select>
+
+            </VBox>
+
+        </content>
+
+        <!-- CANCEL BUTTON -->
+        <beginButton>
+
+            <Button
+                text="Cancel"
+                press="onCancelDialog"/>
+
+        </beginButton>
+
+        <!-- SUBMIT BUTTON -->
+        <endButton>
+
+            <Button
+                text="Submit Request"
+                type="Emphasized"
+                press="onSubmitRequest"/>
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

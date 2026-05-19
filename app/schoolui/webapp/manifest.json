@@ -1,0 +1,153 @@
+{
+  "_version": "1.58.0",
+  "sap.app": {
+    "id": "schoolui",
+    "type": "application",
+    "title": "EduPortal",
+    "description": "Student Leave & Certificate Portal",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  },
+
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": false
+    }
+  },
+
+  "sap.ui5": {
+
+    "rootView": {
+      "viewName": "schoolui.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "appView"
+    },
+
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.tnt": {}
+      }
+    },
+
+    "models": {
+
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "schoolui.i18n.i18n"
+        }
+      },
+
+      "": {
+        "dataSource": "mainService",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "odataVersion": "4.0"
+        }
+      }
+
+    },
+
+    "dataSources": {
+
+      "mainService": {
+        "uri": "/odata/v4/school/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+
+    },
+
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "schoolui.view",
+        "controlId": "appNav",
+        "controlAggregation": "pages",
+        "async": true
+      },
+
+      "routes": [
+        {
+          "name": "Dashboard",
+          "pattern": "",
+          "target": ["Dashboard"]
+        },
+        {
+          "name": "LeaveRequests",
+          "pattern": "LeaveRequests",
+          "target": ["LeaveRequests"]
+        },
+        {
+          "name": "BonafideCert",
+          "pattern": "BonafideCert",
+          "target": ["BonafideCert"]
+        },
+        {
+          "name": "MyProfile",
+          "pattern": "MyProfile",
+          "target": ["MyProfile"]
+        },
+        {
+          "name": "Settings",
+          "pattern": "Settings",
+          "target": ["Settings"]
+        }
+      ],
+
+      "targets": {
+
+        "Dashboard": {
+          "viewType": "XML",
+          "viewName": "Dashboard",
+          "viewLevel": 1,
+          "viewId": "Dashboard"
+        },
+
+        "LeaveRequests": {
+          "viewType": "XML",
+          "viewName": "LeaveRequests",
+          "viewLevel": 2,
+          "viewId": "LeaveRequests"
+        },
+
+        "BonafideCert": {
+          "viewType": "XML",
+          "viewName": "BonafideCert",
+          "viewLevel": 2,
+          "viewId": "BonafideCert"
+        },
+
+        "MyProfile": {
+          "viewType": "XML",
+          "viewName": "MyProfile",
+          "viewLevel": 2,
+          "viewId": "MyProfile"
+        },
+
+        "Settings": {
+          "viewType": "XML",
+          "viewName": "Settings",
+          "viewLevel": 2,
+          "viewId": "Settings"
+        }
+
+      }
+    }
+  }
+}

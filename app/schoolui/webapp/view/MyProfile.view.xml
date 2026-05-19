@@ -1,0 +1,236 @@
+<mvc:View
+    controllerName="schoolui.controller.MyProfile"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page
+        showHeader="false"
+        backgroundDesign="Transparent">
+
+        <content>
+
+            <VBox class="sapUiLargeMargin">
+
+                <!-- PAGE TITLE -->
+
+                <Title
+                    text="My Profile"
+                    level="H2"
+                    class="sapUiMediumMarginBottom"/>
+
+                <!-- PROFILE HEADER -->
+
+                <HBox
+                    alignItems="Center"
+                    class="sapUiLargeMarginBottom">
+
+                    <!-- AVATAR -->
+
+                    <Avatar
+                        initials="{
+                            = ${name}
+                            ? ${name}.substring(0,2).toUpperCase()
+                            : 'ST'
+                        }"
+                        displaySize="XL"
+                        backgroundColor="Accent5"
+                        class="sapUiLargeMarginEnd"/>
+
+                    <!-- NAME & ROLE -->
+
+                    <VBox>
+
+                        <Title
+                            text="{name}"
+                            level="H1"/>
+
+                        <Text
+                            text="{= 'Role: ' + ${role} }"
+                            class="sapUiSmallMarginTop"/>
+
+                    </VBox>
+
+                </HBox>
+
+                <!-- GRID -->
+
+                <l:Grid
+                    defaultSpan="L6 M6 S12"
+                    containerQuery="true"
+                    width="100%"
+                    hSpacing="2"
+                    vSpacing="2">
+
+                    <!-- ACADEMIC INFO -->
+
+                    <f:Card
+                        width="100%"
+                        height="350px"
+                        class="sapUiMediumMarginBottom">
+
+                        <f:content>
+
+                            <VBox class="sapUiMediumMargin">
+
+                                <Title
+                                    text="🎓 Academic Info"
+                                    level="H4"
+                                    class="sapUiMediumMarginBottom"/>
+
+                                <ToolbarSeparator
+                                    class="sapUiMediumMarginBottom"/>
+
+                                <!-- DEPARTMENT -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Department:"/>
+
+                                    <Text
+                                        text="{department}"/>
+
+                                </HBox>
+
+                                <!-- CLASS -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Class:"/>
+
+                                    <Text
+                                        text="{class}"/>
+
+                                </HBox>
+
+                                <!-- ROLL NO -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Roll No:"/>
+
+                                    <Text
+                                        text="{rollNo}"/>
+
+                                </HBox>
+
+                                <!-- CREATED AT -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%">
+
+                                    <Text text="Created At:"/>
+
+                                    <Text
+                                        text="{createdAt}"/>
+
+                                </HBox>
+
+                            </VBox>
+
+                        </f:content>
+
+                    </f:Card>
+
+                    <!-- CONTACT INFO -->
+
+                    <f:Card
+                        width="100%"
+                        height="350px"
+                        class="sapUiMediumMarginBottom">
+
+                        <f:content>
+
+                            <VBox class="sapUiMediumMargin">
+
+                                <Title
+                                    text="📞 Contact Info"
+                                    level="H4"
+                                    class="sapUiMediumMarginBottom"/>
+
+                                <ToolbarSeparator
+                                    class="sapUiMediumMarginBottom"/>
+
+                                <!-- NAME -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Name:"/>
+
+                                    <Text
+                                        text="{name}"/>
+
+                                </HBox>
+
+                                <!-- EMAIL -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Email:"/>
+
+                                    <Text
+                                        text="{email}"/>
+
+                                </HBox>
+
+                                <!-- PHONE -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    class="sapUiSmallMarginBottom">
+
+                                    <Text text="Phone:"/>
+
+                                    <Text
+                                        text="{phone}"/>
+
+                                </HBox>
+
+                                <!-- ROLE -->
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%">
+
+                                    <Text text="Role:"/>
+
+                                    <Text
+                                        text="{role}"/>
+
+                                </HBox>
+
+                            </VBox>
+
+                        </f:content>
+
+                    </f:Card>
+
+                </l:Grid>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

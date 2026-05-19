@@ -1,0 +1,168 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### Leaves
+# @name Leaves_GET
+GET {{server}}/odata/v4/school/Leaves
+Authorization: Basic {{username}}:{{password}}
+
+
+### Leaves
+# @name Leaves_POST
+POST {{server}}/odata/v4/school/Leaves
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "30539663-ce71-4032-a86f-e76795db0001",
+  "studentName": "narayan",
+  "studentEmail": "nk@gmail.com",
+  "department": "civil",
+  "leaveType": "sick",
+  "fromDate": "2008-06-04",
+  "toDate": "2005-08-10",
+  "reason": "reason-30539663",
+  "status": "status-30539663",
+  "appliedOn": "2000-12-27T00:00:00.000Z",
+  "comment": "comment-30539663"
+}
+
+
+### Leaves
+# @name Leaves_PATCH
+PATCH {{server}}/odata/v4/school/Leaves/30539663-ce71-4032-a86f-e76795db0022
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "30539663-ce71-4032-a86f-e76795db0022",
+  "studentName": "studentName-30539663",
+  "studentEmail": "studentEmail-30539663",
+  "department": "department-30539663",
+  "leaveType": "leaveType-30539663",
+  "fromDate": "2008-06-03",
+  "toDate": "2005-08-09",
+  "reason": "reason-30539663",
+  "status": "status-30539663",
+  "appliedOn": "2000-12-27T00:00:00.000Z",
+  "comment": "comment-30539663"
+}
+
+
+### Leaves
+# @name Leaves_DELETE
+DELETE {{server}}/odata/v4/school/Leaves/30539663-ce71-4032-a86f-e76795db0022
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Bonafide
+# @name Bonafide_GET
+GET {{server}}/odata/v4/school/Bonafide
+Authorization: Basic {{username}}:{{password}}
+
+
+### Bonafide
+# @name Bonafide_POST
+POST {{server}}/odata/v4/school/Bonafide
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "10132431-cd51-48e8-94b9-69e62d9402f2",
+  "studentName": "studentName-10132431",
+  "studentEmail": "studentEmail-10132431",
+  "department": "department-10132431",
+  "purpose": "purpose-10132431",
+  "noOfCopies": 39,
+  "remark": "remark-10132431",
+  "status": "status-10132431",
+  "comment": "comment-10132431",
+  "createdAt": "2016-01-10T00:00:00.000Z",
+  "createdBy": "createdBy.6168f@example.org",
+  "modifiedAt": "2021-08-09T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.6168f@example.com"
+}
+
+
+### Bonafide
+# @name Bonafide_PATCH
+PATCH {{server}}/odata/v4/school/Bonafide/10132431-cd51-48e8-94b9-69e62d9402f2
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "10132431-cd51-48e8-94b9-69e62d9402f2",
+  "studentName": "studentName-10132431",
+  "studentEmail": "studentEmail-10132431",
+  "department": "department-10132431",
+  "purpose": "purpose-10132431",
+  "noOfCopies": 39,
+  "remark": "remark-10132431",
+  "status": "status-10132431",
+  "comment": "comment-10132431",
+  "createdAt": "2016-01-10T00:00:00.000Z",
+  "createdBy": "createdBy.6168f@example.org",
+  "modifiedAt": "2021-08-09T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.6168f@example.com"
+}
+
+
+### Bonafide
+# @name Bonafide_DELETE
+DELETE {{server}}/odata/v4/school/Bonafide/10132431-cd51-48e8-94b9-69e62d9402f2
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### Users
+# @name Users_GET
+GET {{server}}/odata/v4/school/Users
+Authorization: Basic {{username}}:{{password}}
+
+
+### Users
+# @name Users_POST
+POST {{server}}/odata/v4/school/Users
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "20472343-53b0-41a5-92a3-83ad78f195bc",
+  "name": "tanmay",
+  "email": "tanmay@gmail.com",
+  "phone": "1234567890",
+  "department": "civil",
+  "class": "LY",
+  "rollNo": 20,
+  "role": "student",
+  "createdAt": "2015-08-22T00:00:00.000Z"
+}
+
+
+### Users
+# @name Users_PATCH
+PATCH {{server}}/odata/v4/school/Users/20472343-53b0-41a5-92a3-83ad78f194bb
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": "20472343-53b0-41a5-92a3-83ad78f194bb",
+  "name": "name-2047234",
+  "email": "email-2047234",
+  "phone": "phone-2047234",
+  "department": "department-2047234",
+  "class": "class-2047234",
+  "rollNo": 2,
+  "role": "role-2047234",
+  "createdAt": "2015-07-22T00:00:00.000Z"
+}
+
+
+### Users
+# @name Users_DELETE
+DELETE {{server}}/odata/v4/school/Users/20472343-53b0-41a5-92a3-83ad78f194bb
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}

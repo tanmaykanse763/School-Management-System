@@ -1,0 +1,419 @@
+<mvc:View
+    controllerName="schoolui.controller.LeaveRequests"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap">
+
+    <Page showHeader="false">
+
+        <content>
+
+            <VBox width="100%">
+
+
+                <uxap:ObjectPageLayout
+                    showTitleInHeaderContent="true"
+                    showFooter="false">
+
+
+                    <uxap:headerTitle>
+
+                        <uxap:ObjectPageDynamicHeaderTitle>
+
+                            <uxap:expandedHeading>
+
+                                <VBox>
+
+                                    <Title
+                                        text="Leave Requests"
+                                        level="H1"/>
+
+                                    <Text
+                                        text="Manage and Track Student Leave Applications"/>
+
+                                </VBox>
+
+                            </uxap:expandedHeading>
+
+                        </uxap:ObjectPageDynamicHeaderTitle>
+
+                    </uxap:headerTitle>
+
+                    <uxap:headerContent>
+
+                        <HBox
+                            width="100%"
+                            justifyContent="SpaceBetween"
+                            alignItems="Center"
+                            class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+
+
+                            <HBox alignItems="Center">
+
+
+                                <VBox class="sapUiMediumMarginEnd">
+
+                                    <Label
+                                        text="Student Name:"
+                                        design="Bold"/>
+
+                                    <Text
+                                        id="selectedStudentName"
+                                        text="No Selection"/>
+
+                                </VBox>
+
+                                <VBox>
+
+                                    <Label
+                                        text="Student Email:"
+                                        design="Bold"/>
+
+                                    <Text
+                                        id="selectedStudentEmail"
+                                        text="No Selection"/>
+
+                                </VBox>
+
+                                <!-- DEPARTMENT -->
+
+                                <VBox class="sapUiMediumMarginBegin">
+
+                                        <Label
+                                            text="Department:"
+                                            design="Bold"/>
+
+                                        <Text
+                                            id="selectedDepartment"
+                                            text="No Selection"/>
+
+                                        </VBox>
+
+                            </HBox>
+
+
+                            <HBox alignItems="Center">
+
+
+                                <SearchField
+                                    id="leaveSearch"
+                                    width="18rem"
+                                    placeholder="Search Leave Request"
+                                    liveChange="onSearchLeave"
+                                    class="sapUiTinyMarginEnd"/>
+
+
+                                <Button
+                                    text="+ Create"
+                                    type="Emphasized"
+                                    press="onCreateLeave"/>
+
+                            </HBox>
+
+                        </HBox>
+
+                    </uxap:headerContent>
+
+                </uxap:ObjectPageLayout>
+
+
+                <IconTabBar
+                    expandable="true"
+                    class="sapUiResponsiveContentPadding">
+
+                    <items>
+
+
+                        <IconTabFilter 
+                           text="All"
+                           iconColor="Neutral">
+
+                            <Table
+                                id="leaveTable"
+                                items="{/Leaves}"
+                                mode="SingleSelectMaster"
+                                selectionChange="onSelectionChange"
+                                growing="true"
+                                width="100%">
+
+                                <columns> 
+
+                                    <Column>
+                                        <Text text="Leave Type"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="From Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="To Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="Reason"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="Status"/>
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem>
+
+                                        <cells>
+
+
+                                            <Text text="{leaveType}"/>
+
+                                            <Text text="{fromDate}"/>
+
+                                            <Text text="{toDate}"/>
+
+                                            <Text text="{reason}"/>
+
+                                            <ObjectStatus
+                                                text="{status}"
+                                                state="{
+                                                  = ${status} === 'Approved'
+                                                  ? 'Success'
+                                                  : ${status} === 'Pending'
+                                                  ? 'Warning'
+                                                  : ${status} === 'Rejected'
+                                                  ? 'Error'
+                                                  : 'None'}"/>
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </IconTabFilter>
+
+
+
+                        <IconTabFilter 
+                           text="Pending"
+                           iconColor="Critical">
+
+                            <Table
+                                mode="SingleSelectMaster"
+                                selectionChange="onSelectionChange"
+                                growing="true"
+                                width="100%"
+                                items="{
+                                    path:'/Leaves',
+                                    filters:[
+                                        {
+                                            path:'status',
+                                            operator:'EQ',
+                                            value1:'Pending'
+                                        }
+                                    ]
+                                }">
+
+                                <columns>
+
+
+                                    <Column>
+                                        <Text text="Leave Type"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="From Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="To Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="Reason"/>
+                                    </Column>
+
+                                    
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem>
+
+                                        <cells>
+
+                                            <Text text="{leaveType}"/>
+
+                                            <Text text="{fromDate}"/>
+
+                                            <Text text="{toDate}"/>
+
+                                            <Text text="{reason}"/>
+
+                                            
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </IconTabFilter>
+
+
+                        <IconTabFilter 
+                           text="Approved"
+                           iconColor="Positive">
+
+                            <Table
+                                mode="SingleSelectMaster"
+                                selectionChange="onSelectionChange"
+                                growing="true"
+                                width="100%"
+                                items="{
+                                    path:'/Leaves',
+                                    filters:[
+                                        {
+                                            path:'status',
+                                            operator:'EQ',
+                                            value1:'Approved'
+                                        }
+                                    ]
+                                }">
+
+                                <columns>
+
+                                    <Column>
+                                        <Text text="Leave Type"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="From Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="To Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="Reason"/>
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem>
+
+                                        <cells>
+
+                                            
+
+                                            <Text text="{leaveType}"/>
+
+                                            <Text text="{fromDate}"/>
+
+                                            <Text text="{toDate}"/>
+
+                                            <Text text="{reason}"/>
+
+                                            
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </IconTabFilter>
+
+
+                        <IconTabFilter 
+                            text="Rejected"
+                            iconColor="Negative">
+
+                            <Table
+                                mode="SingleSelectMaster"
+                                selectionChange="onSelectionChange"
+                                growing="true"
+                                width="100%"
+                                items="{
+                                    path:'/Leaves',
+                                    filters:[
+                                        {
+                                            path:'status',
+                                            operator:'EQ',
+                                            value1:'Rejected'
+                                        }
+                                    ]
+                                }">
+
+                                <columns>
+
+                                    
+
+                                    <Column>
+                                        <Text text="Leave Type"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="From Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="To Date"/>
+                                    </Column>
+
+                                    <Column>
+                                        <Text text="Reason"/>
+                                    </Column>
+
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem>
+
+                                        <cells>
+
+                                            <Text text="{leaveType}"/>
+
+                                            <Text text="{fromDate}"/>
+
+                                            <Text text="{toDate}"/>
+
+                                            <Text text="{reason}"/>
+
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </IconTabFilter>
+
+                    </items>
+
+                </IconTabBar>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
