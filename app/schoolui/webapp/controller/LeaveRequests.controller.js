@@ -171,76 +171,53 @@ sap.ui.define([
             onSubmitLeaveRequest: function () {
 
                 // CONTROLS
+                var oStudentName = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveStudentName"
+                );
 
-                var oStudentName =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveStudentName"
-                    );
+                var oStudentEmail = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveStudentEmail"
+                );
 
-                var oStudentEmail =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveStudentEmail"
-                    );
+                var oDepartment = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveDepartment"
+                );
 
-                var oDepartment =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveDepartment"
-                    );
+                var oLeaveType = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveType"
+                );
 
-                var oLeaveType =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveType"
-                    );
+                var oFromDate = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveFromDate"
+                );
 
-                var oFromDate =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveFromDate"
-                    );
+                var oToDate = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveToDate"
+                );
 
-                var oToDate =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveToDate"
-                    );
-
-                var oReason =
-                    sap.ui.core.Fragment.byId(
-                        this.getView().getId(),
-                        "leaveReason"
-                    );
+                var oReason = sap.ui.core.Fragment.byId(
+                    this.getView().getId(),
+                    "leaveReason"
+                );
 
                 // VALUES
+                var sStudentName = oStudentName.getValue();
+                var sStudentEmail = oStudentEmail.getValue();
+                var sDepartment = oDepartment.getSelectedKey();
+                var sLeaveType = oLeaveType.getSelectedKey();
 
-                var sStudentName =
-                    oStudentName.getValue();
+                var dFromDate = oFromDate.getDateValue();
+                var dToDate = oToDate.getDateValue();
 
-                var sStudentEmail =
-                    oStudentEmail.getValue();
-
-                var sDepartment =
-                    oDepartment.getSelectedKey();
-
-                var sLeaveType =
-                    oLeaveType.getSelectedKey();
-
-                // DATE VALUES
-
-                var dFromDate =
-                    oFromDate.getDateValue();
-
-                var dToDate =
-                    oToDate.getDateValue();
-
-                var sReason =
-                    oReason.getValue();
+                var sReason = oReason.getValue();
 
                 // VALIDATION
-
                 if (
                     !sStudentName ||
                     !sStudentEmail ||
@@ -250,233 +227,105 @@ sap.ui.define([
                     !dToDate ||
                     !sReason
                 ) {
-
-                    MessageToast.show(
-                        "Please fill all required fields"
-                    );
-
+                    MessageToast.show("Please fill all required fields");
                     return;
-
                 }
 
                 // EMAIL VALIDATION
+                var gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-                if (
-                    !sStudentEmail.includes("@gmail.com")
-                ) {
-
-                    MessageToast.show(
-                        "Enter valid Gmail Address"
-                    );
-
+                if (!gmailPattern.test(sStudentEmail)) {
+                    MessageToast.show("Enter valid Gmail Address");
                     return;
-
                 }
 
                 // REASON VALIDATION
-
-                if (
-                    sReason.length < 5
-                ) {
-
-                    MessageToast.show(
-                        "Reason minimum 5 characters required"
-                    );
-
+                if (sReason.length < 5) {
+                    MessageToast.show("Reason minimum 5 characters required");
                     return;
-
                 }
 
                 // FORMAT FROM DATE
-
                 var sFormattedFromDate =
-
                     dFromDate.getFullYear() + "-" +
-
-                    String(
-                        dFromDate.getMonth() + 1
-                    ).padStart(2, "0") + "-" +
-
-                    String(
-                        dFromDate.getDate()
-                    ).padStart(2, "0");
+                    String(dFromDate.getMonth() + 1).padStart(2, "0") + "-" +
+                    String(dFromDate.getDate()).padStart(2, "0");
 
                 // FORMAT TO DATE
-
                 var sFormattedToDate =
-
                     dToDate.getFullYear() + "-" +
-
-                    String(
-                        dToDate.getMonth() + 1
-                    ).padStart(2, "0") + "-" +
-
-                    String(
-                        dToDate.getDate()
-                    ).padStart(2, "0");
+                    String(dToDate.getMonth() + 1).padStart(2, "0") + "-" +
+                    String(dToDate.getDate()).padStart(2, "0");
 
                 // ODATA MODEL
-
-                var oModel =
-                    this.getView().getModel();
+                var oModel = this.getView().getModel();
 
                 // PAYLOAD
-
                 var oPayload = {
-
-                    studentName:
-                        String(sStudentName),
-
-                    studentEmail:
-                        String(sStudentEmail),
-
-                    department:
-                        String(sDepartment),
-
-                    leaveType:
-                        String(sLeaveType),
-
-                    fromDate:
-                        sFormattedFromDate,
-
-                    toDate:
-                        sFormattedToDate,
-
-                    reason:
-                        String(sReason),
-
-                    status:
-                        "Pending",
-
-                    appliedOn:
-                        new Date().toISOString()
-
+                    studentName: String(sStudentName),
+                    studentEmail: String(sStudentEmail),
+                    department: String(sDepartment),
+                    leaveType: String(sLeaveType),
+                    fromDate: sFormattedFromDate,
+                    toDate: sFormattedToDate,
+                    reason: String(sReason),
+                    status: "Pending",
+                    appliedOn: new Date().toISOString()
                 };
-
-                // DEBUG PAYLOAD
 
                 console.log(oPayload);
 
                 // CREATE POST CALL
-
-                var oBinding =
-                    oModel.bindList("/Leaves");
-
+                var oBinding = oModel.bindList("/Leaves");
                 oBinding.create(oPayload);
 
                 // SUCCESS MESSAGE
+                MessageToast.show("Leave Request Submitted Successfully");
 
-                MessageToast.show(
-                    "Leave Request Submitted Successfully"
-                );
+                // ADD DYNAMIC NOTIFICATION
+                // GET APP CONTROLLER SAFELY
+                var oAppView = sap.ui.getCore().byId("container-schoolui---app");
 
-                // REFRESH TABLE SAFELY
+                if (oAppView) {
 
-                var oTable =
-                    this.byId("leaveTable");
+                    var oAppCtrl = oAppView.getController();
 
-                if (
-                    oTable &&
-                    oTable.getBinding("items")
-                ) {
+                    if (oAppCtrl && oAppCtrl.addNotification) {
 
-                    oTable
-                        .getBinding("items")
-                        .refresh();
+                        oAppCtrl.addNotification({
+                            type: "leave",
+                            icon: "sap-icon://document-text",
+                            iconColor: "#185FA5",
+                            title: "Leave Request Submitted",
+                            description: "Leave request submitted successfully",
+                            statusText: "Pending",
+                            statusState: "Warning",
+                            time: new Date().toLocaleString()
+                        });
 
+                    }
+                }
+
+                // REFRESH TABLE
+                var oTable = this.byId("leaveTable");
+
+                if (oTable && oTable.getBinding("items")) {
+                    oTable.getBinding("items").refresh();
                 }
 
                 // RESET FIELDS
-
                 oStudentName.setValue("");
-
                 oStudentEmail.setValue("");
-
                 oDepartment.setSelectedKey("");
-
                 oLeaveType.setSelectedKey("");
-
                 oFromDate.setValue("");
-
                 oToDate.setValue("");
-
                 oReason.setValue("");
 
                 // CLOSE DIALOG
-
                 if (this.oLeaveDialog) {
-
                     this.oLeaveDialog.close();
-
                 }
-
-            },
-
-            onSelectionChange: function (oEvent) {
-
-                var oItem =
-                    oEvent.getParameter("listItem");
-
-                var oContext =
-                    oItem.getBindingContext();
-
-                var oData =
-                    oContext.getObject();
-
-                this.byId("selectedStudentName")
-                    .setText(oData.studentName);
-
-                this.byId("selectedStudentEmail")
-                    .setText(oData.studentEmail);
-
-                this.byId("selectedDepartment")
-                    .setText(oData.department);
-
-            },
-
-            onSearchLeave: function (oEvent) {
-
-                var sValue =
-                    oEvent.getParameter("newValue");
-
-                var oTable =
-                    this.byId("leaveTable");
-
-                var oBinding =
-                    oTable.getBinding("items");
-
-                var aFilters = [];
-
-                if (sValue) {
-
-                    aFilters.push(
-                        new sap.ui.model.Filter({
-
-                            filters: [
-
-                                new sap.ui.model.Filter(
-                                    "studentName",
-                                    sap.ui.model.FilterOperator.Contains,
-                                    sValue
-                                ),
-
-                                new sap.ui.model.Filter(
-                                    "studentEmail",
-                                    sap.ui.model.FilterOperator.Contains,
-                                    sValue
-                                )
-
-                            ],
-
-                            and: false
-
-                        })
-                    );
-
-                }
-
-                oBinding.filter(aFilters);
-
             },
 
 

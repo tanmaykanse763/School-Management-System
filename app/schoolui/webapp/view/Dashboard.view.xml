@@ -6,12 +6,12 @@
     xmlns:card="sap.f.cards"
     xmlns:grid="sap.ui.layout.cssgrid"
     xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
     displayBlock="true">
 
     <Page
         id="dashboardPage"
-        title="Dashboard"
-        showNavButton="false"
+        showHeader="false"
         backgroundDesign="Transparent">
 
         <content>
@@ -24,139 +24,316 @@
 
                 <VBox class="sapUiMediumMargin sapUiMediumMarginTop">
 
-                  
+                    <html:div class="eduDashHeader">
+
+                        <html:div class="eduDashDots">
+                            <html:span class="eduDot dot1"/>
+                            <html:span class="eduDot dot2"/>
+                            <html:span class="eduDot dot3"/>
+                            <html:span class="eduDot dot4"/>
+                            <html:span class="eduPortalLabel">EduPortal</html:span>
+                        </html:div>
+
+                        
+                        <html:h1 class="eduDashTitle">Dashboard</html:h1>
+
+                    </html:div>
+
+                    
+                    <html:style>
+                        @keyframes eduShimmer {
+                            0%   { background-position: -200% center; }
+                            100% { background-position:  200% center; }
+                        }
+                        @keyframes eduFloat {
+                            0%, 100% { transform: translateY(0); }
+                            50%      { transform: translateY(-5px); }
+                        }
+
+                        .eduDashHeader {
+                            padding: 1.2rem 1.5rem 1rem;
+                            border-bottom: 1px solid #e0e0e0;
+                            margin-bottom: 1.2rem;
+                        }
+                        .eduDashDots {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            margin-bottom: 8px;
+                        }
+                        .eduDot {
+                            width: 11px;
+                            height: 11px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            animation: eduFloat 2s ease-in-out infinite;
+                        }
+                        .dot1 { background: #534AB7; animation-delay: 0s;   }
+                        .dot2 { background: #D4537E; animation-delay: 0.2s; }
+                        .dot3 { background: #D85A30; animation-delay: 0.4s; }
+                        .dot4 { background: #1D9E75; animation-delay: 0.6s; }
+                        .eduPortalLabel {
+                            font-size: 11px;
+                            letter-spacing: 2.5px;
+                            text-transform: uppercase;
+                            color: #888;
+                            font-weight: 600;
+                            margin-left: 4px;
+                        }
+                        .eduDashTitle {
+                            margin: 0 0 10px;
+                            font-size: 52px;
+                            font-weight: 600;
+                            line-height: 1.1;
+                            background: linear-gradient(
+                                135deg,
+                                #534AB7 0%,
+                                #D4537E 28%,
+                                #D85A30 52%,
+                                #BA7517 75%,
+                                #1D9E75 100%
+                            );
+                            background-size: 200% auto;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                            animation: eduShimmer 5s linear infinite;
+                        }
+
+                        /* ── Greeting Banner ── */
+                        .eduGreetBanner {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            background: #f7f7fb;
+                            border: 1px solid #ececf6;
+                            border-radius: 12px;
+                            padding: 14px 20px;
+                            margin-bottom: 1.2rem;
+                        }
+                        .eduGreetText {
+                            font-size: 22px;
+                            font-weight: 600;
+                            color: #2c2c2c;
+                            margin: 0;
+                        }
+                        .eduGreetSub {
+                            font-size: 13px;
+                            color: #888;
+                            margin-top: 4px;
+                            font-style: italic;
+                        }
+                        .eduGreetBadge {
+                            font-size: 12px;
+                            font-weight: 600;
+                            padding: 5px 16px;
+                            border-radius: 999px;
+                            white-space: nowrap;
+                        }
+                        .greetMorning   { background: #FFF8E7; color: #854F0B; border: 1px solid #FAC775; }
+                        .greetAfternoon { background: #FAECE7; color: #712B13; border: 1px solid #F0997B; }
+                        .greetEvening   { background: #EEEDFE; color: #3C3489; border: 1px solid #AFA9EC; }
+                    </html:style>
+                    
+                    <HBox
+    class="eduGreetBanner"
+    justifyContent="SpaceBetween"
+    alignItems="Center">
+
+    <VBox>
+
+        <Title
+            text="{student>/greetingText}"
+            level="H2"
+            class="eduGreetText"/>
+
+        <Text
+            text="{student>/greetingSub}"
+            class="eduGreetSub"/>
+
+    </VBox>
+
+    <ObjectStatus
+        text="{student>/greetingBadge}"
+        state="Information"
+        class="eduGreetBadge"/>
+
+</HBox>
+
+                    <html:script>
+                        (function () {
+                            function applyGreeting() {
+                                var h = new Date().getHours();
+                                var greetWord, sub, badgeTxt, badgeCls;
+
+                                if (h >= 5 &amp;&amp; h &lt; 12) {
+                                    greetWord = "Good morning";
+                                    sub       = "Have a productive day ahead.";
+                                    badgeTxt  = "Morning";
+                                    badgeCls  = "greetMorning";
+                                } else if (h >= 12 &amp;&amp; h &lt; 17) {
+                                    greetWord = "Good afternoon";
+                                    sub       = "Keep up the great work!";
+                                    badgeTxt  = "Afternoon";
+                                    badgeCls  = "greetAfternoon";
+                                } else {
+                                    greetWord = "Good evening";
+                                    sub       = "Hope you had a wonderful day.";
+                                    badgeTxt  = "Evening";
+                                    badgeCls  = "greetEvening";
+                                }
+
+                                /* Try to read student name from the "student" model */
+                                var studentName = "";
+                                try {
+                                    var oCore  = sap.ui.getCore();
+                                    var oModel = oCore.getModel("student");
+                                    if (oModel) {
+                                        studentName = oModel.getProperty("/studentName")
+                                                   || oModel.getProperty("/name")
+                                                   || "";
+                                    }
+                                } catch (e) { /* model not ready yet */ }
+
+                                var greeting = studentName
+                                    ? greetWord + ", " + studentName + "!"
+                                    : greetWord + "!";
+
+                                var elText  = document.getElementById("eduGreetText");
+                                var elSub   = document.getElementById("eduGreetSub");
+                                var elBadge = document.getElementById("eduGreetBadge");
+
+                                if (elText)  elText.textContent  = greeting;
+                                if (elSub)   elSub.textContent   = sub;
+                                if (elBadge) {
+                                    elBadge.textContent = badgeTxt;
+                                    elBadge.className   = "eduGreetBadge " + badgeCls;
+                                }
+                            }
+
+                            /* Run after a short delay so SAPUI5 models are initialised */
+                            setTimeout(applyGreeting, 600);
+                        })();
+                    </html:script>
+                    
+
+                    
                     <grid:CSSGrid
                         gridTemplateColumns="repeat(4, 1fr)"
                         gridGap="1rem"
                         class="sapUiSmallMarginBottom">
 
-                        
-                        <f:Card>
-
-                            <f:content>
-
-                                <VBox class="sapUiMediumMargin">
-
-                                    <core:Icon
-                                        src="sap-icon://document"
-                                        color="#0f0f0f"
-                                        size="1.6rem"
-                                        class="sapUiSmallMarginBottom"/>
-
-                                    <Label
-                                        text="TOTAL LEAVES"
-                                        design="Bold"/>
-
+                    
+                        <GenericTile frameType="TwoByOne" width="100%">
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center">
                                     <Title
                                         text="{student>/totalLeaves}"
-                                        level="H5"/>
-
+                                        titleStyle="H2"
+                                        level="H2"
+                                        textAlign="Center"
+                                        width="100%"/>
+                                    <Title
+                                        text="TOTAL LEAVES"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"/>
                                     <Text
                                         text="Applied this year"
-                                        class="sapUiTinyMarginTop"/>
-
+                                        textAlign="Center"
+                                        width="100%"/>
                                 </VBox>
+                            </TileContent>
+                        </GenericTile>
 
-                            </f:content>
-
-                        </f:Card>
-
-                        <!-- BONAFIDE -->
-                        <f:Card>
-
-                            <f:content>
-
-                                <VBox class="sapUiMediumMargin">
-
-                                    <core:Icon
-                                        src="sap-icon://document-text"
-                                        color="#0f0f0f"
-                                        size="1.6rem"
-                                        class="sapUiSmallMarginBottom"/>
-
-                                    <Label
-                                        text="BONAFIDE ISSUED"
-                                        design="Bold"/>
-
+                        
+                        <GenericTile frameType="TwoByOne" width="100%">
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center">
                                     <Title
                                         text="{student>/bonafideIssued}"
-                                        level="H5"/>
-
+                                        titleStyle="H2"
+                                        level="H2"
+                                        textAlign="Center"
+                                        width="100%"/>
+                                    <Title
+                                        text="BONAFIDE ISSUED"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"/>
                                     <Text
                                         text="Certificates issued"
-                                        class="sapUiTinyMarginTop"/>
-
+                                        textAlign="Center"
+                                        width="100%"/>
                                 </VBox>
+                            </TileContent>
+                        </GenericTile>
 
-                            </f:content>
-
-                        </f:Card>
-
-                        
-                        <f:Card>
-
-                            <f:content>
-
-                                <VBox class="sapUiMediumMargin">
-
-                                    <core:Icon
-                                        src="sap-icon://pending"
-                                        color="#0f0f0f"
-                                        size="1.6rem"
-                                        class="sapUiSmallMarginBottom"/>
-
-                                    <Label
-                                        text="PENDING"
-                                        design="Bold"/>
-
+                
+                        <GenericTile frameType="TwoByOne" width="100%">
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center">
                                     <Title
                                         text="{student>/pending}"
-                                        level="H5"/>
-
+                                        titleStyle="H2"
+                                        level="H2"
+                                        textAlign="Center"
+                                        width="100%"/>
+                                    <Title
+                                        text="PENDING"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"/>
                                     <Text
                                         text="Awaiting approval"
-                                        class="sapUiTinyMarginTop"/>
-
+                                        textAlign="Center"
+                                        width="100%"/>
                                 </VBox>
+                            </TileContent>
+                        </GenericTile>
 
-                            </f:content>
-
-                        </f:Card>
-
-                        
-                        <f:Card>
-
-                            <f:content>
-
-                                <VBox class="sapUiMediumMargin">
-
-                                    <core:Icon
-                                        src="sap-icon://decline"
-                                        color="#0f0f0f"
-                                        size="1.6rem"
-                                        class="sapUiSmallMarginBottom"/>
-
-                                    <Label
-                                        text="REJECTED"
-                                        design="Bold"/>
-
+            
+                        <GenericTile frameType="TwoByOne" width="100%">
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center">
                                     <Title
                                         text="{student>/Rejected}"
-                                        level="H5"/>
-
+                                        titleStyle="H2"
+                                        level="H2"
+                                        textAlign="Center"
+                                        width="100%"/>
+                                    <Title
+                                        text="REJECTED"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"/>
                                     <Text
                                         text="This semester"
-                                        class="sapUiTinyMarginTop"/>
-
+                                        textAlign="Center"
+                                        width="100%"/>
                                 </VBox>
-
-                            </f:content>
-
-                        </f:Card>
+                            </TileContent>
+                        </GenericTile>
 
                     </grid:CSSGrid>
 
-                    
+                
                     <grid:CSSGrid
                         gridTemplateColumns="repeat(4, 1fr)"
                         gridGap="1rem"
@@ -166,119 +343,93 @@
                         <GenericTile
                             press="onOpenLeaveRequest"
                             frameType="TwoByOne"
-                            class="sapUiTinyMargin apMGTHdrContent" 
+                            class="sapUiTinyMargin apMGTHdrContent"
                             width="100%">
-
                             <TileContent>
-
                                 <VBox
                                     width="100%"
                                     height="100%"
                                     justifyContent="Center"
-                                    alignItems="Center"
-                                    >
-
+                                    alignItems="Center">
                                     <core:Icon
                                         src="sap-icon://document"
                                         size="2rem"
                                         color="#0f0f0f"
                                         class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-
                                     <Title
                                         text="Apply for Leave"
                                         level="H5"
                                         width="100%"
                                         textAlign="Center"
                                         class="sapUiTinyMarginBottom"/>
-
                                     <Text
                                         text="Submit a new leave request"
                                         width="100%"
                                         textAlign="Center"/>
-
                                 </VBox>
-
                             </TileContent>
-
                         </GenericTile>
 
-                        
+                
                         <GenericTile
                             press="onOpenBonafideDialog"
                             frameType="TwoByOne"
                             class="sapUiTinyMargin apMGTHdrContent"
                             width="100%">
-
                             <TileContent>
-
                                 <VBox
                                     width="100%"
                                     height="100%"
                                     justifyContent="Center"
                                     alignItems="Center">
-
                                     <core:Icon
                                         src="sap-icon://document-text"
                                         size="2rem"
                                         color="#0f0f0f"
                                         class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-
                                     <Title
                                         text="Request Bonafide"
                                         level="H5"
                                         width="100%"
                                         textAlign="Center"
                                         class="sapUiTinyMarginBottom"/>
-
                                     <Text
                                         text="Get an official certificate"
                                         width="100%"
                                         textAlign="Center"/>
-
                                 </VBox>
-
                             </TileContent>
-
                         </GenericTile>
 
-                        
+                    
                         <GenericTile
                             press="onViewLeaveHistory"
                             frameType="TwoByOne"
                             class="sapUiTinyMargin apMGTHdrContent"
                             width="100%">
-
                             <TileContent>
-
                                 <VBox
                                     width="100%"
                                     height="100%"
                                     justifyContent="Center"
                                     alignItems="Center">
-                                   
-
                                     <core:Icon
                                         src="sap-icon://history"
                                         size="2rem"
                                         color="#0f0f0f"
                                         class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-
                                     <Title
                                         text="View Leave History"
                                         level="H5"
                                         width="100%"
                                         textAlign="Center"
                                         class="sapUiTinyMarginBottom"/>
-
                                     <Text
                                         text="Check all leave applications"
                                         width="100%"
                                         textAlign="Center"/>
-
                                 </VBox>
-
                             </TileContent>
-
                         </GenericTile>
 
                         
@@ -287,188 +438,131 @@
                             frameType="TwoByOne"
                             class="sapUiTinyMargin apMGTHdrContent"
                             width="100%">
-
                             <TileContent>
-
                                 <VBox
                                     width="100%"
                                     height="100%"
                                     justifyContent="Center"
-                                    alignItems="Center"
-                                    >
-
+                                    alignItems="Center">
                                     <core:Icon
                                         src="sap-icon://document"
                                         size="2rem"
                                         color="#0f0f0f"
                                         class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
-
                                     <Title
                                         text="View Request"
                                         level="H5"
                                         width="100%"
                                         textAlign="Center"
                                         class="sapUiTinyMarginBottom"/>
-
                                     <Text
                                         text="Track bonafide requests"
                                         width="100%"
                                         textAlign="Center"/>
-
                                 </VBox>
-
                             </TileContent>
-
                         </GenericTile>
 
                     </grid:CSSGrid>
 
-                   
+                    
                     <grid:CSSGrid
                         gridTemplateColumns="1fr 1fr"
                         gridGap="1rem"
                         class="sapUiMediumMarginTop">
 
-                        
+                    
                         <f:Card>
-
                             <f:header>
-
-                                <card:Header
-                                    title="📌 Recent Activity"/>
-
+                                <card:Header title="📌 Recent Activity"/>
                             </f:header>
-
                             <f:content>
-
-                                <VBox
-                                    class="sapUiMediumMargin"
-                                    alignItems="Center"
-                                    justifyContent="Center"
-                                    style="min-height:180px;">
-
-                                    <core:Icon
-                                        src="sap-icon://activity-items"
-                                        size="3rem"
-                                        color="#0f0f0f"
-                                        class="sapUiSmallMarginBottom"/>
-
-                                    <Text
-                                        text="No activity yet"
-                                        class="sapUiSmallMarginTop"/>
-
-                                </VBox>
-
+                                <List
+                                    items="{/RecentActivity}"
+                                    noDataText="No activity yet">
+                                    <CustomListItem>
+                                        <HBox class="sapUiSmallMargin">
+                                            <core:Icon
+                                                src="sap-icon://circle-task"
+                                                size="0.8rem"
+                                                color="orange"
+                                                class="sapUiTinyMarginEnd sapUiSmallMarginTop"/>
+                                            <VBox>
+                                                <Title
+                                                    text="{title}"
+                                                    level="H6"/>
+                                                <Text
+                                                    text="{description}"
+                                                    class="sapUiTinyMarginTop"/>
+                                            </VBox>
+                                        </HBox>
+                                    </CustomListItem>
+                                </List>
                             </f:content>
-
                         </f:Card>
 
                         
                         <f:Card>
-
                             <f:header>
-
-                                <card:Header
-                                    title="📊 Leave Balance"/>
-
+                                <card:Header title="📊 Leave Balance"/>
                             </f:header>
-
                             <f:content>
-
                                 <VBox class="sapUiMediumMargin">
 
-                                   
                                     <VBox class="sapUiSmallMarginBottom">
-
                                         <HBox justifyContent="SpaceBetween">
-
                                             <Text text="Medical Leave"/>
-
-                                            <Text
-                                                text="10 / 15 days"
-                                                design="Bold"/>
-
+                                            <Text text="10 / 15 days" design="Bold"/>
                                         </HBox>
-
                                         <ProgressIndicator
                                             percentValue="67"
                                             showValue="false"
                                             height="6px"
                                             state="Success"
                                             class="sapUiTinyMarginTop"/>
-
                                     </VBox>
 
-                                    
                                     <VBox class="sapUiSmallMarginBottom">
-
                                         <HBox justifyContent="SpaceBetween">
-
                                             <Text text="Casual Leave"/>
-
-                                            <Text
-                                                text="5 / 10 days"
-                                                design="Bold"/>
-
+                                            <Text text="5 / 10 days" design="Bold"/>
                                         </HBox>
-
                                         <ProgressIndicator
                                             percentValue="50"
                                             showValue="false"
                                             height="6px"
                                             state="Warning"
                                             class="sapUiTinyMarginTop"/>
-
                                     </VBox>
 
-                                   
                                     <VBox class="sapUiSmallMarginBottom">
-
                                         <HBox justifyContent="SpaceBetween">
-
                                             <Text text="Emergency Leave"/>
-
-                                            <Text
-                                                text="3 / 5 days"
-                                                design="Bold"/>
-
+                                            <Text text="3 / 5 days" design="Bold"/>
                                         </HBox>
-
                                         <ProgressIndicator
                                             percentValue="60"
                                             showValue="false"
                                             height="6px"
                                             state="Error"
                                             class="sapUiTinyMarginTop"/>
-
                                     </VBox>
 
-                                    
                                     <VBox>
-
                                         <HBox justifyContent="SpaceBetween">
-
                                             <Text text="Personal Leave"/>
-
-                                            <Text
-                                                text="2 / 8 days"
-                                                design="Bold"/>
-
+                                            <Text text="2 / 8 days" design="Bold"/>
                                         </HBox>
-
                                         <ProgressIndicator
                                             percentValue="25"
                                             showValue="false"
                                             height="6px"
                                             state="Information"
                                             class="sapUiTinyMarginTop"/>
-
                                     </VBox>
 
                                 </VBox>
-
                             </f:content>
-
                         </f:Card>
 
                     </grid:CSSGrid>

@@ -1,59 +1,58 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast",
+    "sap/m/MessageBox",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/VBox",
+    "sap/m/Input",
+    "sap/m/Label"
 ], function (
-    Controller
+    Controller,
+    MessageToast,
+    MessageBox,
+    Dialog,
+    Button,
+    VBox,
+    Input,
+    Label
 ) {
     "use strict";
 
-    return Controller.extend(
-        "schoolui.controller.MyProfile",
-        {
+    return Controller.extend("schoolui.controller.MyProfile", {
 
-            onInit: function () {
+        onInit: function () {
 
-                var oModel =
-                    this.getOwnerComponent().getModel();
+    var oStudentModel =
+        this.getOwnerComponent().getModel("student");
 
-                // CHECK MODEL
+    this.getView().setModel(oStudentModel, "student");
+},
 
-                if (!oModel) {
+        
+        onLogout: function () {
+            MessageBox.confirm(
+                "Are you sure you want to log out?", {
+                    title: "Logout",
+                    actions: [
+                        MessageBox.Action.OK,
+                        MessageBox.Action.CANCEL
+                    ],
 
-                    console.log(
-                        "OData Model Not Found"
-                    );
+                    onClose: function (sAction) {
+                        if (sAction === "OK") {
 
-                    return;
+                            MessageToast.show("Logged out successfully");
 
-                }
-
-                // USERS ENTITY
-
-                var oListBinding =
-                    oModel.bindList("/Users");
-
-                // FETCH DATA
-
-                oListBinding
-                    .requestContexts(0, 1)
-
-                    .then(function (aContexts) {
-
-                        if (
-                            aContexts.length > 0
-                        ) {
-
-                            this.getView()
-                                .setBindingContext(
-                                    aContexts[0]
-                                );
-
+                            // Redirect to login page
+                            sap.ui.core.UIComponent
+                                .getRouterFor(this)
+                                .navTo("login");
                         }
-
-                    }.bind(this));
-
-            }
-
+                    }.bind(this)
+                }
+            );
         }
-    );
 
+    });
 });

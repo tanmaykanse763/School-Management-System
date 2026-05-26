@@ -8,25 +8,20 @@
 
   <tnt:ToolPage id="toolPage" sideExpanded="true">
 
-    
     <tnt:header>
-
       <tnt:ToolHeader>
 
-        
         <Button
           icon="sap-icon://menu2"
           type="Transparent"
           press="onToggleSideNav" />
 
-        
         <core:Icon
           src="sap-icon://learning-assistant"
           color="#4f46e5"
           size="1.4rem"
           class="sapUiSmallMarginBeginEnd" />
 
-        
         <Title
           text="EduPortal"
           level="H5" />
@@ -34,75 +29,66 @@
         <ToolbarSpacer />
 
         
-        <Button
-          id="notificationButton"
-    icon="sap-icon://bell"
-    type="Transparent"
-    press="onOpenNotifications"/>
+        <HBox alignItems="Center">
+
+    <SearchField
+    id="globalSearchField"
+    width="250px"
+    search="onSearchApp"
+    placeholder="Search..."
+    class="sapUiTinyMarginEnd"/>
+
+    <!-- Bell Button -->
+    <Button
+        id="notificationButton"
+        icon="sap-icon://bell"
+        type="Transparent"
+        press="onOpenNotifications"
+        tooltip="{= ${notif>/unreadCount} > 0 ? ${notif>/unreadCount} + ' unread' : 'Notifications' }"/>
+
+</HBox>
 
       </tnt:ToolHeader>
-
     </tnt:header>
 
-    
     <tnt:sideContent>
-
       <tnt:SideNavigation
         id="sideNavigation"
         itemSelect="onNavItemSelect">
 
         <tnt:NavigationList>
-
-          
           <tnt:NavigationListItem
             key="Dashboard"
             text="Dashboard"
             icon="sap-icon://home" />
-
-          
           <tnt:NavigationListItem
             key="LeaveRequests"
             text="Leave Requests"
             icon="sap-icon://timesheet" />
-
-          
           <tnt:NavigationListItem
             key="BonafideCert"
             text="Bonafide Cert."
             icon="sap-icon://document" />
-
         </tnt:NavigationList>
 
-        
         <tnt:fixedItem>
-
           <tnt:NavigationList>
-
-            
             <tnt:NavigationListItem
               key="MyProfile"
               text="My Profile"
               icon="sap-icon://person-placeholder" />
-
-            
             <tnt:NavigationListItem
               key="Settings"
               text="Settings"
               icon="sap-icon://action-settings" />
-
           </tnt:NavigationList>
-
         </tnt:fixedItem>
 
       </tnt:SideNavigation>
-
     </tnt:sideContent>
 
-    
     <tnt:mainContents>
-
       <NavContainer id="appNav" />
-
     </tnt:mainContents>
 
   </tnt:ToolPage>

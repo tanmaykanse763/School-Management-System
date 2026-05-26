@@ -1,0 +1,114 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Popover
+        id="notifPopover"
+        title="Notifications"
+        placement="Bottom"
+        contentWidth="22rem"
+        contentHeight="30rem"
+        showHeader="true"
+        resizable="false">
+
+        <!-- Header -->
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="Notifications"/>
+                    <ObjectStatus
+                        id="osUnreadCount"
+                        text=""
+                        state="Success"
+                        class="sapUiSmallMarginBegin"/>
+                </contentLeft>
+
+                <contentRight>
+                    <Button
+                        id="btnMarkAllRead"
+                        text="Mark all read"
+                        type="Transparent"
+                        press="onMarkAllRead"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- Dynamic Tab Bar -->
+        <content>
+            <IconTabBar
+                id="notifTabBar"
+                backgroundDesign="Transparent"
+                headerBackgroundDesign="Transparent"
+                stretchContentHeight="true">
+
+                <items>
+
+                    <!-- ALL -->
+                    <IconTabFilter
+                        id="tabAll"
+                        text="All"
+                        key="all">
+
+                        <content>
+                            <List
+                                id="listAllNotif"
+                                showSeparators="Inner"
+                                mode="None"/>
+                        </content>
+
+                    </IconTabFilter>
+
+
+                    <!-- LEAVE -->
+                    <IconTabFilter
+                        id="tabLeave"
+                        text="Leave"
+                        key="leave">
+
+                        <content>
+                            <List
+                                id="listLeaveNotif"
+                                showSeparators="Inner"
+                                mode="None"/>
+                        </content>
+
+                    </IconTabFilter>
+
+
+                    <!-- BONAFIDE -->
+                    <IconTabFilter
+                        id="tabBonafide"
+                        text="Bonafide"
+                        key="bonafide">
+
+                        <content>
+                            <List
+                                id="listBonafideNotif"
+                                showSeparators="Inner"
+                                mode="None"/>
+                        </content>
+
+                    </IconTabFilter>
+
+                </items>
+
+            </IconTabBar>
+        </content>
+
+        <!-- Footer -->
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+
+                <Button
+                    id="btnViewAllNotif"
+                    text="Close"
+                    type="Transparent"
+                    press="onViewAllNotifications"/>
+
+                <ToolbarSpacer/>
+            </Toolbar>
+        </footer>
+
+    </Popover>
+</core:FragmentDefinition>
