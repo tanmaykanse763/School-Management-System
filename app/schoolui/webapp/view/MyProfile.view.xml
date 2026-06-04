@@ -5,196 +5,190 @@
     xmlns:f="sap.f"
     xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core"
-    displayBlock="true">
-
+    displayBlock="true"
+>
     <Page title="My Profile">
-
         <content>
-
             <VBox
                 width="85%"
-                class="sapUiLargeMargin sapUiContentPadding">
-
-                <!-- PROFILE HEADER -->
+                class="sapUiLargeMargin sapUiContentPadding"
+            >
                 <Panel
                     width="100%"
                     class="sapUiContentPadding sapUiLargeMarginBottom"
-                    backgroundDesign="Solid">
-
+                    backgroundDesign="Solid"
+                >
                     <HBox
                         justifyContent="SpaceBetween"
                         alignItems="Center"
-                        width="100%">
-
-                        <!-- Left Profile Section -->
+                        width="100%"
+                    >
                         <HBox alignItems="Center">
-
                             <Avatar
                                 displaySize="XL"
-                                initials="PR"
+                                initials=""
                                 backgroundColor="Accent6"
-                                class="sapUiLargeMarginEnd"/>
+                                class="sapUiLargeMarginEnd"
+                            />
 
                             <VBox>
-                                <Title text="{student>/studentName}"/>
-                                <Text text="{student>/studentEmail}"/>
+                                <Title text="{name}" />
+
+                                <Text text="{email}" />
 
                                 <HBox class="sapUiSmallMarginTop">
-
                                     <ObjectStatus
-                                        text="Student"
+                                        text="{department}"
                                         state="Information"
-                                        class="sapUiTinyMarginEnd"/>
+                                        class="sapUiTinyMarginEnd"
+                                    />
 
                                     <ObjectStatus
                                         text="Active"
                                         state="Success"
-                                        class="sapUiTinyMarginEnd"/>
-
+                                        class="sapUiTinyMarginEnd"
+                                    />
                                 </HBox>
                             </VBox>
-
                         </HBox>
-
                     </HBox>
                 </Panel>
 
-                
                 <Panel
                     headerText="Personal Information"
                     width="100%"
                     class="sapUiContentPadding"
-                    backgroundDesign="Solid">
-
+                    backgroundDesign="Solid"
+                >
                     <VBox class="sapUiMediumMargin">
-
-                        <!-- Email -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://email"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Email"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Email" />
                             </HBox>
 
-                            <Text text="{student>/studentEmail}"/>
+                            <Text text="{email}" />
                         </HBox>
 
-                        <!-- Phone -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://phone"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Phone"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Phone" />
                             </HBox>
 
-                            <Text text="{student>/phone}"/>
+                            <Text text="{mobileNumber}" />
                         </HBox>
 
-                        <!-- Date of Birth -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://calendar"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Date of Birth"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Date of Birth" />
                             </HBox>
 
-                            <Text text="{student>/dob}"/>
+                            <Text text="{dateOfBirth}" />
                         </HBox>
 
-                        <!-- Address -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
-                                    src="sap-icon://building"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Address"/>
+                                    src="sap-icon://home"
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Address" />
                             </HBox>
 
-                            <Text text="{student>/address}"/>
+                            <Text text="{address}" />
                         </HBox>
 
-                        <!-- Department -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://education"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Department"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Department" />
                             </HBox>
 
-                            <Text text="{student>/department}"/>
+                            <Text text="{department}" />
                         </HBox>
 
-                        <!-- Guardian Name -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://employee"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Guardian Name"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Guardian Name" />
                             </HBox>
 
-                            <Text text="{student>/guardianName}"/>
+                            <Text text="{guardianName}" />
                         </HBox>
 
-                        <!-- Guardian Number -->
                         <HBox
                             justifyContent="SpaceBetween"
                             alignItems="Center"
                             class="sapUiSmallMarginBottom"
-                            width="100%">
-
+                            width="100%"
+                        >
                             <HBox alignItems="Center">
                                 <core:Icon
                                     src="sap-icon://call"
-                                    class="sapUiSmallMarginEnd"/>
-                                <Text text="Guardian Number"/>
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Text text="Guardian Number" />
                             </HBox>
 
-                            <Text text="{student>/guardianNumber}"/>
+                            <Text text="{guardianNumber}" />
                         </HBox>
-
                     </VBox>
-
                 </Panel>
-
             </VBox>
-
         </content>
-
     </Page>
-
 </mvc:View>

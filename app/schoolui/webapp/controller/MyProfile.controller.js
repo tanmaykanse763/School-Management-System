@@ -1,58 +1,56 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast",
-    "sap/m/MessageBox",
-    "sap/m/Dialog",
-    "sap/m/Button",
-    "sap/m/VBox",
-    "sap/m/Input",
-    "sap/m/Label"
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
 ], function (
     Controller,
-    MessageToast,
-    MessageBox,
-    Dialog,
-    Button,
-    VBox,
-    Input,
-    Label
+    Filter,
+    FilterOperator
 ) {
     "use strict";
 
     return Controller.extend("schoolui.controller.MyProfile", {
 
-        onInit: function () {
+        onInit: async function () {
+            var oModel = this.getOwnerComponent().getModel();
 
-    var oStudentModel =
-        this.getOwnerComponent().getModel("student");
+            // var oUser = sap.ushell.Container.getService("UserInfo").getUser();
+            // var sEmail = oUser.getEmail();
+            var sEmail = "samruddhi.chaure@cloudstine.com";
 
-    this.getView().setModel(oStudentModel, "student");
-},
-
-        
-        onLogout: function () {
-            MessageBox.confirm(
-                "Are you sure you want to log out?", {
-                    title: "Logout",
-                    actions: [
-                        MessageBox.Action.OK,
-                        MessageBox.Action.CANCEL
-                    ],
-
-                    onClose: function (sAction) {
-                        if (sAction === "OK") {
-
-                            MessageToast.show("Logged out successfully");
-
-                            // Redirect to login page
-                            sap.ui.core.UIComponent
-                                .getRouterFor(this)
-                                .navTo("login");
-                        }
-                    }.bind(this)
-                }
+            // Filter
+            var oFilter = new Filter(
+                "email",
+                FilterOperator.EQ,
+                sEmail
             );
-        }
 
+            // Bind Users entity with filter
+            var oListBinding = oModel.bindList(
+                "/Users",
+                null,
+                null,
+                [oFilter]
+            );
+
+            // Get matched contexts
+            var aContexts = await oListBinding.requestContexts();
+
+            if (aContexts.length > 0) {
+
+                // Get path of matched user
+                var sPath = aContexts[0].getPath();
+
+                // Directly bind element to view
+                this.getView().bindElement({
+                    path: sPath
+                });
+
+                console.log("Bound Path:", sPath);
+            }
+            else {
+                console.log("User not found");
+            }
+        }
     });
 });

@@ -3,417 +3,336 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:uxap="sap.uxap">
-
+    xmlns:uxap="sap.uxap"
+>
     <Page showHeader="false">
-
         <content>
-
             <VBox width="100%">
-
-
                 <uxap:ObjectPageLayout
                     showTitleInHeaderContent="true"
-                    showFooter="false">
-
-
+                    showFooter="false"
+                >
                     <uxap:headerTitle>
-
                         <uxap:ObjectPageDynamicHeaderTitle>
-
                             <uxap:expandedHeading>
-
                                 <VBox>
-
                                     <Title
                                         text="Leave Requests"
-                                        level="H1"/>
+                                        level="H1"
+                                    />
 
                                     <Text
-                                        text="Manage and Track Student Leave Applications"/>
-
+                                        text="Manage and Track Student Leave Applications"
+                                    />
                                 </VBox>
-
                             </uxap:expandedHeading>
-
                         </uxap:ObjectPageDynamicHeaderTitle>
-
                     </uxap:headerTitle>
 
                     <uxap:headerContent>
-
                         <HBox
                             width="100%"
                             justifyContent="SpaceBetween"
                             alignItems="Center"
-                            class="sapUiMediumMarginTop sapUiMediumMarginBottom">
-
-
+                            class="sapUiMediumMarginTop sapUiMediumMarginBottom"
+                        >
                             <HBox alignItems="Center">
-
-
                                 <VBox class="sapUiMediumMarginEnd">
-
                                     <Label
                                         text="Student Name:"
-                                        design="Bold"/>
+                                        design="Bold"
+                                    />
 
                                     <Text
                                         id="selectedStudentName"
-                                        text="No Selection"/>
-
+                                        text="Loading..."
+                                    />
                                 </VBox>
 
                                 <VBox>
-
                                     <Label
                                         text="Student Email:"
-                                        design="Bold"/>
+                                        design="Bold"
+                                    />
 
                                     <Text
                                         id="selectedStudentEmail"
-                                        text="No Selection"/>
-
+                                        text="Loading..."
+                                    />
                                 </VBox>
 
                                 <!-- DEPARTMENT -->
 
                                 <VBox class="sapUiMediumMarginBegin">
+                                    <Label
+                                        text="Department:"
+                                        design="Bold"
+                                    />
 
-                                        <Label
-                                            text="Department:"
-                                            design="Bold"/>
-
-                                        <Text
-                                            id="selectedDepartment"
-                                            text="No Selection"/>
-
-                                        </VBox>
-
+                                    <Text
+                                        id="selectedDepartment"
+                                        text="Loading..."
+                                    />
+                                </VBox>
                             </HBox>
 
-
                             <HBox alignItems="Center">
-
-
                                 <SearchField
-                                    id="leaveSearch"
+                                   id="leaveSearch"
                                     width="18rem"
                                     placeholder="Search Leave Request"
                                     liveChange="onSearchLeave"
-                                    class="sapUiTinyMarginEnd"/>
-
+                                /> 
 
                                 <Button
                                     text="+ Create"
                                     type="Emphasized"
-                                    press="onCreateLeave"/>
-
+                                    press="onCreateLeave"
+                                    class="sapUiSmallMarginBegin"
+                                />
                             </HBox>
-
                         </HBox>
-
                     </uxap:headerContent>
-
                 </uxap:ObjectPageLayout>
-
 
                 <IconTabBar
                     expandable="true"
-                    class="sapUiResponsiveContentPadding">
-
+                    class="sapUiResponsiveContentPadding"
+                >
                     <items>
-
-
-                        <IconTabFilter 
-                           text="All"
-                           iconColor="Neutral">
-
+                        <IconTabFilter
+                            text="All"
+                            iconColor="Neutral"
+                        >
                             <Table
                                 id="leaveTable"
                                 items="{/Leaves}"
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
-                                width="100%">
-
-                                <columns> 
-
+                                width="100%"
+                            >
+                                <columns>
                                     <Column>
-                                        <Text text="Leave Type"/>
+                                        <Text text="Leave Type" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="From Date"/>
+                                        <Text text="From Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="To Date"/>
+                                        <Text text="To Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Reason"/>
+                                        <Text text="Reason" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Status"/>
+                                        <Text text="Status" />
                                     </Column>
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{leaveType}" />
 
+                                            <Text text="{fromDate}" />
 
-                                            <Text text="{leaveType}"/>
+                                            <Text text="{toDate}" />
 
-                                            <Text text="{fromDate}"/>
-
-                                            <Text text="{toDate}"/>
-
-                                            <Text text="{reason}"/>
+                                            <Text text="{reason}" />
 
                                             <ObjectStatus
                                                 text="{status}"
-                                                state="{
-                                                  = ${status} === 'Approved'
-                                                  ? 'Success'
-                                                  : ${status} === 'Pending'
-                                                  ? 'Warning'
-                                                  : ${status} === 'Rejected'
-                                                  ? 'Error'
-                                                  : 'None'}"/>
-
+                                                state="{= ${status} === 'Approved' ? 'Success' :
+                                                          ${status} === 'Pending' ? 'Warning' :
+                                                          ${status} === 'Rejected' ? 'Error' :
+                                                          'None' }"
+                                            />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
-
-
-                        <IconTabFilter 
-                           text="Pending"
-                           iconColor="Critical">
-
+                        <IconTabFilter
+                            text="Pending"
+                            iconColor="Critical"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Leaves',
                                     filters:[
-                                        {
-                                            path:'status',
+                                          {
+                                            path:'studentEmail',
                                             operator:'EQ',
-                                            value1:'Pending'
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
+                                        {
+                                          path:'status',
+                                          operator:'Contains',
+                                          value1:'Pending'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
-
                                     <Column>
-                                        <Text text="Leave Type"/>
+                                        <Text text="Leave Type" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="From Date"/>
+                                        <Text text="From Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="To Date"/>
+                                        <Text text="To Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Reason"/>
+                                        <Text text="Reason" />
                                     </Column>
-
-                                    
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{leaveType}" />
 
-                                            <Text text="{leaveType}"/>
+                                            <Text text="{fromDate}" />
 
-                                            <Text text="{fromDate}"/>
+                                            <Text text="{toDate}" />
 
-                                            <Text text="{toDate}"/>
-
-                                            <Text text="{reason}"/>
-
-                                            
-
+                                            <Text text="{reason}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
-
-                        <IconTabFilter 
-                           text="Approved"
-                           iconColor="Positive">
-
+                        <IconTabFilter
+                            text="Approved"
+                            iconColor="Positive"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Leaves',
                                     filters:[
+                                         {
+                                            path:'studentEmail',
+                                            operator:'EQ',
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
                                         {
                                             path:'status',
                                             operator:'EQ',
                                             value1:'Approved'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
                                     <Column>
-                                        <Text text="Leave Type"/>
+                                        <Text text="Leave Type" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="From Date"/>
+                                        <Text text="From Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="To Date"/>
+                                        <Text text="To Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Reason"/>
+                                        <Text text="Reason" />
                                     </Column>
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{leaveType}" />
 
-                                            
+                                            <Text text="{fromDate}" />
 
-                                            <Text text="{leaveType}"/>
+                                            <Text text="{toDate}" />
 
-                                            <Text text="{fromDate}"/>
-
-                                            <Text text="{toDate}"/>
-
-                                            <Text text="{reason}"/>
-
-                                            
-
+                                            <Text text="{reason}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
-
-                        <IconTabFilter 
+                        <IconTabFilter
                             text="Rejected"
-                            iconColor="Negative">
-
+                            iconColor="Negative"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Leaves',
                                     filters:[
+                                          {
+                                            path:'studentEmail',
+                                            operator:'EQ',
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
                                         {
                                             path:'status',
                                             operator:'EQ',
                                             value1:'Rejected'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
-                                    
-
                                     <Column>
-                                        <Text text="Leave Type"/>
+                                        <Text text="Leave Type" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="From Date"/>
+                                        <Text text="From Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="To Date"/>
+                                        <Text text="To Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Reason"/>
+                                        <Text text="Reason" />
                                     </Column>
-
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{leaveType}" />
 
-                                            <Text text="{leaveType}"/>
+                                            <Text text="{fromDate}" />
 
-                                            <Text text="{fromDate}"/>
+                                            <Text text="{toDate}" />
 
-                                            <Text text="{toDate}"/>
-
-                                            <Text text="{reason}"/>
-
-
+                                            <Text text="{reason}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
-
                     </items>
-
                 </IconTabBar>
-
             </VBox>
-
         </content>
-
     </Page>
-
 </mvc:View>

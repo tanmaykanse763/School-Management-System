@@ -1,13 +1,19 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
     "sap/m/MessageToast",
-    "sap/ui/model/odata/v4/ODataModel"
+    "sap/ui/model/odata/v4/ODataModel",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
 ], function (
     Controller,
+    JSONModel,
     Fragment,
     MessageToast,
-    ODataModel
+    ODataModel,
+    Filter,
+    FilterOperator
 ) {
     "use strict";
 
@@ -18,80 +24,728 @@ sap.ui.define([
 
             onInit: function () {
 
-                // ODATA MODEL
-                var oModel = new ODataModel({
-                    serviceUrl: "/odata/v4/school/",
-                    synchronizationMode: "None"
-                });
+                this._loadDashboardData();
 
-                this.getView().setModel(oModel);
+                this._refreshGreeting();
 
-                // STUDENT MODEL
-                var oStudentModel = new sap.ui.model.json.JSONModel({
+                setInterval(function () {
 
-                    greetingText: "",
-                    greetingSub: "",
-                    greetingBadge: "",
-
-                    studentName: "",
-                    studentEmail: "",
-                    totalLeaves: 0,
-                    bonafideIssued: 0,
-                    pending: 0,
-                    Rejected: 0
-                });
-                this.getView().setModel(oStudentModel, "student");
-
-                // DEFAULT EMAIL
-                var sEmail = "pratihastrajneesh0@gmail.com";
-
-                // GET USER EMAIL FROM FLP
-                if (
-                    sap.ushell &&
-                    sap.ushell.Container &&
-                    sap.ushell.Container.getService
-                ) {
-                    try {
-                        var oUser = sap.ushell.Container
-                            .getService("UserInfo")
-                            .getUser();
-
-                        sEmail = oUser.getEmail();
-                    } catch (e) {
-                        console.log("UserInfo not available");
-                    }
-                }
-
-
-                oStudentModel.setProperty("/studentEmail", sEmail);
-
-                // USER DETAILS
-                if (sEmail === "pratihastrajneesh0@gmail.com") {
-
-                    oStudentModel.setProperty("/studentName", "Pratik Rajneesh");
-                    oStudentModel.setProperty("/studentEmail", "pratihastrajneesh0@gmail.com");
-                    oStudentModel.setProperty("/totalLeaves", 5);
-                    oStudentModel.setProperty("/bonafideIssued", 2);
-                    oStudentModel.setProperty("/pending", 1);
-                    oStudentModel.setProperty("/Rejected", 0);
-                }
-
-
-                setTimeout(function () {
                     this._refreshGreeting();
-                }.bind(this), 200);
+
+                }.bind(this), 60000);
+
+            },
 
 
-                this.getOwnerComponent().setModel(oStudentModel, "student");
+            // LOAD DASHBOARD DATA
 
 
-                var oRouter = this.getOwnerComponent().getRouter();
+            _loadDashboardData: async function () {
+
+
+                // ODATA MODEL
+                var oModel =
+                    this.getOwnerComponent()
+                        .getModel();
+
+
+
+                // FOR FLP LOGIN
+                // var oUser =
+                //     sap.ushell.Container
+                //         .getService("UserInfo")
+                //         .getUser();
+
+                // var sEmail =
+                //     oUser.getEmail();
+
+
+                var sEmail =
+                    "samruddhi.chaure@cloudstine.com";
+
+                console.log(
+                    "Login Email:",
+                    sEmail
+                );
+
+
+                // User entity binding
+
+                var oUserFilter =
+                    new Filter(
+                        "email",
+                        FilterOperator.EQ,
+                        sEmail
+                    );
+
+                var oUserBinding =
+                    oModel.bindList(
+                        "/Users",
+                        null,
+                        null,
+                        [oUserFilter]
+                    );
+
+                var aUserContexts =
+                    await oUserBinding
+                        .requestContexts();
+
+                if (aUserContexts.length > 0) {
+
+                    var sPath =
+                        aUserContexts[0]
+                            .getPath();
+
+                    this.getView()
+                        .bindElement({
+                            path: sPath
+                        });
+
+                    console.log(
+                        "User Bound:",
+                        sPath
+                    );
+
+                    // ADD THIS LINE
+
+                    this._refreshGreeting();
+
+                }
+
+
+
+                // APPROVED LEAVES COUNT
+
+                var oApprovedLeaveBinding =
+                    oModel.bindList(
+                        "/Leaves",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Approved"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iTotalLeaves =
+                    (
+                        await oApprovedLeaveBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Approved Leaves:",
+                    iTotalLeaves
+                );
+
+
+
+                // APPROVED BONAFIDE COUNT
+
+
+                var oApprovedBonafideBinding =
+                    oModel.bindList(
+                        "/Bonafide",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Approved"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iBonafideIssued =
+                    (
+                        await oApprovedBonafideBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Approved Bonafide:",
+                    iBonafideIssued
+                );
+
+
+
+                // PENDING LEAVES COUNT
+
+
+                var oPendingLeaveBinding =
+                    oModel.bindList(
+                        "/Leaves",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Pending"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iPendingLeaves =
+                    (
+                        await oPendingLeaveBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Pending Leaves:",
+                    iPendingLeaves
+                );
+
+
+
+                // PENDING BONAFIDE COUNT
+
+
+                var oPendingBonafideBinding =
+                    oModel.bindList(
+                        "/Bonafide",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Pending"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iPendingBonafide =
+                    (
+                        await oPendingBonafideBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Pending Bonafide:",
+                    iPendingBonafide
+                );
+
+
+
+                // FINAL PENDING COUNT
+
+
+                var iPending =
+                    iPendingLeaves +
+                    iPendingBonafide;
+
+                console.log(
+                    "Final Pending:",
+                    iPending
+                );
+
+
+
+                // REJECTED LEAVES COUNT
+
+
+                var oRejectedLeaveBinding =
+                    oModel.bindList(
+                        "/Leaves",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Rejected"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iRejectedLeaves =
+                    (
+                        await oRejectedLeaveBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Rejected Leaves:",
+                    iRejectedLeaves
+                );
+
+
+
+                // REJECTED BONAFIDE COUNT
+
+
+                var oRejectedBonafideBinding =
+                    oModel.bindList(
+                        "/Bonafide",
+                        null,
+                        null,
+                        new Filter({
+                            filters: [
+
+                                new Filter(
+                                    "studentEmail",
+                                    FilterOperator.EQ,
+                                    sEmail
+                                ),
+
+                                new Filter(
+                                    "status",
+                                    FilterOperator.EQ,
+                                    "Rejected"
+                                )
+
+                            ],
+                            and: true
+                        })
+                    );
+
+                var iRejectedBonafide =
+                    (
+                        await oRejectedBonafideBinding
+                            .requestContexts()
+                    ).length;
+
+                console.log(
+                    "Rejected Bonafide:",
+                    iRejectedBonafide
+                );
+
+
+
+                // FINAL REJECTED COUNT
+
+
+                var iRejected =
+                    iRejectedLeaves +
+                    iRejectedBonafide;
+
+                console.log(
+                    "Final Rejected:",
+                    iRejected
+                );
+
+
+
+                // UPDATE UI
+
+
+                this.byId(
+                    "txtTotalLeaves"
+                ).setText(
+                    iTotalLeaves.toString()
+                );
+
+                this.byId(
+                    "txtBonafideIssued"
+                ).setText(
+                    iBonafideIssued.toString()
+                );
+
+                this.byId(
+                    "txtPending"
+                ).setText(
+                    iPending.toString()
+                );
+
+                this.byId(
+                    "txtRejected"
+                ).setText(
+                    iRejected.toString()
+                );
+
+                // RECENT ACTIVITY
+
+
+                var aActivities = [];
+
+                var oToday = new Date();
+                var oSevenDaysAgo = new Date();
+
+                oSevenDaysAgo.setDate(oToday.getDate() - 7);
+
+                // LEAVE ACTIVITIES
+                var oLeaveBinding = oModel.bindList("/Leaves");
+                var aLeaveContexts = await oLeaveBinding.requestContexts();
+                aLeaveContexts.forEach(function (oContext) {
+                    var oData = oContext.getObject();
+                    if ( oData.studentEmail && oData.studentEmail.toLowerCase() === sEmail.toLowerCase()) {
+                        var sAppliedOn = oData.appliedOn;
+                        if (sAppliedOn) {
+                            var oActivityDate = new Date( sAppliedOn );
+                            if ( oActivityDate >= oSevenDaysAgo ) {
+                                aActivities.push({
+                                    title:
+                                        oData.status === "Approved" ? "Leave Approved" : oData.status === "Rejected" ? "Leave Rejected"
+                                                : "Leave Applied",
+                                    email:
+                                        oData.studentEmail,
+                                    createdAt:
+                                        sAppliedOn
+                                });
+                            }
+                        }
+                    }
+                });
+
+
+
+                // BONAFIDE ACTIVITIES
+
+
+                var oBonafideBinding =
+                    oModel.bindList("/Bonafide");
+
+                var aBonafideContexts =
+                    await oBonafideBinding.requestContexts();
+
+                aBonafideContexts.forEach(function (oContext) {
+
+                    var oData =
+                        oContext.getObject();
+
+                    var sCreatedAt =
+                        oData.createdAt ||
+                        oData.CreatedAt;
+
+                    if (
+                        oData.studentEmail &&
+                        oData.studentEmail.toLowerCase() ===
+                        sEmail.toLowerCase()
+                    ) {
+
+                        if (sCreatedAt) {
+
+                            var oActivityDate =
+                                new Date(
+                                    sCreatedAt
+                                );
+
+                            if (
+                                oActivityDate >=
+                                oSevenDaysAgo
+                            ) {
+
+                                aActivities.push({
+
+                                    title:
+                                        oData.status === "Approved"
+                                            ? "Bonafide Approved"
+                                            : oData.status === "Rejected"
+                                                ? "Bonafide Rejected"
+                                                : "Bonafide Requested",
+
+                                    email:
+                                        oData.studentEmail,
+
+                                    createdAt:
+                                        sCreatedAt
+
+                                });
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+
+
+                // SORT LATEST FIRST
+
+                aActivities.sort(function (
+                    a,
+                    b
+                ) {
+
+                    return (
+                        new Date(
+                            b.createdAt
+                        ) -
+                        new Date(
+                            a.createdAt
+                        )
+                    );
+
+                });
+
+                // ACTIVITY MODEL
+
+
+                var oActivityModel =
+                    new JSONModel({
+
+                        activities:
+                            aActivities
+
+                    });
+
+                this.getView().setModel(
+                    oActivityModel,
+                    "activityModel"
+                );
+
+                console.log(
+                    "Recent Activities:",
+                    aActivities
+                );
+
+                // LEAVE BALANCE
+
+
+                var iMedicalUsed = 0;
+                var iSickUsed = 0;
+                var iCasualUsed = 0;
+                var iEmergencyUsed = 0;
+
+                aLeaveContexts.forEach(function (oContext) {
+
+                    var oData =
+                        oContext.getObject();
+
+                    // ONLY LOGGED USER
+
+                    if (
+                        oData.studentEmail === sEmail
+                    ) {
+
+                        switch (
+                        oData.leaveType
+                        ) {
+
+                            case "Medical Leave":
+
+                                iMedicalUsed++;
+
+                                break;
+
+                            case "Sick Leave":
+
+                                iSickUsed++;
+
+                                break;
+
+                            case "Casual Leave":
+
+                                iCasualUsed++;
+
+                                break;
+
+                            case "Emergency Leave":
+
+                                iEmergencyUsed++;
+
+                                break;
+
+                        }
+
+                    }
+
+                });
+
+                // BALANCE
+
+                var iMedicalBalance =
+                    15 - iMedicalUsed;
+
+                var iSickBalance =
+                    10 - iSickUsed;
+
+                var iCasualBalance =
+                    10 - iCasualUsed;
+
+                var iEmergencyBalance =
+                    5 - iEmergencyUsed;
+
+                // TEXT UPDATE
+
+                this.byId(
+                    "txtMedicalLeave"
+                ).setText(
+                    iMedicalBalance +
+                    " / 15 days"
+                );
+
+                this.byId(
+                    "txtSickLeave"
+                ).setText(
+                    iSickBalance +
+                    " / 10 days"
+                );
+
+                this.byId(
+                    "txtCasualLeave"
+                ).setText(
+                    iCasualBalance +
+                    " / 10 days"
+                );
+
+                this.byId(
+                    "txtEmergencyLeave"
+                ).setText(
+                    iEmergencyBalance +
+                    " / 5 days"
+                );
+
+                // PROGRESS BAR UPDATE
+
+                this.byId(
+                    "piMedicalLeave"
+                ).setPercentValue(
+                    (iMedicalBalance / 15) * 100
+                );
+
+                this.byId(
+                    "piSickLeave"
+                ).setPercentValue(
+                    (iSickBalance / 10) * 100
+                );
+
+                this.byId(
+                    "piCasualLeave"
+                ).setPercentValue(
+                    (iCasualBalance / 10) * 100
+                );
+
+                this.byId(
+                    "piEmergencyLeave"
+                ).setPercentValue(
+                    (iEmergencyBalance / 5) * 100
+                );
+
+                // ROUTER
+
+                var oRouter =
+                    this.getOwnerComponent()
+                        .getRouter();
 
                 oRouter.getRoute("Dashboard")
                     .attachPatternMatched(
                         this._onRouteMatched,
                         this
                     );
+
+
+            },
+
+            _refreshGreeting: function () {
+
+                var iHour =
+                    new Date().getHours();
+
+                var sGreeting = "";
+
+                if (iHour >= 5 && iHour < 12) {
+
+                    sGreeting =
+                        "𝑮𝒐𝒐𝒅 𝑴𝒐𝒓𝒏𝒊𝒏𝒈 🌅 ";
+
+                } else if (iHour >= 12 && iHour < 16) {
+
+                    sGreeting =
+                        "𝑮𝒐𝒐𝒅 𝑨𝒇𝒕𝒆𝒓𝒏𝒐𝒐𝒏 ☀️ ";
+
+                } else if (iHour >= 16 && iHour < 21) {
+
+                    sGreeting =
+                        "𝑮𝒐𝒐𝒅 𝑬𝒗𝒆𝒏𝒊𝒏𝒈 🌙 ";
+
+                } else {
+
+                    sGreeting =
+                        "𝑮𝒐𝒐𝒅 𝑵𝒊𝒈𝒉𝒕 🌃 ";
+
+                }
+
+                var sName =
+                    "𝑺𝒂𝒎𝒓𝒖𝒅𝒅𝒉𝒊";
+
+                var sDate =
+                    new Date().toLocaleDateString(
+                        "en-IN",
+                        {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        }
+                    );
+
+                this.byId("txtGreeting")
+                    .setText(
+                        sGreeting +
+                        ", " +
+                        sName +
+                        " ✨ "
+                    );
+
+                this.byId("txtSubGreeting")
+                    .setText(
+                        "📅 " + sDate
+                    );
+
             },
 
             _onRouteMatched: function () {
@@ -101,6 +755,66 @@ sap.ui.define([
 
             },
 
+            formatTimeAgo: function (sDate) {
+
+                if (!sDate) {
+                    return "";
+                }
+
+                var oDate =
+                    new Date(sDate);
+
+                var iDiff =
+                    Date.now() -
+                    oDate.getTime();
+
+                var iMinutes =
+                    Math.floor(
+                        iDiff / (1000 * 60)
+                    );
+
+                var iHours =
+                    Math.floor(
+                        iDiff / (1000 * 60 * 60)
+                    );
+
+                var iDays =
+                    Math.floor(
+                        iDiff / (1000 * 60 * 60 * 24)
+                    );
+
+                if (iMinutes < 1) {
+                    return "Just now";
+                }
+
+                if (iMinutes < 60) {
+                    return iMinutes + "m ago";
+                }
+
+                if (iHours < 24) {
+                    return iHours + "h ago";
+                }
+
+                if (iDays < 7) {
+                    return iDays + "d ago";
+                }
+
+                var iWeeks =
+                    Math.floor(iDays / 7);
+
+                if (iWeeks < 5) {
+                    return iWeeks + "w ago";
+                }
+
+                var iMonths =
+                    Math.floor(iDays / 30);
+
+                return iMonths + "mo ago";
+
+            },
+
+
+
 
             onAfterRendering: function () {
 
@@ -109,42 +823,6 @@ sap.ui.define([
             },
 
 
-            _refreshGreeting: function () {
-
-    var h = new Date().getHours();
-
-    var greetWord = "";
-    var sub = "";
-    var badge = "";
-
-    if (h >= 5 && h < 12) {
-        greetWord = "Good Morning";
-        sub = "Have a productive day ahead.";
-        badge = "Morning";
-    }
-    else if (h >= 12 && h < 17) {
-        greetWord = "Good Afternoon";
-        sub = "Keep up the great work!";
-        badge = "Afternoon";
-    }
-    else {
-        greetWord = "Good Evening";
-        sub = "Hope you had a wonderful day.";
-        badge = "Evening";
-    }
-
-    var oStudentModel = this.getView().getModel("student");
-
-    var sStudentName =
-        oStudentModel.getProperty("/studentName") || "Student";
-
-    var sGreeting =
-        greetWord + ", " + sStudentName + "!";
-
-    oStudentModel.setProperty("/greetingText", sGreeting);
-    oStudentModel.setProperty("/greetingSub", sub);
-    oStudentModel.setProperty("/greetingBadge", badge);
-},
             onOpenLeaveRequest: async function () {
 
                 var oView =
@@ -189,7 +867,7 @@ sap.ui.define([
 
             },
 
-            // SUBMIT LEAVE REQUEST
+
             onSubmitLeaveRequest: function () {
 
                 // CONTROLS
@@ -300,6 +978,7 @@ sap.ui.define([
                     reason: String(sReason),
                     status: "Pending",
                     appliedOn: new Date().toISOString()
+
                 };
 
                 console.log(oPayload);

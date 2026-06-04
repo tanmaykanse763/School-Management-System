@@ -33,17 +33,13 @@ entity Bonafide : managed {
 
 entity Users {
 
-    key ID : UUID;
-    
-    name : String(100);
-    email : String(100);
-    phone : String(20);
-
-    department : String(100);
-    class : String(20);
-    rollNo : Integer;
-    role  : String(20);
-    createdAt : DateTime;
+    key email : String(100);
+    name            : String(100);
+    mobileNumber    : String(20);
+    dateOfBirth     : Date;
+    address         : String(100);
+    department      : String(100);
+    guardianName    : String(100);
+    guardianNumber  : String(20);
 
 }
-

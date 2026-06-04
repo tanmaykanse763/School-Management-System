@@ -25,47 +25,110 @@ sap.ui.define([
         {
 
 
-            onInit: function () {
+            onInit: async function () {
 
-                // ODATA MODEL
+                var oModel = new ODataModel({
 
-                var oModel =
-                    new ODataModel({
+                    serviceUrl: "/odata/v4/school/",
+                    synchronizationMode: "None",
+                    operationMode: "Server"
 
-                        serviceUrl:
-                            "/odata/v4/school/",
+                });
 
-                        synchronizationMode:
-                            "None",
+                this.getView().setModel(oModel);
 
-                        operationMode:
-                            "Server"
+                var oFilterModel = new JSONModel({
 
-                    });
+                    selectedButton: "All"
 
-                // SET MODEL
-
-                this.getView().setModel(
-                    oModel
-                );
-
-                // FILTER MODEL
-
-                var oFilterModel =
-                    new JSONModel({
-
-                        selectedButton:
-                            "All"
-
-                    });
+                });
 
                 this.getView().setModel(
                     oFilterModel,
                     "filterModel"
                 );
 
-            },
+                // LOGIN USER EMAIL
 
+                var sEmail = "samruddhi.chaure@cloudstine.com";
+                // pass this email id to User entity set and fetch User details like name, department etc and bind to header
+
+                // HEADER DATA
+                var oUserBinding = oModel.bindList(
+                    "/Users",
+                    undefined,
+                    undefined,
+                    undefined,
+                    {
+                        $filter: "email eq '" + sEmail + "'"
+                    }
+                );
+
+                var aUserContexts = await oUserBinding.requestContexts();
+
+                if (aUserContexts.length > 0) {
+
+                    var oUserData = aUserContexts[0].getObject();
+
+                    console.log(oUserData);
+
+                    this.byId("selectedStudentName")
+                        .setText(oUserData.name);
+
+                    this.byId("selectedStudentEmail")
+                        .setText(oUserData.email);
+
+                    this.byId("selectedDepartment")
+                        .setText(oUserData.department);
+                }
+
+                // FILTER ALL TABLE FOR LOGIN USER
+
+                var oTable =
+                    this.byId("leaveTable");
+
+                oTable.attachEventOnce(
+                    "updateFinished",
+                    function () {
+
+                        var oTableBinding =
+                            oTable.getBinding("items");
+
+                        oTableBinding.filter([
+
+                            new Filter(
+                                "studentEmail",
+                                FilterOperator.EQ,
+                                sEmail
+                            )
+
+                        ]);
+
+                    }
+                );
+
+            },
+            //onAfterRendering: function () {
+
+            //   var oTable =
+            //      this.byId("leaveTable");
+
+            //    var oBinding =
+            //      oTable.getBinding("items");
+
+            //  if (oBinding) {
+
+            //        var oFilter =
+            //            new Filter(
+            //                "studentEmail",
+            //                FilterOperator.EQ,
+            //                "pratihastrajneesh0@gmail.com"
+            //            );
+
+            //        oBinding.filter([oFilter]);
+            //    }
+
+            //},
 
 
             onCreateLeave: async function () {
@@ -328,8 +391,11 @@ sap.ui.define([
                 }
             },
 
-
+            //filter all
             onFilterAll: function () {
+
+                var sEmail =
+                    "samruddhi.chaure@cloudstine.com";
 
                 var oTable =
                     this.byId("leaveTable");
@@ -337,7 +403,16 @@ sap.ui.define([
                 var oBinding =
                     oTable.getBinding("items");
 
-                oBinding.filter([]);
+                var oEmailFilter =
+                    new Filter(
+                        "studentEmail",
+                        FilterOperator.EQ,
+                        sEmail
+                    );
+
+                oBinding.filter([
+                    oEmailFilter
+                ]);
 
                 this.getView()
                     .getModel("filterModel")
@@ -348,6 +423,8 @@ sap.ui.define([
 
             },
 
+            //filter pending
+
             onFilterPending: function () {
 
                 var oTable =
@@ -356,18 +433,32 @@ sap.ui.define([
                 var oBinding =
                     oTable.getBinding("items");
 
-                var oFilter =
-                    new Filter(
+                var oCombinedFilter =
+                    new Filter({
 
-                        "status",
+                        filters: [
 
-                        FilterOperator.EQ,
+                            new Filter(
+                                "studentEmail",
+                                FilterOperator.EQ,
+                                "samruddhi.chaure@cloudstine.com"
+                            ),
 
-                        "Pending"
+                            new Filter(
+                                "status",
+                                FilterOperator.EQ,
+                                "Pending"
+                            )
 
-                    );
+                        ],
 
-                oBinding.filter([oFilter]);
+                        and: true
+
+                    });
+
+                oBinding.filter([
+                    oCombinedFilter
+                ]);
 
                 this.getView()
                     .getModel("filterModel")
@@ -379,6 +470,8 @@ sap.ui.define([
             },
 
 
+
+            //filter approved
             onFilterApproved: function () {
 
                 var oTable =
@@ -387,59 +480,132 @@ sap.ui.define([
                 var oBinding =
                     oTable.getBinding("items");
 
-                var oFilter =
-                    new Filter(
+                var oCombinedFilter =
+                    new Filter({
 
-                        "status",
+                        filters: [
 
-                        FilterOperator.EQ,
+                            new Filter(
+                                "studentEmail",
+                                FilterOperator.EQ,
+                                "samruddhi.chaure@cloudstine.com"
+                            ),
 
-                        "Approved"
+                            new Filter(
+                                "status",
+                                FilterOperator.EQ,
+                                "Approved"
+                            )
 
-                    );
+                        ],
 
-                oBinding.filter([oFilter]);
+                        and: true
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "Approved"
-                    );
+                    });
+
+                oBinding.filter([
+                    oCombinedFilter
+                ]);
 
             },
 
-
+            //filter rejected
             onFilterRejected: function () {
 
-                var oTable =
-                    this.byId("leaveTable");
+                var oTable = this.byId("leaveTable");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oBinding = oTable.getBinding("items");
 
-                var oFilter =
-                    new Filter(
+                var oCombinedFilter = new Filter({
 
-                        "status",
+                    filters: [
 
-                        FilterOperator.EQ,
+                        new Filter(
+                            "studentEmail",
+                            FilterOperator.EQ,
+                            "samruddhi.chaure@cloudstine.com"
+                        ),
 
-                        "Rejected"
+                        new Filter(
+                            "status",
+                            FilterOperator.EQ,
+                            "Rejected"
+                        )
 
-                    );
+                    ],
 
-                oBinding.filter([oFilter]);
+                    and: true
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "Rejected"
-                    );
+                });
+
+                oBinding.filter([oCombinedFilter]);
 
             },
 
+
+            // search 
+
+            onSearchLeave: function (oEvent) {
+
+                var sValue = oEvent.getParameter("newValue");
+
+                var sEmail = "samruddhi.chaure@cloudstine.com";
+
+                var oTable = this.byId("leaveTable");
+
+                var oBinding = oTable.getBinding("items");
+
+                var aFilters = [];
+
+                // Email filter
+                aFilters.push(
+                    new Filter(
+                        "studentEmail",
+                        FilterOperator.EQ,
+                        sEmail
+                    )
+                );
+
+                // Search filter
+                if (sValue && sValue.trim() !== "") {
+
+                    var oSearchFilter = new Filter({
+
+                        filters: [
+
+                            new Filter(
+                                "leaveType",
+                                FilterOperator.Contains,
+                                sValue
+                            ),
+
+                            new Filter(
+                                "status",
+                                FilterOperator.Contains,
+                                sValue
+                            ),
+
+                            new Filter(
+                                "reason",
+                                FilterOperator.Contains,
+                                sValue
+                            )
+
+                        ],
+
+                        and: false
+
+                    });
+
+                    aFilters.push(oSearchFilter);
+                }
+
+                oBinding.filter(
+                    aFilters,
+                    "Application"
+                );
+
+            },
             onViewRequest: function () {
 
                 MessageBox.information(

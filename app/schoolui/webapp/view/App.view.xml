@@ -1,96 +1,100 @@
 <mvc:View
-  controllerName="schoolui.controller.App"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns="sap.m"
-  xmlns:tnt="sap.tnt"
-  xmlns:core="sap.ui.core"
-  displayBlock="true">
+    controllerName="schoolui.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+    xmlns:core="sap.ui.core"
+    displayBlock="true"
+>
+    <tnt:ToolPage
+        id="toolPage"
+        sideExpanded="true"
+    >
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button
+                    icon="sap-icon://menu2"
+                    type="Transparent"
+                    press="onToggleSideNav"
+                />
 
-  <tnt:ToolPage id="toolPage" sideExpanded="true">
+                <core:Icon
+                    src="sap-icon://learning-assistant"
+                    color="#4f46e5"
+                    size="1.4rem"
+                    class="sapUiSmallMarginBeginEnd"
+                />
 
-    <tnt:header>
-      <tnt:ToolHeader>
+                <Title
+                    text="EduPortal"
+                    level="H5"
+                />
 
-        <Button
-          icon="sap-icon://menu2"
-          type="Transparent"
-          press="onToggleSideNav" />
+                <ToolbarSpacer />
 
-        <core:Icon
-          src="sap-icon://learning-assistant"
-          color="#4f46e5"
-          size="1.4rem"
-          class="sapUiSmallMarginBeginEnd" />
+                <HBox alignItems="Center">
+                    <SearchField
+                        id="globalSearchField"
+                        width="250px"
+                        search="onSearchApp"
+                        placeholder="Search..."
+                        class="sapUiTinyMarginEnd"
+                    />
 
-        <Title
-          text="EduPortal"
-          level="H5" />
+                    <!-- Bell Button -->
+                    <Button
+                        id="notificationButton"
+                        icon="sap-icon://bell"
+                        type="Transparent"
+                        press="onOpenNotifications"
+                        tooltip="{= ${notif>/unreadCount} > 0 ? ${notif>/unreadCount} + ' unread' : 'Notifications' }"
+                    />
+                </HBox>
+            </tnt:ToolHeader>
+        </tnt:header>
 
-        <ToolbarSpacer />
+        <tnt:sideContent>
+            <tnt:SideNavigation
+                id="sideNavigation"
+                itemSelect="onNavItemSelect"
+            >
+                <tnt:NavigationList>
+                    <tnt:NavigationListItem
+                        key="Dashboard"
+                        text="Dashboard"
+                        icon="sap-icon://home"
+                    />
+                    <tnt:NavigationListItem
+                        key="LeaveRequests"
+                        text="Leave Requests"
+                        icon="sap-icon://timesheet"
+                    />
+                    <tnt:NavigationListItem
+                        key="BonafideCert"
+                        text="Bonafide Cert."
+                        icon="sap-icon://document"
+                    />
+                </tnt:NavigationList>
 
-        
-        <HBox alignItems="Center">
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+                        <tnt:NavigationListItem
+                            key="MyProfile"
+                            text="My Profile"
+                            icon="sap-icon://person-placeholder"
+                        />
+                        <tnt:NavigationListItem
+                            key="Settings"
+                            text="Settings"
+                            icon="sap-icon://action-settings"
+                        />
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
 
-    <SearchField
-    id="globalSearchField"
-    width="250px"
-    search="onSearchApp"
-    placeholder="Search..."
-    class="sapUiTinyMarginEnd"/>
-
-    <!-- Bell Button -->
-    <Button
-        id="notificationButton"
-        icon="sap-icon://bell"
-        type="Transparent"
-        press="onOpenNotifications"
-        tooltip="{= ${notif>/unreadCount} > 0 ? ${notif>/unreadCount} + ' unread' : 'Notifications' }"/>
-
-</HBox>
-
-      </tnt:ToolHeader>
-    </tnt:header>
-
-    <tnt:sideContent>
-      <tnt:SideNavigation
-        id="sideNavigation"
-        itemSelect="onNavItemSelect">
-
-        <tnt:NavigationList>
-          <tnt:NavigationListItem
-            key="Dashboard"
-            text="Dashboard"
-            icon="sap-icon://home" />
-          <tnt:NavigationListItem
-            key="LeaveRequests"
-            text="Leave Requests"
-            icon="sap-icon://timesheet" />
-          <tnt:NavigationListItem
-            key="BonafideCert"
-            text="Bonafide Cert."
-            icon="sap-icon://document" />
-        </tnt:NavigationList>
-
-        <tnt:fixedItem>
-          <tnt:NavigationList>
-            <tnt:NavigationListItem
-              key="MyProfile"
-              text="My Profile"
-              icon="sap-icon://person-placeholder" />
-            <tnt:NavigationListItem
-              key="Settings"
-              text="Settings"
-              icon="sap-icon://action-settings" />
-          </tnt:NavigationList>
-        </tnt:fixedItem>
-
-      </tnt:SideNavigation>
-    </tnt:sideContent>
-
-    <tnt:mainContents>
-      <NavContainer id="appNav" />
-    </tnt:mainContents>
-
-  </tnt:ToolPage>
-
+        <tnt:mainContents>
+            <NavContainer id="appNav" />
+        </tnt:mainContents>
+    </tnt:ToolPage>
 </mvc:View>

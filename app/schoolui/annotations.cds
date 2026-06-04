@@ -1,1 +1,1 @@
-using SchoolService as service from '../../srv/service';
+using School as service from '../../srv/service';

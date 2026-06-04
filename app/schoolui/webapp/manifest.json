@@ -1,12 +1,24 @@
 {
   "_version": "1.58.0",
+
   "sap.app": {
     "id": "schoolui",
     "type": "application",
-    "title": "EduPortal",
-    "description": "Student Leave & Certificate Portal",
+    "i18n": "i18n/i18n.properties",
     "applicationVersion": {
       "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/school/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
     }
   },
 
@@ -24,9 +36,11 @@
     "rootView": {
       "viewName": "schoolui.view.App",
       "type": "XML",
-      "async": true,
-      "id": "appView"
+      "id": "appView",
+      "async": true
     },
+
+    "flexEnabled": true,
 
     "dependencies": {
       "minUI5Version": "1.108.0",
@@ -39,15 +53,18 @@
       }
     },
 
-    "models": {
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
 
+    "models": {
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "schoolui.i18n.i18n"
         }
       },
-
       "": {
         "dataSource": "mainService",
         "settings": {
@@ -57,28 +74,16 @@
           "odataVersion": "4.0"
         }
       }
-
-    },
-
-    "dataSources": {
-
-      "mainService": {
-        "uri": "/odata/v4/school/",
-        "type": "OData",
-        "settings": {
-          "odataVersion": "4.0"
-        }
-      }
-
     },
 
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "appNav",
+        "transition": "slide",
         "viewType": "XML",
         "viewPath": "schoolui.view",
-        "controlId": "appNav",
-        "controlAggregation": "pages",
         "async": true
       },
 
@@ -86,67 +91,56 @@
         {
           "name": "Dashboard",
           "pattern": "",
-          "target": ["Dashboard"]
+          "target": "Dashboard"
         },
         {
           "name": "LeaveRequests",
           "pattern": "LeaveRequests",
-          "target": ["LeaveRequests"]
+          "target": "LeaveRequests"
         },
         {
           "name": "BonafideCert",
           "pattern": "BonafideCert",
-          "target": ["BonafideCert"]
+          "target": "BonafideCert"
         },
         {
           "name": "MyProfile",
           "pattern": "MyProfile",
-          "target": ["MyProfile"]
+          "target": "MyProfile"
         },
         {
           "name": "Settings",
           "pattern": "Settings",
-          "target": ["Settings"]
+          "target": "Settings"
         }
       ],
 
       "targets": {
-
         "Dashboard": {
-          "viewType": "XML",
           "viewName": "Dashboard",
-          "viewLevel": 1,
-          "viewId": "Dashboard"
+          "viewId": "Dashboard",
+          "viewLevel": 1
         },
-
         "LeaveRequests": {
-          "viewType": "XML",
           "viewName": "LeaveRequests",
-          "viewLevel": 2,
-          "viewId": "LeaveRequests"
+          "viewId": "LeaveRequests",
+          "viewLevel": 2
         },
-
         "BonafideCert": {
-          "viewType": "XML",
           "viewName": "BonafideCert",
-          "viewLevel": 2,
-          "viewId": "BonafideCert"
+          "viewId": "BonafideCert",
+          "viewLevel": 2
         },
-
         "MyProfile": {
-          "viewType": "XML",
           "viewName": "MyProfile",
-          "viewLevel": 2,
-          "viewId": "MyProfile"
+          "viewId": "MyProfile",
+          "viewLevel": 2
         },
-
         "Settings": {
-          "viewType": "XML",
           "viewName": "Settings",
-          "viewLevel": 2,
-          "viewId": "Settings"
+          "viewId": "Settings",
+          "viewLevel": 2
         }
-
       }
     }
   }

@@ -5,416 +5,354 @@
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
     xmlns:uxap="sap.uxap"
-    displayBlock="true">
-
+    displayBlock="true"
+>
     <Page
         showHeader="false"
-        backgroundDesign="Transparent">
-
+        backgroundDesign="Transparent"
+    >
         <content>
-
             <VBox width="100%">
-
                 <!-- OBJECT PAGE HEADER -->
 
                 <uxap:ObjectPageLayout
                     showTitleInHeaderContent="true"
-                    showFooter="false">
-
+                    showFooter="false"
+                >
                     <!-- TITLE -->
 
                     <uxap:headerTitle>
-
                         <uxap:ObjectPageDynamicHeaderTitle>
-
                             <uxap:expandedHeading>
-
                                 <VBox>
-
                                     <Title
                                         text="Bonafide Certificates"
-                                        level="H1"/>
+                                        level="H1"
+                                    />
 
                                     <Text
-                                        text="Manage and Track Bonafide Certificate Requests"/>
-
+                                        text="Manage and Track Bonafide Certificate Requests"
+                                    />
                                 </VBox>
-
                             </uxap:expandedHeading>
-
                         </uxap:ObjectPageDynamicHeaderTitle>
-
                     </uxap:headerTitle>
 
                     <!-- HEADER CONTENT -->
 
                     <uxap:headerContent>
-
                         <HBox
                             width="100%"
                             justifyContent="SpaceBetween"
                             alignItems="Center"
-                            class="sapUiMediumMarginTop sapUiMediumMarginBottom">
-
+                            class="sapUiMediumMarginTop sapUiMediumMarginBottom"
+                        >
                             <!-- LEFT SIDE -->
 
                             <HBox alignItems="Center">
-
                                 <!-- STUDENT NAME -->
 
                                 <VBox class="sapUiMediumMarginEnd">
-
                                     <Label
                                         text="Student Name:"
-                                        design="Bold"/>
+                                        design="Bold"
+                                    />
 
                                     <Text
                                         id="selectedStudentName"
-                                        text="No Selection"/>
-
+                                         text="Loading..."
+                                    />
                                 </VBox>
 
                                 <!-- STUDENT EMAIL -->
 
                                 <VBox>
-
                                     <Label
                                         text="Student Email:"
-                                        design="Bold"/>
+                                        design="Bold"
+                                    />
 
                                     <Text
                                         id="selectedStudentEmail"
-                                        text="No Selection"/>
-
+                                         text="Loading..."
+                                    />
                                 </VBox>
 
                                 <VBox class="sapUiMediumMarginBegin">
-
-                                     <Label
+                                    <Label
                                         text="Department:"
-                                        design="Bold"/>
+                                        design="Bold"
+                                    />
 
                                     <Text
                                         id="selectedDepartment"
-                                        text="No Selection"/>
-
+                                         text="Loading..."
+                                    />
                                 </VBox>
-
                             </HBox>
 
                             <!-- RIGHT SIDE -->
 
                             <HBox alignItems="Center">
-
                                 <!-- SEARCH -->
 
                                 <SearchField
+                                    id="bonafideSearch"
                                     width="18rem"
                                     placeholder="Search Bonafide Request"
                                     liveChange="onSearchBonafide"
-                                    class="sapUiTinyMarginEnd"/>
+                                />
 
                                 <!-- CREATE BUTTON -->
 
                                 <Button
                                     text="+ Create "
                                     type="Emphasized"
-                                    press="onRequestCertificate"/>
-
+                                    press="onRequestCertificate"
+                                    class="sapUiSmallMarginBegin"
+                                />
                             </HBox>
-
                         </HBox>
-
                     </uxap:headerContent>
-
                 </uxap:ObjectPageLayout>
 
                 <!-- HORIZONTAL TABS -->
 
                 <IconTabBar
                     expandable="true"
-                    class="sapUiResponsiveContentPadding">
-
+                    class="sapUiResponsiveContentPadding"
+                >
                     <items>
-
                         <!-- ALL -->
 
-                        <IconTabFilter 
+                        <IconTabFilter
                             text="All"
-                            iconColor="Neutral">
-
+                            iconColor="Neutral"
+                        >
                             <Table
                                 id="bonafideTable"
-                                items="{/Bonafide}"
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 growingScrollToLoad="true"
-                                width="100%">
-
+                                width="100%"
+                                items="{/Bonafide}"
+                            >
                                 <columns>
-
                                     <Column>
-                                        <Text text="Purpose"/>
+                                        <Text text="Purpose" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Copies"/>
+                                        <Text text="Copies" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Request Date"/>
+                                        <Text text="Request Date" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Status"/>
+                                        <Text text="Status" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Comment"/>
+                                        <Text text="Comment" />
                                     </Column>
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{purpose}" />
 
-                                            <Text text="{purpose}"/>
+                                            <Text text="{noOfCopies}" />
 
-                                            <Text text="{noOfCopies}"/>
-
-                                            <Text text="{createdAt}"/>
+                                            <Text text="{createdAt}" />
 
                                             <ObjectStatus
-                                                text="{status}"
-                                                state="{
-                                                    = ${status} === 'Approved'
-                                                    ? 'Success'
-                                                    : ${status} === 'Rejected'
-                                                    ? 'Error'
-                                                    : 'Warning'
-                                                }"/>
-
-                                            <Text text="{comment}"/>
-
+                                                  text="{status}"
+                                                  state="{= ${status} === 'Approved' ? 'Success' :
+                                                            ${status} === 'Pending' ? 'Warning' :
+                                                            ${status} === 'Rejected' ? 'Error' :
+                                                            'None' }"
+                                                />
+                                            
+                                            <Text text="{comment}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
                         <!-- PENDING -->
 
-                        <IconTabFilter 
-                             text="Pending"
-                             iconColor="Critical">
-
+                        <IconTabFilter
+                            text="Pending"
+                            iconColor="Critical"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Bonafide',
                                     filters:[
+                                        {
+                                            path:'studentEmail',
+                                            operator:'EQ',
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
                                         {
                                             path:'status',
                                             operator:'EQ',
                                             value1:'Pending'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
-                                    
-
                                     <Column>
-                                        <Text text="Purpose"/>
+                                        <Text text="Purpose" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Copies"/>
+                                        <Text text="Copies" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Request Date"/>
+                                        <Text text="Request Date" />
                                     </Column>
-
-                                    
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{purpose}" />
 
-                                            <Text text="{purpose}"/>
+                                            <Text text="{noOfCopies}" />
 
-                                            <Text text="{noOfCopies}"/>
-
-                                            <Text text="{createdAt}"/>
-
-
+                                            <Text text="{createdAt}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
                         <!-- APPROVED -->
 
-                        <IconTabFilter 
-                             text="Approved"
-                             iconColor="Positive">
-
+                        <IconTabFilter
+                            text="Approved"
+                            iconColor="Positive"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Bonafide',
                                     filters:[
+                                        {
+                                            path:'studentEmail',
+                                            operator:'EQ',
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
                                         {
                                             path:'status',
                                             operator:'EQ',
                                             value1:'Approved'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
-
                                     <Column>
-                                        <Text text="Purpose"/>
+                                        <Text text="Purpose" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Copies"/>
+                                        <Text text="Copies" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Request Date"/>
+                                        <Text text="Request Date" />
                                     </Column>
-
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{purpose}" />
 
+                                            <Text text="{noOfCopies}" />
 
-                                            <Text text="{purpose}"/>
-
-                                            <Text text="{noOfCopies}"/>
-
-                                            <Text text="{createdAt}"/>
-
+                                            <Text text="{createdAt}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
 
                         <!-- REJECTED -->
 
-                        <IconTabFilter 
-                           text="Rejected"
-                            iconColor="Negative">
-
+                        <IconTabFilter
+                            text="Rejected"
+                            iconColor="Negative"
+                        >
                             <Table
                                 mode="SingleSelectMaster"
-                                selectionChange="onSelectionChange"
                                 growing="true"
                                 width="100%"
                                 items="{
                                     path:'/Bonafide',
                                     filters:[
                                         {
+                                            path:'studentEmail',
+                                            operator:'EQ',
+                                            value1:'samruddhi.chaure@cloudstine.com'
+                                        },
+                                        {
                                             path:'status',
                                             operator:'EQ',
                                             value1:'Rejected'
                                         }
                                     ]
-                                }">
-
+                                }"
+                            >
                                 <columns>
-
-
                                     <Column>
-                                        <Text text="Purpose"/>
+                                        <Text text="Purpose" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Copies"/>
+                                        <Text text="Copies" />
                                     </Column>
 
                                     <Column>
-                                        <Text text="Request Date"/>
+                                        <Text text="Request Date" />
                                     </Column>
-
 
                                     <Column>
-                                        <Text text="Comment"/>
+                                        <Text text="Comment" />
                                     </Column>
-
                                 </columns>
 
                                 <items>
-
                                     <ColumnListItem>
-
                                         <cells>
+                                            <Text text="{purpose}" />
 
-                                            <Text text="{purpose}"/>
+                                            <Text text="{noOfCopies}" />
 
-                                            <Text text="{noOfCopies}"/>
+                                            <Text text="{createdAt}" />
 
-                                            <Text text="{createdAt}"/>
-
-
-                                            <Text text="{comment}"/>
-
+                                            <Text text="{comment}" />
                                         </cells>
-
                                     </ColumnListItem>
-
                                 </items>
-
                             </Table>
-
                         </IconTabFilter>
-
                     </items>
-
                 </IconTabBar>
-
             </VBox>
-
         </content>
-
     </Page>
-
 </mvc:View>

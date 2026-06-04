@@ -24,45 +24,107 @@ sap.ui.define([
 
             // INIT
 
-            onInit: function () {
-
-                
+            onInit: async function () {
 
                 var oModel = new ODataModel({
 
-                    serviceUrl:
-                        "/odata/v4/school/",
-
-                    synchronizationMode:
-                        "None",
-
-                    operationMode:
-                        "Server"
+                    serviceUrl: "/odata/v4/school/",
+                    synchronizationMode: "None",
+                    operationMode: "Server"
 
                 });
 
-                // SET MAIN MODEL
-
                 this.getView().setModel(oModel);
 
-                // FILTER BUTTON MODEL
+                var oFilterModel = new JSONModel({
 
-                var oFilterModel =
-                    new JSONModel({
+                    selectedButton: "All"
 
-                        selectedButton:
-                            "All"
-
-                    });
-
-                // SET FILTER MODEL
+                });
 
                 this.getView().setModel(
                     oFilterModel,
                     "filterModel"
                 );
 
+                // TEMPORARY EMAIL FOR TESTING
+
+                var sEmail = "samruddhi.chaure@cloudstine.com";
+
+
+
+                var oUserBinding = oModel.bindList(
+                    "/Users",
+                    undefined,
+                    undefined,
+                    undefined,
+                    {
+                        $filter: "email eq '" + sEmail + "'"
+                    }
+                );
+
+                var aUserContexts = await oUserBinding.requestContexts();
+
+                if (aUserContexts.length > 0) {
+
+                    var oUserData = aUserContexts[0].getObject();
+
+                    console.log(oUserData);
+
+                    this.byId("selectedStudentName")
+                        .setText(oUserData.name);
+
+                    this.byId("selectedStudentEmail")
+                        .setText(oUserData.email);
+
+                    this.byId("selectedDepartment")
+                        .setText(oUserData.department);
+                }
+                var oTable = this.byId("bonafideTable");
+
+                oTable.attachEventOnce(
+                    "updateFinished",
+                    function () {
+
+                        var oBinding =
+                            oTable.getBinding("items");
+
+                        oBinding.filter([
+
+                            new Filter(
+                                "studentEmail",
+                                FilterOperator.EQ,
+                                "samruddhi.chaure@cloudstine.com"
+                            )
+
+                        ]);
+
+                    }
+                );
+
             },
+            // onAfterRendering: function () {
+
+            //     var oTable =
+            //         this.byId("bonafideTable");
+
+            //     var oBinding =
+            //         oTable.getBinding("items");
+
+            //     if (oBinding) {
+
+            //         var oFilter =
+            //             new Filter(
+            //                 "studentEmail",
+            //                 FilterOperator.EQ,
+            //                 "pratihastrajneesh0@gmail.com"
+            //             );
+
+            //         oBinding.filter([oFilter]);
+
+            //     }
+
+            // },
 
             // OPEN DIALOG
 
@@ -107,153 +169,67 @@ sap.ui.define([
 
             },
 
-            // ROW SELECTION
 
-onSelectionChange: function (oEvent) {
+            // SEARCH FUNCTION
 
-    var oSelectedItem =
-        oEvent.getParameter("listItem");
+            onSearchBonafide: function (oEvent) {
 
-    if (!oSelectedItem) {
+                var sValue =
+                    oEvent.getParameter("newValue");
 
-        return;
+                var sEmail =
+                    "samruddhi.chaure@cloudstine.com";
 
-    }
+                var oTable =
+                    this.byId("bonafideTable");
 
-    var oContext =
-        oSelectedItem.getBindingContext();
+                var oBinding =
+                    oTable.getBinding("items");
 
-    if (!oContext) {
+                var aFilters = [];
 
-        return;
-
-    }
-
-    var oData =
-        oContext.getObject();
-
-    // SHOW STUDENT NAME
-
-    this.byId("selectedStudentName")
-        .setText(oData.studentName);
-
-    // SHOW STUDENT EMAIL
-
-    this.byId("selectedStudentEmail")
-        .setText(oData.studentEmail);
-
-    this.byId("selectedDepartment")
-        .setText(oData.department);
-
-},
-
-// SEARCH FUNCTION
-
-onSearchBonafide: function (oEvent) {
-
-    var sValue =
-        oEvent.getParameter("newValue");
-
-    var aFilters = [];
-
-    // CREATE FILTERS
-
-    if (sValue) {
-
-        aFilters.push(
-
-            new sap.ui.model.Filter({
-
-                filters: [
-
-                    new sap.ui.model.Filter(
-                        "studentName",
-                        sap.ui.model.FilterOperator.Contains,
-                        sValue
-                    ),
-
-                    new sap.ui.model.Filter(
+                // Email Filter
+                aFilters.push(
+                    new Filter(
                         "studentEmail",
-                        sap.ui.model.FilterOperator.Contains,
-                        sValue
-                    ),
-
-                    new sap.ui.model.Filter(
-                        "department",
-                        sap.ui.model.FilterOperator.Contains,
-                        sValue
-                    ),
-
-                    new sap.ui.model.Filter(
-                        "purpose",
-                        sap.ui.model.FilterOperator.Contains,
-                        sValue
+                        FilterOperator.EQ,
+                        sEmail
                     )
+                );
 
-                ],
+                // Search Filter
+                if (sValue) {
 
-                and: false
+                    var oFilter =
+                        new Filter({
 
-            })
+                            filters: [
 
-        );
+                                new Filter(
+                                    "purpose",
+                                    FilterOperator.Contains,
+                                    sValue
+                                ),
 
-    }
+                                new Filter(
+                                    "requestDate",
+                                    FilterOperator.Contains,
+                                    sValue
+                                )
 
-    // ALL TABLE
+                            ],
 
-    var oAllTable =
-        this.byId("bonafideTable");
+                            and: false
 
-    if (oAllTable) {
+                        });
 
-        oAllTable
-            .getBinding("items")
-            .filter(aFilters);
+                    aFilters.push(oFilter);
 
-    }
+                }
 
-    // PENDING TABLE
+                oBinding.filter(aFilters);
 
-    var oPendingTable =
-        this.byId("pendingBonafideTable");
-
-    if (oPendingTable) {
-
-        oPendingTable
-            .getBinding("items")
-            .filter(aFilters);
-
-    }
-
-    // APPROVED TABLE
-
-    var oApprovedTable =
-        this.byId("approvedBonafideTable");
-
-    if (oApprovedTable) {
-
-        oApprovedTable
-            .getBinding("items")
-            .filter(aFilters);
-
-    }
-
-    // REJECTED TABLE
-
-    var oRejectedTable =
-        this.byId("rejectedBonafideTable");
-
-    if (oRejectedTable) {
-
-        oRejectedTable
-            .getBinding("items")
-            .filter(aFilters);
-
-    }
-
-},
-
+            },
             // SUBMIT REQUEST
 
             onSubmitRequest: function () {
@@ -407,6 +383,9 @@ onSearchBonafide: function (oEvent) {
 
                     noOfCopies:
                         iCopies,
+
+                    status:
+                        "Pending"
 
 
 
@@ -614,17 +593,25 @@ onSearchBonafide: function (oEvent) {
 
             onFilterAll: function () {
 
+                var sEmail =
+                    "samruddhi.chaure@cloudstine.com";
+
                 var oTable =
                     this.byId("bonafideTable");
 
                 var oBinding =
                     oTable.getBinding("items");
 
-                // CLEAR FILTER
+                var oEmailFilter =
+                    new Filter(
+                        "studentEmail",
+                        FilterOperator.EQ,
+                        sEmail
+                    );
 
-                oBinding.filter([]);
-
-                // ACTIVE BUTTON
+                oBinding.filter([
+                    oEmailFilter
+                ]);
 
                 this.getView()
                     .getModel("filterModel")
@@ -639,31 +626,32 @@ onSearchBonafide: function (oEvent) {
 
             onFilterPending: function () {
 
-                var oTable =
-                    this.byId("bonafideTable");
+                var oTable = this.byId("bonafideTable");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oBinding = oTable.getBinding("items");
 
-                var oFilter =
+                var aFilters = [
+
+                    new Filter(
+                        "studentEmail",
+                        FilterOperator.EQ,
+                        "samruddhi.chaure@cloudstine.com"
+                    ),
+
                     new Filter(
                         "status",
                         FilterOperator.EQ,
                         "Pending"
-                    );
+                    )
 
-                // APPLY FILTER
+                ];
 
-                oBinding.filter([oFilter]);
-
-                // ACTIVE BUTTON
-
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "Pending"
-                    );
+                oBinding.filter(
+                    new Filter({
+                        filters: aFilters,
+                        and: true
+                    })
+                );
 
             },
 
@@ -671,63 +659,65 @@ onSearchBonafide: function (oEvent) {
 
             onFilterApproved: function () {
 
-                var oTable =
-                    this.byId("bonafideTable");
+                var oTable = this.byId("bonafideTable");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oBinding = oTable.getBinding("items");
 
-                var oFilter =
+                var aFilters = [
+
+                    new Filter(
+                        "studentEmail",
+                        FilterOperator.EQ,
+                        "samruddhi.chaure@cloudstine.com"
+                    ),
+
                     new Filter(
                         "status",
                         FilterOperator.EQ,
                         "Approved"
-                    );
+                    )
 
-                // APPLY FILTER
+                ];
 
-                oBinding.filter([oFilter]);
-
-                // ACTIVE BUTTON
-
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "Approved"
-                    );
+                oBinding.filter(
+                    new Filter({
+                        filters: aFilters,
+                        and: true
+                    })
+                );
 
             },
-
             // FILTER REJECTED
 
             onFilterRejected: function () {
 
-                var oTable =
-                    this.byId("bonafideTable");
+                var oTable = this.byId("bonafideTable");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oBinding = oTable.getBinding("items");
 
-                var oFilter =
-                    new Filter(
-                        "status",
-                        FilterOperator.EQ,
-                        "Rejected"
-                    );
+                var oCombinedFilter = new Filter({
 
-                // APPLY FILTER
+                    filters: [
 
-                oBinding.filter([oFilter]);
+                        new Filter(
+                            "studentEmail",
+                            FilterOperator.EQ,
+                            "samruddhi.chaure@cloudstine.com"
+                        ),
 
-                // ACTIVE BUTTON
+                        new Filter(
+                            "status",
+                            FilterOperator.EQ,
+                            "Rejected"
+                        )
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "Rejected"
-                    );
+                    ],
+
+                    and: true
+
+                });
+
+                oBinding.filter([oCombinedFilter]);
 
             }
 
