@@ -74,6 +74,12 @@
                         text="Bonafide Cert."
                         icon="sap-icon://document"
                     />
+
+                    <tnt:NavigationListItem
+                        key="Approval"
+                        text="Approval"
+                        icon="sap-icon://task"
+                    />
                 </tnt:NavigationList>
 
                 <tnt:fixedItem>

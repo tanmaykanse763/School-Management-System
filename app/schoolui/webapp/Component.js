@@ -15,18 +15,14 @@ sap.ui.define([
             // Base init
             UIComponent.prototype.init.apply(this, arguments);
 
-            // ============================
-            // Notification Model
-            // ============================
             var oNotificationModel = new JSONModel({
                 notifications: []
             });
 
             this.setModel(oNotificationModel, "notification");
 
-            // ============================
             // Apply saved dark mode
-            // ============================
+
             try {
                 var sData = localStorage.getItem("eduPortalSettings");
 
@@ -42,9 +38,9 @@ sap.ui.define([
                 console.log("Dark mode load failed", e);
             }
 
-            // ============================
+
             // Initialize Router
-            // ============================
+
             this.getRouter().initialize();
         }
 

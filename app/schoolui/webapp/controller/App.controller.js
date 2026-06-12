@@ -31,25 +31,25 @@ sap.ui.define([
 
         onInit: function () {
 
-    // Router
-    var oRouter = this.getOwnerComponent().getRouter();
+            // Router
+            var oRouter = this.getOwnerComponent().getRouter();
 
-    // Initialize router
-    oRouter.initialize();
+            // Initialize router
+            oRouter.initialize();
 
-    // Attach route matched event
-    oRouter.attachRouteMatched(this.onRouteMatched, this);
+            // Attach route matched event
+            oRouter.attachRouteMatched(this.onRouteMatched, this);
 
-    // Notification tooltip model (bell unread count)
-    this._oNotifModel = new JSONModel({
-        unreadCount: 0
-    });
+            // Notification tooltip model (bell unread count)
+            this._oNotifModel = new JSONModel({
+                unreadCount: 0
+            });
 
-    this.getView().setModel(this._oNotifModel, "notif");
+            this.getView().setModel(this._oNotifModel, "notif");
 
-    // Popover instance cache
-    this._oNotifPopover = null;
-},
+            // Popover instance cache
+            this._oNotifPopover = null;
+        },
 
 
         onToggleSideNav: function () {
@@ -238,6 +238,19 @@ sap.ui.define([
             });
         },
 
+
+        onNavItemSelect: function (oEvent) {
+
+            var sKey =
+                oEvent.getParameter("item")
+                    .getKey();
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo(sKey);
+
+        },
+
         onMarkAllRead: function () {
 
             this._aNotifications.forEach(function (oItem) {
@@ -264,80 +277,80 @@ sap.ui.define([
 
         onSearchApp: function (oEvent) {
 
-    var sValue = oEvent.getParameter("query");
+            var sValue = oEvent.getParameter("query");
 
-    if (!sValue) {
-        return;
-    }
+            if (!sValue) {
+                return;
+            }
 
-    sValue = sValue.toLowerCase().trim();
+            sValue = sValue.toLowerCase().trim();
 
-    // DASHBOARD
-    if (
-        sValue === "dashboard" ||
-        sValue.includes("dashboard")
-    ) {
-        this.getOwnerComponent()
-            .getRouter()
-            .navTo("Dashboard");
-    }
+            // DASHBOARD
+            if (
+                sValue === "dashboard" ||
+                sValue.includes("dashboard")
+            ) {
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Dashboard");
+            }
 
-    // LEAVE REQUESTS
-    else if (
-        sValue === "leave" ||
-        sValue.includes("leave request") ||
-        sValue.includes("leave")
-    ) {
-        this.getOwnerComponent()
-            .getRouter()
-            .navTo("LeaveRequests");
-    }
+            // LEAVE REQUESTS
+            else if (
+                sValue === "leave" ||
+                sValue.includes("leave request") ||
+                sValue.includes("leave")
+            ) {
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("LeaveRequests");
+            }
 
-    // BONAFIDE CERTIFICATE
-    else if (
-        sValue === "bonafide" ||
-        sValue.includes("bonafide") ||
-        sValue.includes("certificate")
-    ) {
-        this.getOwnerComponent()
-            .getRouter()
-            .navTo("BonafideCert");
-    }
+            // BONAFIDE CERTIFICATE
+            else if (
+                sValue === "bonafide" ||
+                sValue.includes("bonafide") ||
+                sValue.includes("certificate")
+            ) {
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("BonafideCert");
+            }
 
-    // MY PROFILE
-    else if (
-        sValue === "profile" ||
-        sValue.includes("my profile") ||
-        sValue.includes("profile")
-    ) {
-        this.getOwnerComponent()
-            .getRouter()
-            .navTo("MyProfile");
-    }
+            // MY PROFILE
+            else if (
+                sValue === "profile" ||
+                sValue.includes("my profile") ||
+                sValue.includes("profile")
+            ) {
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("MyProfile");
+            }
 
-    // SETTINGS
-    else if (
-        sValue === "settings" ||
-        sValue.includes("settings")
-    ) {
-        this.getOwnerComponent()
-            .getRouter()
-            .navTo("Settings");
-    }
+            // SETTINGS
+            else if (
+                sValue === "settings" ||
+                sValue.includes("settings")
+            ) {
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Settings");
+            }
 
-    // INVALID SEARCH
-    else {
-        sap.m.MessageToast.show("No matching page found");
-    }
+            // INVALID SEARCH
+            else {
+                sap.m.MessageToast.show("No matching page found");
+            }
 
-    // HIDE SEARCH FIELD AFTER ENTER
-    var oSearchField = this.byId("globalSearchField");
+            // HIDE SEARCH FIELD AFTER ENTER
+            var oSearchField = this.byId("globalSearchField");
 
-    if (oSearchField) {
-        oSearchField.setVisible(false);
-        oSearchField.setValue("");
-    }
-},
+            if (oSearchField) {
+                oSearchField.setVisible(false);
+                oSearchField.setValue("");
+            }
+        },
 
 
         _stateToHighlight: function (sState) {

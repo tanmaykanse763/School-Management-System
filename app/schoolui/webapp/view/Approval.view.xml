@@ -1,0 +1,365 @@
+<mvc:View
+    controllerName="schoolui.controller.Approval"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+>
+    <SplitApp id="splitApp">
+        <!-- MASTER -->
+
+        <masterPages>
+            <Page title="All Tasks">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <SearchField
+                            placeholder="Search Requests..."
+                            liveChange=".onSearch"
+                        />
+
+                        <SegmentedButton
+                            width="100%"
+                            selectionChange=".onFilter"
+                            selectedKey="Pending"
+                        >
+                            <items>
+                                <SegmentedButtonItem
+                                    text="Pending"
+                                    key="Pending"
+                                    icon="sap-icon://status-critical"
+                                />
+
+                                <SegmentedButtonItem
+                                    text="Approved"
+                                    key="Approved"
+                                    icon="sap-icon://status-positive"
+                                />
+
+                                <SegmentedButtonItem
+                                    text="Rejected"
+                                    key="Rejected"
+                                    icon="sap-icon://status-negative"
+                                />
+                            </items>
+                        </SegmentedButton>
+                    </VBox>
+
+                    <List
+                        id="taskList"
+                        items="{approval>/tasks}"
+                        mode="SingleSelectMaster"
+                        selectionChange=".onTaskSelect"
+                        noDataText="No Requests Found"
+                    >
+                        <CustomListItem>
+                            <VBox class="sapUiSmallMargin">
+
+                                <Title
+                                    text="{approval>title}"
+                                    level="H5"
+                                />
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    alignItems="Center"
+                                    class="sapUiTinyMarginTop"
+                                >
+                                    <ObjectStatus
+                                        text="{approval>type}"
+                                        state="Information"
+                                    />
+
+                                    <ObjectStatus
+                                        text="{approval>status}"
+                                        state="{=
+                                                ${approval>status} === 'Approved' ? 'Success' :
+                                                ${approval>status} === 'Rejected' ? 'Error' :
+                                                ${approval>status} === 'Pending' ? 'Warning' :
+                                                'None'
+                                               }"
+                                    />
+                                </HBox>
+
+                                <Text
+                                    text="{approval>studentName}"
+                                    class="sapUiTinyMarginTop"
+                                />
+
+
+                                <Text
+                                    text="{
+                                           path: 'approval>createdAt',
+                                           formatter: '.formatDate'
+                                           }"
+                                    class="sapUiTinyMarginTop"
+                                />
+                            </VBox>
+                        </CustomListItem>
+                    </List>
+                </content>
+            </Page>
+        </masterPages>
+
+        <!-- DETAIL -->
+        <detailPages>
+            <Page showHeader="false">
+                <content>
+                    <uxap:ObjectPageLayout
+                        id="approvalObjectPage"
+                        showTitleInHeaderContent="true"
+                        useIconTabBar="false"
+                    >
+
+                        <uxap:headerTitle>
+                            <uxap:ObjectPageDynamicHeaderTitle>
+                                <uxap:expandedHeading>
+                                    <VBox>
+
+                                        <Title
+                                            text="Approval Center"
+                                            level="H1"
+                                        />
+
+                                        <Text
+                                            text="Review and Manage Student Requests"
+                                            class="sapUiTinyMarginBottom"
+                                        />
+
+                                    </VBox>
+                                </uxap:expandedHeading>
+                            </uxap:ObjectPageDynamicHeaderTitle>
+                        </uxap:headerTitle>
+
+                        <uxap:headerContent>
+                            <HBox
+                                width="100%"
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                class="sapUiMediumMarginTop sapUiMediumMarginBottom"
+                            >
+                                <HBox alignItems="Center">
+
+                                    <VBox class="sapUiMediumMarginEnd">
+                                        <Label
+                                            text="Student Name:"
+                                            design="Bold"
+                                        />
+
+                                        <Text
+                                            id="selectedStudentName"
+                                            text="No Selection"
+                                        />
+                                    </VBox>
+
+                                    <VBox class="sapUiMediumMarginEnd">
+                                        <Label
+                                            text="Request Type:"
+                                            design="Bold"
+                                        />
+
+                                        <Text
+                                            id="selectedRequestType"
+                                            text="No Selection"
+                                        />
+                                    </VBox>
+
+                                    <VBox class="sapUiMediumMarginEnd">
+                                        <Label
+                                            text="Created On:"
+                                            design="Bold"
+                                        />
+
+                                        <Text
+                                            id="selectedCreatedOn"
+                                            text="No Selection"
+                                        />
+                                    </VBox>
+
+                                    <VBox>
+                                        <Label
+                                            text="Status:"
+                                            design="Bold"
+                                        />
+
+                                        <ObjectStatus
+                                            id="selectedStatus"
+                                            text="No Selection"
+                                            state="{
+                                                    = ${approval>status} === 'Approved'
+                                                    ? 'Success'
+                                                    : ${approval>status} === 'Rejected'
+                                                    ? 'Error'
+                                                    : 'Warning'
+                                                }"
+                                        />
+                                    </VBox>
+                                </HBox>
+                            </HBox>
+                        </uxap:headerContent>
+
+                        <uxap:sections>
+                            <uxap:ObjectPageSection title="Request Details">
+                                <uxap:subSections>
+                                    <uxap:ObjectPageSubSection>
+                                        <VBox>
+                                            <Text
+                                                id="txtDescription"
+                                                text="Show your request details here..."
+                                                class="sapUiMediumMarginBottom"
+                                            />
+
+                                            <HBox
+                                                id="leaveDateSection"
+                                                visible="false"
+                                                class="sapUiSmallMarginTop"
+                                            >
+                                                <VBox
+                                                    class="sapUiMediumMarginEnd"
+                                                >
+                                                    <Text text="From Date:" />
+
+                                                    <Text id="txtfromDate" />
+                                                </VBox>
+
+                                                <VBox>
+                                                    <Text text="To Date:" />
+
+                                                    <Text id="txttoDate" />
+                                                </VBox>
+                                            </HBox>
+                                        </VBox>
+                                    </uxap:ObjectPageSubSection>
+                                </uxap:subSections>
+                            </uxap:ObjectPageSection>
+
+                            <uxap:ObjectPageSection title="Add Remarks">
+                                <uxap:subSections>
+                                    <uxap:ObjectPageSubSection>
+                                        <VBox class="sapUiSmallMargin">
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://edit"
+                                                    color="#0a6ed1"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+
+                                                <Title
+                                                    text="Add Remarks"
+                                                    level="H4"
+                                                />
+
+                                                <ObjectStatus
+                                                    text="(Required for Rejection)"
+                                                    state="Error"
+                                                    class="sapUiTinyMarginBegin"
+                                                />
+                                            </HBox>
+
+                                            <Text
+                                                text="Please add remarks before rejecting"
+                                                class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                                            />
+
+                                            <TextArea
+                                                id="txtRemarks"
+                                                rows="3"
+                                                width="100%"
+                                                placeholder="Enter your remarks here..."
+                                            />
+                                        </VBox>
+                                    </uxap:ObjectPageSubSection>
+                                </uxap:subSections>
+                            </uxap:ObjectPageSection>
+
+                            <uxap:ObjectPageSection
+                                id="bonafideSection"
+                                title="Bonafide Details"
+                                visible="true"
+                            >
+                                <uxap:subSections>
+                                    <uxap:ObjectPageSubSection>
+                                        <VBox class="sapUiSmallMargin">
+                                            <Label
+                                                text="Email"
+                                                design="Bold"
+                                            />
+                                            <Text id="txtEmail" />
+
+                                            <Label
+                                                text="Name"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtName" />
+
+                                            <Label
+                                                text="Mobile Number"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtMobileNumber" />
+
+                                            <Label
+                                                text="Date Of Birth"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtDateOfBirth" />
+
+                                            <Label
+                                                text="Address"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtAddress" />
+
+                                            <Label
+                                                text="Department"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtDepartment" />
+
+                                            <Label
+                                                text="Guardian Name"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtGuardianName" />
+
+                                            <Label
+                                                text="Guardian Number"
+                                                design="Bold"
+                                                class="sapUiSmallMarginTop"
+                                            />
+                                            <Text id="txtGuardianNumber" />
+                                        </VBox>
+                                    </uxap:ObjectPageSubSection>
+                                </uxap:subSections>
+                            </uxap:ObjectPageSection>
+                        </uxap:sections>
+                    </uxap:ObjectPageLayout>
+                </content>
+
+                <footer>
+                    <OverflowToolbar>
+                        <ToolbarSpacer />
+
+                        <Button
+                            text="✅ Approve"
+                            type="Accept"
+                            press=".onApprove"
+                        />
+
+                        <Button
+                            text="❌ Reject"
+                            type="Reject"
+                            press=".onReject"
+                        />
+                    </OverflowToolbar>
+                </footer>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</mvc:View>

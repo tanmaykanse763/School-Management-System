@@ -3,22 +3,25 @@
   "version": "1.0.0",
   "dependencies": {
     "@cap-js/hana": "^2",
-    "@sap/cds": "^9",
+    "@sap/cds": "^9.9.1",
+    "@sap/hdi-deploy": "^5.6.1",
+    "@sap/xssec": "^4",
     "hdb": "^2.27.1"
   },
   "devDependencies": {
     "@sap/cds-dk": "^9",
     "cds-plugin-ui5": "^0.13.0",
+    "mbt": "^1.2.49",
     "rimraf": "^5.0.5",
-    "mbt": "^1.2.49"
+    "@cap-js/cds-test": "^1"
   },
   "scripts": {
-    "start": "npx cds run",
+    "start": "cds-serve",
     "watch-schoolui": "cds watch --open schoolui/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-project1": "cds watch --open project1/index.html?sap-ui-xx-viewCache=false --livereload false",
     "undeploy": "cf undeploy school-capm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18"
@@ -27,11 +30,19 @@
     "requires": {
       "db": {
         "kind": "hana"
-      }
+      },
+      "destinations": true,
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "html5-repo": true
     }
   },
   "private": true,
   "workspaces": [
     "app/*"
+  ],
+  "sapux": [
+    "app/schoolui"
   ]
 }

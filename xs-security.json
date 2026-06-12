@@ -1,7 +1,30 @@
 {
-  "xsappname": "school-capm",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
-  "scopes": [],
-  "role-templates": []
+ "xsappname": "school-capm",
+ "tenant-mode": "dedicated",
+ "description": "Security profile of called application",
+ "scopes": [
+  {
+   "name": "$XSAPPNAME.Student",
+   "description": "Student Access"
+  },
+  {
+   "name": "$XSAPPNAME.Admin",
+   "description": "Admin Access"
+  }
+ ],
+ "role-templates": [
+  {
+   "name": "Student",
+   "scope-references": [
+    "$XSAPPNAME.Student"
+   ]
+  },
+  {
+   "name": "Admin",
+   "scope-references": [
+    "$XSAPPNAME.Admin"
+   ]
+  }
+ ],
+ "attributes": []
 }
