@@ -16,44 +16,44 @@ Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "13593969-d4b9-407a-9daa-2eda1e2e2840",
+  "ID": "23995451-8f3c-4969-bf70-8df42e211ad6",
   "studentName": "Samruddhi Chaure",
   "studentEmail": "samruddhi.chaure@cloudstine.com",
   "department": "Computer Science",
-  "leaveType": "Medical Leave",
-  "fromDate": "2026-06-11",
-  "toDate": "2026-06-12",
-  "reason": "Personal health issues",
+  "leaveType": "Sick Leave",
+  "fromDate": "2026-06-15",
+  "toDate": "2026-06-17",
+  "reason": "Personal Health Issues",
   "status": "Pending",
-  "appliedOn": "2026-06-10T00:00:00.000Z",
-  "comment": "comment-13593969"
+  "appliedOn": "2026-06-14T00:00:00.000Z",
+  "comment": "comment-23995451"
 }
 
 
 ### Leaves
 # @name Leaves_PATCH
-PATCH {{server}}/odata/v4/school/Leaves/13593969-d4b9-407a-9daa-2eda1e2e2840
+PATCH {{server}}/odata/v4/school/Leaves/23995451-8f3c-4969-bf70-8df42e251ad6
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "13593969-d4b9-407a-9daa-2eda1e2e2840",
-  "studentName": "studentName-13593969",
-  "studentEmail": "studentEmail-13593969",
-  "department": "department-13593969",
-  "leaveType": "leaveType-13593969",
-  "fromDate": "2009-08-26",
-  "toDate": "2013-11-12",
-  "reason": "reason-13593969",
-  "status": "status-13593969",
-  "appliedOn": "2023-07-05T00:00:00.000Z",
-  "comment": "comment-13593969"
+  "ID": "23995451-8f3c-4969-bf70-8df42e251ad6",
+  "studentName": "studentName-23995451",
+  "studentEmail": "studentEmail-23995451",
+  "department": "department-23995451",
+  "leaveType": "leaveType-23995451",
+  "fromDate": "2007-02-14",
+  "toDate": "2000-04-11",
+  "reason": "reason-23995451",
+  "status": "status-23995451",
+  "appliedOn": "2001-05-18T00:00:00.000Z",
+  "comment": "comment-23995451"
 }
 
 
 ### Leaves
 # @name Leaves_DELETE
-DELETE {{server}}/odata/v4/school/Leaves/13593969-d4b9-407a-9daa-2eda1e2e2840
+DELETE {{server}}/odata/v4/school/Leaves/23995451-8f3c-4969-bf70-8df42e251ad6
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
@@ -71,48 +71,48 @@ Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "5338929e-ab7d-4af6-8f31-6027c8f4b34c",
+  "ID": "24343716-95ae-4768-8edf-cfb3d9be067a",
   "studentName": "Samruddhi Chaure",
   "studentEmail": "samruddhi.chaure@cloudstine.com",
   "department": "Computer Science",
-  "purpose": "Education loan",
+  "purpose": "Education Loan",
   "noOfCopies": 1,
-  "remark": "wertyuio",
+  "remark": "Remark for Education Loan",
   "status": "Approved",
-  "comment": "comment-5338929",
-  "createdAt": "2026-06-11T00:00:00.000Z",
-  "createdBy": "createdBy.36fjl@example.org",
-  "modifiedAt": "2004-12-24T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.36fjl@example.org"
+  "comment": "comment-24343716",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "createdBy": "createdBy.ehrqc@example.net",
+  "modifiedAt": "2026-05-25T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.ehrqc@example.org"
 }
 
 
 ### Bonafide
 # @name Bonafide_PATCH
-PATCH {{server}}/odata/v4/school/Bonafide/5338929e-ab7d-4af6-8f31-6027c8f4b34c
+PATCH {{server}}/odata/v4/school/Bonafide/24343716-95ae-4768-8edf-cfb3d9be039a
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "5338929e-ab7d-4af6-8f31-6027c8f4b34c",
-  "studentName": "studentName-5338929",
-  "studentEmail": "studentEmail-5338929",
-  "department": "department-5338929",
-  "purpose": "purpose-5338929",
-  "noOfCopies": 38,
-  "remark": "remark-5338929",
-  "status": "status-5338929",
-  "comment": "comment-5338929",
-  "createdAt": "2014-05-19T00:00:00.000Z",
-  "createdBy": "createdBy.36fjl@example.org",
-  "modifiedAt": "2004-12-24T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.36fjl@example.org"
+  "ID": "24343716-95ae-4768-8edf-cfb3d9be452a",
+  "studentName": "Samruddhi Chaure",
+  "studentEmail": "samruddhi.chaure@cloudstine.com",
+  "department": "Computer Science",
+  "purpose": "Scholarship",
+  "noOfCopies": 2,
+  "remark": "sedrfgh",
+  "status": "Approved",
+  "comment": "comment-24343716",
+  "createdAt": "2026-05-21T00:00:00.000Z",
+  "createdBy": "createdBy.ehrqc@example.net",
+  "modifiedAt": "2026-05-20T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.ehrqc@example.org"
 }
 
 
 ### Bonafide
 # @name Bonafide_DELETE
-DELETE {{server}}/odata/v4/school/Bonafide/5338929e-ab7d-4af6-8f31-6027c8f4b34c
+DELETE {{server}}/odata/v4/school/Bonafide/24343716-95ae-4768-8edf-cfb3d9be039a
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
@@ -130,37 +130,37 @@ Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-      "address": "Kharadi",
-      "dateOfBirth": "2001-02-01",
-      "department": "Cse",
-      "email": "samruddhi.chaure@cloudstine.com",
-      "guardianName": "Tanmay",
-      "guardianNumber": "9312345678",
-      "mobileNumber": "9012345678",
-      "name": "Samruddhi Chaure"
+  "email": "samruddhi.chaure@cloudstine.com",
+  "name": "Samruddhi Chaure",
+  "mobileNumber": "9876543210",
+  "dateOfBirth": "2002-03-28",
+  "address": "Kharadi, Pune, Maharashtra",
+  "department": "Computer Science",
+  "guardianName": "Tanmay",
+  "guardianNumber": "9876543210"
 }
 
 
 ### Users
 # @name Users_PATCH
-PATCH {{server}}/odata/v4/school/Users/Users-27881260
+PATCH {{server}}/odata/v4/school/Users/Users-3935862
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "email": "Users-27881260",
-  "name": "name-27881260",
-  "mobileNumber": "obileNumber-27881260",
-  "dateOfBirth": "2015-08-15",
-  "address": "address-27881260",
-  "department": "department-27881260",
-  "guardianName": "guardianName-27881260",
-  "guardianNumber": "rdianNumber-27881260"
+  "email": "Users-3935862",
+  "name": "name-3935862",
+  "mobileNumber": "mobileNumber-3935862",
+  "dateOfBirth": "2008-08-23",
+  "address": "address-3935862",
+  "department": "department-3935862",
+  "guardianName": "guardianName-3935862",
+  "guardianNumber": "ardianNumber-3935862"
 }
 
 
 ### Users
 # @name Users_DELETE
-DELETE {{server}}/odata/v4/school/Users/Users-27881260
+DELETE {{server}}/odata/v4/school/Users/Users-3935862
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}

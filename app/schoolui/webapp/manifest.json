@@ -18,8 +18,21 @@
      "odataVersion": "4.0"
     }
    }
+  },
+ "crossNavigation": {
+  "inbounds": {
+    "semanticobjecthelloworld-show": {
+      "semanticObject": "School",
+      "action": "show",
+      "title": "{{SchoolCapm}}",
+      "signature": {
+        "parameters": {},
+        "additionalParameters": "allowed"
+      }
+    }
   }
- },
+}
+},
  "sap.ui": {
   "technology": "UI5",
   "deviceTypes": {
@@ -27,6 +40,10 @@
    "tablet": true,
    "phone": false
   }
+ },
+ "sap.cloud": {
+  "public": true,
+  "service": "school-capm.service"
  },
  "sap.ui5": {
   "rootView": {

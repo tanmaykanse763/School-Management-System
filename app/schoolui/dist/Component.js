@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/UIComponent","sap/ui/model/json/JSONModel"],function(e,t){"use strict";return e.extend("schoolui.Component",{metadata:{manifest:"json"},init:function(){e.prototype.init.apply(this,arguments);var i=sap.ushell.Container.getService("UserInfo").getUser();this.loggedInUser=i.getEmail();console.log("Logged In User:",this.loggedInUser);var n=new t({isAdmin:false,isStudent:false});this.getRouter().initialize()}})});
+//# sourceMappingURL=Component.js.map

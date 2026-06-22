@@ -19,17 +19,16 @@ sap.ui.define([
                 var oUser = sap.ushell.Container.getService("UserInfo").getUser();
                 this.loggedInUser = oUser.getEmail();
                 // Local Testing
-                
                 // this.loggedInUser = "samruddhi.chaure@cloudstine.com";
 
             console.log("Logged In User:", this.loggedInUser);
 
 
-            // // Role Model
-            // var oRoleModel = new JSONModel({
-            //     isAdmin: false,
-            //     isStudent: false
-            // });
+            // Role Model
+            var oRoleModel = new JSONModel({
+                isAdmin: false,
+                isStudent: false
+            });
 
             this.getRouter().initialize();
         }

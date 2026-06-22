@@ -1,5 +1,7 @@
 using school from '../db/schema';
 
+
+@requires: 'authenticated-user'
 service SchoolService {
 
     entity Leaves  as projection on school.Leaves;

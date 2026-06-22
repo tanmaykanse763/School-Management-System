@@ -1,30 +1,41 @@
 {
- "xsappname": "school-capm",
- "tenant-mode": "dedicated",
- "description": "Security profile of called application",
- "scopes": [
-  {
-   "name": "$XSAPPNAME.Student",
-   "description": "Student Access"
-  },
-  {
-   "name": "$XSAPPNAME.Admin",
-   "description": "Admin Access"
+  "xsappname": "school-capm",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Student",
+      "description": "Student Access"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin Access"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Student",
+      "scope-references": [
+        "$XSAPPNAME.Student"
+      ]
+    },
+    {
+      "name": "Admin",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    }
+  ],
+  "attributes": [],
+  "oauth2-configuration": {
+    "credential-types": [
+      "binding-secret",
+      "x509"
+    ],
+    "grant-types": [
+      "authorization_code",
+      "client_credentials",
+      "urn:ietf:params:oauth:grant-type:jwt-bearer"
+    ]
   }
- ],
- "role-templates": [
-  {
-   "name": "Student",
-   "scope-references": [
-    "$XSAPPNAME.Student"
-   ]
-  },
-  {
-   "name": "Admin",
-   "scope-references": [
-    "$XSAPPNAME.Admin"
-   ]
-  }
- ],
- "attributes": []
 }

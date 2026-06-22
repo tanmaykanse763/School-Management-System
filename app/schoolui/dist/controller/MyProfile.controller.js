@@ -1,0 +1,2 @@
+sap.ui.define(["sap/ui/core/mvc/Controller","sap/ui/model/Filter","sap/ui/model/FilterOperator"],function(e,t,n){"use strict";return e.extend("schoolui.controller.MyProfile",{onInit:async function(){var e=this.getOwnerComponent().getModel();var o=this.getOwnerComponent().loggedInUser;var r=new t("email",n.EQ,o);var l=e.bindList("/Users",null,null,[r]);var i=await l.requestContexts();if(i.length>0){var s=i[0].getPath();this.getView().bindElement({path:s});console.log("Bound Path:",s)}else{console.log("User not found")}}})});
+//# sourceMappingURL=MyProfile.controller.js.map

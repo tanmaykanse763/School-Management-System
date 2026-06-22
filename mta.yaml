@@ -68,6 +68,32 @@ modules:
       supported-platforms:
         []
 
+  - name: school-capm-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: school-capm-destination
+        parameters:
+          content-target: true
+      - name: school-capm-auth
+        parameters:
+          service-key:
+            name: school-capm-auth-key
+      - name: srv-api
+    parameters:
+      content:
+        subaccount:
+          existing_destinations_policy: update
+          destinations:
+            - Name: srv-api
+              Authentication: OAuth2ClientCredentials
+              HTML5.DynamicDestination: true
+              URL: ~{srv-api/srv-url}
+              TokenServiceInstanceName: school-capm-auth
+              TokenServiceKeyName: school-capm-auth-key
+              WebIDEEnabled: true
+    build-parameters:
+      no-source: true
+
 resources:
   - name: school-capm-auth
     type: org.cloudfoundry.managed-service
@@ -76,7 +102,7 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
-        xsappname: school-capm
+        xsappname: school-capm-${org}-${space}
         tenant-mode: dedicated
         oauth2-configuration:
           credential-types:
@@ -92,6 +118,8 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
 
   - name: school-capm-html5-repo-host
     type: org.cloudfoundry.managed-service

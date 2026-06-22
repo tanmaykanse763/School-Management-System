@@ -1,0 +1,217 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        title="🌿 Apply for Leave"
+        contentWidth="500px"
+        stretchOnPhone="true">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- INFO TEXT -->
+
+                <Text
+                    text="Fill in the details and submit your request"
+                    class="sapUiSmallMarginBottom"/>
+
+                <!-- STUDENT NAME -->
+
+                <Label
+                    text="STUDENT NAME"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Input
+                    id="leaveStudentName"
+                    width="100%"
+                    liveChange="onNameLiveChange"
+                    placeholder="Enter student name"
+                    class="sapUiMediumMarginBottom"/>
+
+                <!-- STUDENT EMAIL -->
+
+                <Label
+                    text="STUDENT EMAIL"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Input
+                    id="leaveStudentEmail"
+                    width="100%"
+                    liveChange="onEmailLiveChange"
+                    type="Email"
+                    placeholder="Enter student email"
+                    class="sapUiMediumMarginBottom"/>
+
+                <!-- DEPARTMENT -->
+
+                <Label
+                    text="DEPARTMENT"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Select
+                    id="leaveDepartment"
+                    width="100%"
+                    class="sapUiMediumMarginBottom">
+
+                    <items>
+
+                        <core:Item
+                            key=""
+                            text="--Select Department--"/>
+
+                        <core:Item
+                            key="Computer Science"
+                            text="Computer Science"/>
+
+                        <core:Item
+                            key="Information Technology"
+                            text="Information Technology"/>
+
+                        <core:Item
+                            key="Mechanical"
+                            text="Mechanical"/>
+
+                        <core:Item
+                            key="Civil"
+                            text="Civil"/>
+
+                    </items>
+
+                </Select>
+
+                <!-- LEAVE TYPE -->
+
+                <Label
+                    text="LEAVE TYPE"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Select
+                    id="leaveType"
+                    width="100%"
+                    class="sapUiMediumMarginBottom">
+
+                    <items>
+
+                        <core:Item
+                            key=""
+                            text="--Select Leave Type--"/>
+
+                        <core:Item
+                            key="Sick Leave"
+                            text="Sick Leave"/>
+
+                        <core:Item
+                            key="Casual Leave"
+                            text="Casual Leave"/>
+
+                        <core:Item
+                            key="Medical Leave"
+                            text="Medical Leave"/>
+
+                        <core:Item
+                            key="Emergency Leave"
+                            text="Emergency Leave"/>
+
+                    </items>
+
+                </Select>
+
+                <!-- FROM & TO DATE -->
+
+                <HBox
+                    justifyContent="SpaceBetween"
+                    class="sapUiMediumMarginBottom">
+
+                    <!-- FROM DATE -->
+
+                    <VBox width="48%">
+
+                        <Label
+                            text="FROM DATE"
+                            required="true"
+                            class="sapUiTinyMarginBottom"/>
+
+                        <DatePicker
+                            id="leaveFromDate"
+                            width="100%"
+                            placeholder="YYYY-MM-DD"/>
+
+                    </VBox>
+
+                    <!-- TO DATE -->
+
+                    <VBox width="48%">
+
+                        <Label
+                            text="TO DATE"
+                            required="true"
+                            class="sapUiTinyMarginBottom"/>
+
+                        <DatePicker
+                            id="leaveToDate"
+                            width="100%"
+                            placeholder="YYYY-MM-DD"/>
+
+                    </VBox>
+
+                </HBox>
+
+                <!-- REASON -->
+
+                <Label
+                    text="REASON"
+                    required="true"
+                    class="sapUiTinyMarginBottom"/>
+
+                <TextArea
+                    id="leaveReason"
+                    rows="4"
+                    width="100%"
+                    placeholder="Briefly describe the reason for leave..."
+                    class="sapUiMediumMarginBottom"/>
+
+                <!-- DOCUMENT -->
+
+                <Label
+                    text="SUPPORTING DOCUMENT (OPTIONAL)"
+                    class="sapUiTinyMarginBottom"/>
+
+                <Input
+                    id="dialogDocument"
+                    width="100%"
+                    placeholder="e.g., Medical certificate attached"/>
+
+            </VBox>
+
+        </content>
+
+        <!-- CANCEL BUTTON -->
+
+        <beginButton>
+
+            <Button
+                text="Cancel"
+                press="onCancelLeaveDialog"/>
+
+        </beginButton>
+
+        <!-- SUBMIT BUTTON -->
+
+        <endButton>
+
+            <Button
+                text="Submit Request"
+                type="Emphasized"
+                press="onSubmitLeaveRequest"/>
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

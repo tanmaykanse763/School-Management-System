@@ -1,0 +1,295 @@
+<mvc:View
+    controllerName="schoolui.controller.Settings"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page showHeader="false" backgroundDesign="List">
+        <content>
+            <VBox class="sapUiResponsiveMargin">
+
+                <Title text="Settings" level="H2"
+                    class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+
+                <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                    <core:Icon src="sap-icon://action-settings" color="#1473E6" size="1rem"/>
+                    <Title text="Application Settings" level="H5" class="sapUiTinyMarginBegin"/>
+                </HBox>
+
+                
+                <Panel expandable="false" width="600px" class="sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://bell" color="#1473E6" size="1rem"/>
+                            <Title text="Notification Preferences" level="H5"
+                                class="sapUiTinyMarginBegin"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Email notifications"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/emailNotifications} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/emailNotifications} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/emailNotifications}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onEmailNotificationsChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="SMS alerts"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/smsAlerts} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/smsAlerts} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/smsAlerts}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onSmsAlertsChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Leave status updates"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/leaveStatusUpdates} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/leaveStatusUpdates} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/leaveStatusUpdates}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onLeaveStatusUpdatesChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Bonafide ready alerts"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/bonafideAlerts} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/bonafideAlerts} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/bonafideAlerts}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onBonafideAlertsChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Dark mode"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/darkMode} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/darkMode} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/darkMode}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onDarkModeChange"/>
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+            
+                <Panel expandable="false" width="600px" class="sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://locked" color="#1473E6" size="1rem"/>
+                            <Title text="Privacy &amp; Security" level="H5"
+                                class="sapUiTinyMarginBegin"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Two-factor authentication"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/twoFactorAuth} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/twoFactorAuth} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/twoFactorAuth}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onTwoFactorAuthChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Login activity alerts"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/loginActivityAlerts} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/loginActivityAlerts} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/loginActivityAlerts}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onLoginActivityAlertsChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Show profile to classmates"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/showProfile} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/showProfile} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/showProfile}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onShowProfileChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Data export requests"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/dataExport} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/dataExport} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/dataExport}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onDataExportChange"/>
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+                
+                <Panel expandable="false" width="600px" class="sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://palette" color="#1473E6" size="1rem"/>
+                            <Title text="Display Preferences" level="H5"
+                                class="sapUiTinyMarginBegin"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Language"/>
+                                    <Text text="Interface language"
+                                        style="font-size:11px;" class="sapUiTextColor"/>
+                                </VBox>
+                                <Select selectedKey="{settings>/language}"
+                                    change="onLanguageChange" width="160px">
+                                    <items>
+                                        <core:Item key="en" text="English"/>
+                                        <core:Item key="hi" text="Hindi"/>
+                                        <core:Item key="mr" text="Marathi"/>
+                                    </items>
+                                </Select>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Date format"/>
+                                    <Text text="How dates are shown"
+                                        style="font-size:11px;" class="sapUiTextColor"/>
+                                </VBox>
+                                <Select selectedKey="{settings>/dateFormat}"
+                                    change="onDateFormatChange" width="160px">
+                                    <items>
+                                        <core:Item key="DD/MM/YYYY" text="DD/MM/YYYY"/>
+                                        <core:Item key="MM/DD/YYYY" text="MM/DD/YYYY"/>
+                                        <core:Item key="YYYY-MM-DD" text="YYYY-MM-DD"/>
+                                    </items>
+                                </Select>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Compact view"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/compactView} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/compactView} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/compactView}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onCompactViewChange"/>
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+            
+                <Panel expandable="false" width="600px"
+                    class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon src="sap-icon://education" color="#1473E6" size="1rem"/>
+                            <Title text="Leave &amp; Academic" level="H5"
+                                class="sapUiTinyMarginBegin"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd">
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Auto-apply on holidays"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/autoApplyHolidays} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/autoApplyHolidays} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/autoApplyHolidays}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onAutoApplyHolidaysChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Attendance reminders"/>
+                                    <ObjectStatus
+                                        text="{= ${settings>/attendanceReminders} ? 'Enabled' : 'Disabled'}"
+                                        state="{= ${settings>/attendanceReminders} ? 'Success' : 'Error'}"/>
+                                </VBox>
+                                <Switch state="{settings>/attendanceReminders}"
+                                    customTextOn="ON" customTextOff="OFF"
+                                    change="onAttendanceRemindersChange"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center"
+                                width="100%" class="sapUiSmallMarginBottom">
+                                <VBox>
+                                    <Text text="Reminder time"/>
+                                    <Text text="Daily alert time"
+                                        style="font-size:11px;" class="sapUiTextColor"/>
+                                </VBox>
+                                <Select selectedKey="{settings>/reminderTime}"
+                                    change="onReminderTimeChange" width="160px">
+                                    <items>
+                                        <core:Item key="07:00" text="7:00 AM"/>
+                                        <core:Item key="08:00" text="8:00 AM"/>
+                                        <core:Item key="09:00" text="9:00 AM"/>
+                                    </items>
+                                </Select>
+                            </HBox>
+
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

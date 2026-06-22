@@ -1,0 +1,650 @@
+<mvc:View
+    controllerName="schoolui.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    displayBlock="true"
+>
+    <Page
+        id="dashboardPage"
+        showHeader="false"
+        backgroundDesign="Transparent"
+    >
+        <content>
+            <ScrollContainer
+                height="100%"
+                width="100%"
+                vertical="true"
+                horizontal="false"
+            >
+                <VBox class="sapUiMediumMargin sapUiMediumMarginTop">
+                    <html:div class="eduDashHeader">
+                        <html:div class="eduDashDots">
+                            <html:span class="eduDot dot1" />
+                            <html:span class="eduDot dot2" />
+                            <html:span class="eduDot dot3" />
+                            <html:span class="eduDot dot4" />
+                            <html:span class="eduPortalLabel">
+                                EduPortal
+                            </html:span>
+                        </html:div>
+
+                        <html:h1 class="eduDashTitle">Dashboard</html:h1>
+                    </html:div>
+
+                    <html:style>
+                        @keyframes eduShimmer {
+                            0%   { background-position: -200% center; }
+                            100% { background-position:  200% center; }
+                        }
+                        @keyframes eduFloat {
+                            0%, 100% { transform: translateY(0); }
+                            50%      { transform: translateY(-5px); }
+                        }
+
+                        .eduDashHeader {
+                            padding: 1.2rem 1.5rem 1rem;
+                            border-bottom: 1px solid #e0e0e0;
+                            margin-bottom: 1.2rem;
+                        }
+                        .eduDashDots {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            margin-bottom: 8px;
+                        }
+                        .eduDot {
+                            width: 11px;
+                            height: 11px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            animation: eduFloat 2s ease-in-out infinite;
+                        }
+                        .dot1 { background: #534AB7; animation-delay: 0s;   }
+                        .dot2 { background: #D4537E; animation-delay: 0.2s; }
+                        .dot3 { background: #D85A30; animation-delay: 0.4s; }
+                        .dot4 { background: #1D9E75; animation-delay: 0.6s; }
+                        .eduPortalLabel {
+                            font-size: 11px;
+                            letter-spacing: 2.5px;
+                            text-transform: uppercase;
+                            color: #888;
+                            font-weight: 600;
+                            margin-left: 4px;
+                        }
+                        .eduDashTitle {
+                            margin: 0 0 10px;
+                            font-size: 52px;
+                            font-weight: 600;
+                            line-height: 1.1;
+                            background: linear-gradient(
+                                135deg,
+                                #534AB7 0%,
+                                #D4537E 28%,
+                                #D85A30 52%,
+                                #BA7517 75%,
+                                #1D9E75 100%
+                            );
+                            background-size: 200% auto;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                            animation: eduShimmer 5s linear infinite;
+                        }
+
+                        /* ── Greeting Banner ── */
+                        .eduGreetBanner {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            background: #f7f7fb;
+                            border: 1px solid #ececf6;
+                            border-radius: 12px;
+                            padding: 14px 20px;
+                            margin-bottom: 1.2rem;
+                        }
+                        .eduGreetText {
+                            font-size: 22px;
+                            font-weight: 600;
+                            color: #2c2c2c;
+                            margin: 0;
+                        }
+                        .eduGreetSub {
+                            font-size: 13px;
+                            color: #888;
+                            margin-top: 4px;
+                            font-style: italic;
+                        }
+                        .eduGreetBadge {
+                            font-size: 12px;
+                            font-weight: 600;
+                            padding: 5px 16px;
+                            border-radius: 999px;
+                            white-space: nowrap;
+                        }
+                        .greetMorning   { background: #FFF8E7; color: #854F0B; border: 1px
+                        solid #FAC775; }
+                        .greetAfternoon { background: #FAECE7; color: #712B13; border: 1px
+                        solid #F0997B; }
+                        .greetEvening   { background: #EEEDFE; color: #3C3489; border: 1px
+                        solid #AFA9EC; }
+                    </html:style>
+
+                    <VBox class="sapUiMediumMargin">
+                        <Title
+                            id="txtGreeting"
+                            text="Welcome"
+                            level="H1"
+                            titleStyle="H2"
+                        />
+
+                        <Text
+                            id="txtSubGreeting"
+                            text=""
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+
+                    <grid:CSSGrid
+                        gridTemplateColumns="repeat(4, 1fr)"
+                        gridGap="1rem"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <!-- TOTAL LEAVES -->
+                        <GenericTile
+                            frameType="TwoByOne"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <Title
+                                        id="txtTotalLeaves"
+                                        text="0"
+                                        level="H2"
+                                        titleStyle="H2"
+                                    />
+
+                                    <Title
+                                        text="TOTAL LEAVES"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+
+                                    <Text
+                                        text="Applied this year"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <!-- BONAFIDE ISSUED -->
+                        <GenericTile
+                            frameType="TwoByOne"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <Title
+                                        id="txtBonafideIssued"
+                                        text="0"
+                                        level="H2"
+                                        titleStyle="H2"
+                                    />
+
+                                    <Title
+                                        text="BONAFIDE ISSUED"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+
+                                    <Text
+                                        text="Certificates issued"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <!-- PENDING -->
+                        <GenericTile
+                            frameType="TwoByOne"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <Title
+                                        id="txtPending"
+                                        text="0"
+                                        level="H2"
+                                        titleStyle="H2"
+                                    />
+
+                                    <Title
+                                        text="PENDING"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+
+                                    <Text
+                                        text="Awaiting approval"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <!-- REJECTED -->
+                        <GenericTile
+                            frameType="TwoByOne"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <Title
+                                        id="txtRejected"
+                                        text="0"
+                                        level="H2"
+                                        titleStyle="H2"
+                                    />
+
+                                    <Title
+                                        text="REJECTED"
+                                        level="H5"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+
+                                    <Text
+                                        text="This semester"
+                                        textAlign="Center"
+                                        width="100%"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+                    </grid:CSSGrid>
+
+                    <grid:CSSGrid
+                        gridTemplateColumns="repeat(4, 1fr)"
+                        gridGap="1rem"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <GenericTile
+                            press="onOpenLeaveRequest"
+                            frameType="TwoByOne"
+                            class="sapUiTinyMargin apMGTHdrContent"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://document"
+                                        size="2rem"
+                                        color="#0f0f0f"
+                                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                    />
+                                    <Title
+                                        text="Apply for Leave"
+                                        level="H5"
+                                        width="100%"
+                                        textAlign="Center"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <Text
+                                        text="Submit a new leave request"
+                                        width="100%"
+                                        textAlign="Center"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile
+                            press="onOpenBonafideDialog"
+                            frameType="TwoByOne"
+                            class="sapUiTinyMargin apMGTHdrContent"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://document-text"
+                                        size="2rem"
+                                        color="#0f0f0f"
+                                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                    />
+                                    <Title
+                                        text="Request Bonafide"
+                                        level="H5"
+                                        width="100%"
+                                        textAlign="Center"
+                                    />
+                                    <Text
+                                        text="Get an official certificate"
+                                        width="100%"
+                                        textAlign="Center"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile
+                            press="onViewLeaveHistory"
+                            frameType="TwoByOne"
+                            class="sapUiTinyMargin apMGTHdrContent"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://history"
+                                        size="2rem"
+                                        color="#0f0f0f"
+                                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                    />
+                                    <Title
+                                        text="View Leave History"
+                                        level="H5"
+                                        width="100%"
+                                        textAlign="Center"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <Text
+                                        text="Check all leave applications"
+                                        width="100%"
+                                        textAlign="Center"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile
+                            press="onViewRequest"
+                            frameType="TwoByOne"
+                            class="sapUiTinyMargin apMGTHdrContent"
+                            width="100%"
+                        >
+                            <TileContent>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://document"
+                                        size="2rem"
+                                        color="#0f0f0f"
+                                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                    />
+                                    <Title
+                                        text="View Request"
+                                        level="H5"
+                                        width="100%"
+                                        textAlign="Center"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+                                    <Text
+                                        text="Track bonafide requests"
+                                        width="100%"
+                                        textAlign="Center"
+                                    />
+                                </VBox>
+                            </TileContent>
+                        </GenericTile>
+                    </grid:CSSGrid>
+
+                    <grid:CSSGrid
+                        gridTemplateColumns="1fr 1fr"
+                        gridGap="1rem"
+                        class="sapUiMediumMarginTop"
+                    >
+                        <f:Card>
+                            <f:header>
+                                <card:Header title="📌 Recent Activity" />
+                            </f:header>
+                            <f:content>
+
+                            <ScrollContainer
+                                 height="350px"
+                                 vertical="true"
+                                 horizontal="false"
+                            />
+                                <List
+                                    items="{
+                                            path:'activityModel>/activities'
+                                           }"
+                                    noDataText="No activity yet"
+                                >
+                                    <CustomListItem>
+                                        <HBox class="sapUiSmallMargin">
+                                            <core:Icon
+                                                src="sap-icon://circle-task"
+                                                size="0.8rem"
+                                                color="orange"
+                                                class="sapUiTinyMarginEnd sapUiSmallMarginTop"
+                                            />
+                                            <StandardListItem
+                                                title="{activityModel>title}"
+                                                description="{activityModel>email}"
+                                                info="{
+                                                       path:'activityModel>createdAt',
+                                                       formatter:'.formatTimeAgo'
+                                                      }"
+                                            />
+                                        </HBox>
+                                    </CustomListItem>
+                                </List>
+                            </f:content>
+                        </f:Card>
+
+                        <f:Card>
+                            <f:header>
+                                <card:Header title="📊 Leave Balance" />
+                            </f:header>
+
+                            <f:content>
+                                <VBox class="sapUiSmallMarginTop">
+                                    <!--Medical Leave -->
+                                    <VBox
+                                        class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiMediumMarginBottom"
+                                    >
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            class="sapUiTinyMarginBottom"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://circle-task-2"
+                                                    size="0.55rem"
+                                                    color="#2E7D32"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text text="Medical Leave" />
+                                            </HBox>
+
+                                            <Text
+                                                id="txtMedicalLeave"
+                                                text="0 / 15 days"
+                                            />
+                                        </HBox>
+
+                                        <ProgressIndicator
+                                            id="piMedicalLeave"
+                                            percentValue="0"
+                                            showValue="false"
+                                            height="6px"
+                                            state="Success"
+                                        />
+                                    </VBox>
+
+                                    <Toolbar
+                                        width="300%"
+                                        height="1px"
+                                    />
+
+                                    <!-- Sick Leave -->
+                                    <VBox
+                                        class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiMediumMarginTop sapUiMediumMarginBottom"
+                                    >
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            class="sapUiTinyMarginBottom"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://circle-task-2"
+                                                    size="0.55rem"
+                                                    color="#4e39f2"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text text="Sick Leave" />
+                                            </HBox>
+
+                                            <Text
+                                                id="txtSickLeave"
+                                                text="0 / 10 days"
+                                            />
+                                        </HBox>
+
+                                        <ProgressIndicator
+                                            id="piSickLeave"
+                                            percentValue="0"
+                                            showValue="false"
+                                            height="6px"
+                                            state="Information"
+                                        />
+                                    </VBox>
+
+                                    <Toolbar
+                                        width="300%"
+                                        height="1.5px"
+                                    />
+
+                                    <!-- Casual Leave -->
+                                    <VBox
+                                        class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiMediumMarginTop sapUiMediumMarginBottom"
+                                    >
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            class="sapUiTinyMarginBottom"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://circle-task-2"
+                                                    size="0.55rem"
+                                                    color="#E9730C"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text text="Casual Leave" />
+                                            </HBox>
+
+                                            <Text
+                                                id="txtCasualLeave"
+                                                text="0 / 10 days"
+                                            />
+                                        </HBox>
+
+                                        <ProgressIndicator
+                                            id="piCasualLeave"
+                                            percentValue="0"
+                                            showValue="false"
+                                            height="6px"
+                                            state="Warning"
+                                        />
+                                    </VBox>
+
+                                    <Toolbar
+                                        width="300%"
+                                        height="1px"
+                                    />
+
+                                    <!-- Emergency Leave -->
+                                    <VBox
+                                        class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiMediumMarginTop sapUiMediumMarginBottom"
+                                    >
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            class="sapUiTinyMarginBottom"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://circle-task-2"
+                                                    size="0.55rem"
+                                                    color="#BB0000"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text text="Emergency Leave" />
+                                            </HBox>
+
+                                            <Text
+                                                id="txtEmergencyLeave"
+                                                text="0 / 5 days"
+                                            />
+                                        </HBox>
+
+                                        <ProgressIndicator
+                                            id="piEmergencyLeave"
+                                            percentValue="0"
+                                            showValue="false"
+                                            height="6px"
+                                            state="Error"
+                                        />
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+                    </grid:CSSGrid>
+
+                    <VBox height="2rem" />
+                </VBox>
+            </ScrollContainer>
+        </content>
+    </Page>
+</mvc:View>
