@@ -16,11 +16,11 @@ sap.ui.define([
 
             // Logged In User (Single Place)
 
-                var oUser = sap.ushell.Container.getService("UserInfo").getUser();
-                this.loggedInUser = oUser.getEmail();
+                // var oUser = sap.ushell.Container.getService("UserInfo").getUser();
+                // this.loggedInUser = oUser.getEmail();
                 // Local Testing
                 
-                // this.loggedInUser = "samruddhi.chaure@cloudstine.com";
+                this.loggedInUser = "samruddhi.chaure@cloudstine.com";
 
             console.log("Logged In User:", this.loggedInUser);
 
