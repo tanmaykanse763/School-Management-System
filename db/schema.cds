@@ -29,17 +29,21 @@ entity Bonafide : managed {
     remark            : String(500);
     status            : String(20) default 'Pending';
     comment           : String(500);
+
 }
 
 entity Users {
 
-    key email : String(100);
-    name            : String(100);
-    mobileNumber    : String(20);
-    dateOfBirth     : Date;
-    address         : String(100);
-    department      : String(100);
-    guardianName    : String(100);
-    guardianNumber  : String(20);
+    key email         : String(100);
+    name              : String(100);
+    firstName         : String(100);
+    lastName          : String(100);
+    mobileNumber      : String(20);
+    dateOfBirth       : Date;
+    address           : String(100);
+    department        : String(100);
+    guardianName      : String(100);
+    guardianNumber    : String(20);
+    role              : String(100);
 
 }

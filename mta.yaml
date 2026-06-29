@@ -21,14 +21,14 @@ modules:
     build-parameters:
       builder: npm-ci
     provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+      - name: srv-api
         properties:
           srv-url: ${default-url}
     requires:
       - name: school-capm-auth
       - name: school-capm-db
+      - name: school-capm-connectivity
       - name: school-capm-destination
-
   - name: school-capm-db-deployer
     type: hdb
     path: gen/db
@@ -36,17 +36,41 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: school-capm-db
-
+  - name: school-capm
+    type: approuter.nodejs
+    path: app/approuter
+    parameters:
+      keep-existing-routes: true
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: school-capm-auth
+      - name: school-capm-html5-runtime
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+  - name: schoolui
+    type: html5
+    path: app/schoolui
+    build-parameters:
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build:cf
+      build-result: dist
+      supported-platforms:
+        []
   - name: school-capm-app-deployer
     type: com.sap.application.content
     path: gen
-    build-parameters:
-      build-result: app/
-      requires:
-        - name: schoolcapmschoolui
-          artifacts:
-            - schoolui.zip
-          target-path: app/
     requires:
       - name: school-capm-auth
       - name: srv-api
@@ -55,19 +79,13 @@ modules:
           content-target: true
           config:
             HTML5Runtime_enabled: true
-
-  - name: schoolcapmschoolui
-    type: html5
-    path: app/schoolui
     build-parameters:
-      build-result: dist
-      builder: custom
-      commands:
-        - npm ci
-        - npm run build
-      supported-platforms:
-        []
-
+      build-result: app/
+      requires:
+        - name: schoolui
+          artifacts:
+            - schoolui.zip
+          target-path: app/
   - name: school-capm-destination-content
     type: com.sap.application.content
     requires:
@@ -93,7 +111,6 @@ modules:
               WebIDEEnabled: true
     build-parameters:
       no-source: true
-
 resources:
   - name: school-capm-auth
     type: org.cloudfoundry.managed-service
@@ -106,13 +123,22 @@ resources:
         tenant-mode: dedicated
         oauth2-configuration:
           credential-types:
-            - "binding-secret"
-            - "x509"
+            - binding-secret
+            - x509
+          redirect-uris:
+            - https://*~{app-api/app-uri}/**
+    requires:
+      - name: app-api
   - name: school-capm-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: school-capm-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
   - name: school-capm-destination
     type: org.cloudfoundry.managed-service
     parameters:
@@ -120,9 +146,13 @@ resources:
       service-plan: lite
       config:
         HTML5Runtime_enabled: true
-
   - name: school-capm-html5-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+  - name: school-capm-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

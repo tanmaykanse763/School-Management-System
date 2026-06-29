@@ -13,6 +13,9 @@ sap.ui.define([
 
         onInit: async function () {
             var oModel = this.getOwnerComponent().getModel();
+            await oModel.getMetaModel().requestObject("/");
+
+            console.log("OData Metadata Loaded");
 
             // const oUserInfo = await sap.ushell.Container.getServiceAsync("UserInfo");
             // const sEmail = oUserInfo.getUser().getEmail();
@@ -20,6 +23,11 @@ sap.ui.define([
             //    var oUser = sap.ushell.Container.getService("UserInfo").getUser();
             //    var sEmail = oUser.getEmail();
             var sEmail = this.getOwnerComponent().loggedInUser;
+
+            if (!sEmail) {
+                console.error("Logged user email not available.");
+                return;
+            }
 
             // Filter
             var oFilter = new Filter(

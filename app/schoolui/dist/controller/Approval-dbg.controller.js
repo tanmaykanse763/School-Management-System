@@ -28,7 +28,7 @@ sap.ui.define([
                         rejectedCount: 0
                     });
 
-                this.getView().setModel(oApprovalModel,"approval");
+                this.getView().setModel(oApprovalModel, "approval");
 
                 this._loadTasks();
 
@@ -74,11 +74,11 @@ sap.ui.define([
 
                         var oData = oContext.getObject();
 
-                        console.log("Leave Status:",oData.status);
+                        console.log("Leave Status:", oData.status);
 
                         aTasks.push({
 
-                            ID:oData.ID,
+                            ID: oData.ID,
 
                             title:
                                 oData.studentName +
@@ -91,15 +91,15 @@ sap.ui.define([
                                     ? oData.status.trim()
                                     : "Pending",
 
-                            studentName:oData.studentName,
+                            studentName: oData.studentName,
 
-                            studentEmail:oData.studentEmail,
+                            studentEmail: oData.studentEmail,
 
-                            department:oData.department,
+                            department: oData.department,
 
                             description: oData.reason,
 
-                            createdAt:oData.appliedOn,
+                            createdAt: oData.appliedOn,
 
                             fromDate: oData.fromDate,
 
@@ -119,7 +119,7 @@ sap.ui.define([
 
                         var oData = oContext.getObject();
 
-                        console.log("Bonafide Status:",oData.status);
+                        console.log("Bonafide Status:", oData.status);
 
                         aTasks.push({
 
@@ -140,7 +140,7 @@ sap.ui.define([
 
                             studentEmail: oData.studentEmail,
 
-                            department:oData.department,
+                            department: oData.department,
 
                             description: oData.purpose,
 
@@ -245,7 +245,7 @@ sap.ui.define([
                     return;
                 }
 
-                var oFilter = new Filter( "status",FilterOperator.EQ,sKey);
+                var oFilter = new Filter("status", FilterOperator.EQ, sKey);
 
                 oBinding.filter([oFilter]);
 
@@ -271,7 +271,7 @@ sap.ui.define([
 
                 if (oDescription) {
 
-                    oDescription.setText( oData.description || "");
+                    oDescription.setText(oData.description || "");
 
                 }
 
@@ -322,9 +322,8 @@ sap.ui.define([
 
                     var sStatus = (oData.status || "").trim().toLowerCase(); oStatus.setText(oData.status || "");
 
-                    if (sStatus ==="approved"
-                    ) 
-                    {
+                    if (sStatus === "approved"
+                    ) {
                         oStatus.setState(
                             "Success"
                         );
@@ -356,11 +355,11 @@ sap.ui.define([
 
                     oLeaveDateSection.setVisible(true);
 
-                    this.byId("txtfromDate").setText(oData.fromDate 
-                                ? new Date(
-                                oData.fromDate
-                            ).toLocaleDateString("en-IN")
-                            : ""
+                    this.byId("txtfromDate").setText(oData.fromDate
+                        ? new Date(
+                            oData.fromDate
+                        ).toLocaleDateString("en-IN")
+                        : ""
                     );
 
                     this.byId("txttoDate").setText(
@@ -390,36 +389,36 @@ sap.ui.define([
                     var oModel = this.getOwnerComponent().getModel();
 
                     var oUserBinding = oModel.bindList("/Users",
-                            undefined,
-                            undefined,
-                            [
-                                new Filter(
-                                    "email",
-                                    FilterOperator.EQ,
-                                    oData.studentEmail
-                                )
-                            ]
-                        );
+                        undefined,
+                        undefined,
+                        [
+                            new Filter(
+                                "email",
+                                FilterOperator.EQ,
+                                oData.studentEmail
+                            )
+                        ]
+                    );
 
 
                     oUserBinding.requestContexts().then(function (aUserContexts) {
 
-                            if (aUserContexts.length > 0) {
+                        if (aUserContexts.length > 0) {
 
-                                var oUser = aUserContexts[0].getObject();
+                            var oUser = aUserContexts[0].getObject();
 
-                                this.byId("txtEmail").setText(oUser.email || "");
-                                this.byId("txtName").setText(oUser.name || "");
-                                this.byId("txtMobileNumber").setText(oUser.mobileNumber || "");
-                                this.byId("txtDateOfBirth").setText(oUser.dateOfBirth || "");
-                                this.byId("txtAddress").setText(oUser.address || "");
-                                this.byId("txtDepartment").setText(oUser.department || "");
-                                this.byId("txtGuardianName").setText(oUser.guardianName || "");
-                                this.byId("txtGuardianNumber").setText(oUser.guardianNumber || "");
+                            this.byId("txtEmail").setText(oUser.email || "");
+                            this.byId("txtName").setText(oUser.name || "");
+                            this.byId("txtMobileNumber").setText(oUser.mobileNumber || "");
+                            this.byId("txtDateOfBirth").setText(oUser.dateOfBirth || "");
+                            this.byId("txtAddress").setText(oUser.address || "");
+                            this.byId("txtDepartment").setText(oUser.department || "");
+                            this.byId("txtGuardianName").setText(oUser.guardianName || "");
+                            this.byId("txtGuardianNumber").setText(oUser.guardianNumber || "");
 
-                            }
+                        }
 
-                        }.bind(this));
+                    }.bind(this));
 
                 } else {
 
@@ -466,46 +465,94 @@ sap.ui.define([
 
             },
 
-            onApprove: function () {
+           onApprove: async function () {
 
-                if (
-                    !this._selectedTask
-                ) {
+    if (!this._selectedTask) {
+        MessageToast.show("Please select a request");
+        return;
+    }
 
-                    MessageToast.show("Please select a request");
+    try {
 
-                    return;
-                }
+        const oModel = this.getOwnerComponent().getModel();
 
-                MessageToast.show("Approved Successfully");
+        const sAction = this._selectedTask.type === "Leave"
+            ? "/approveLeave(...)"
+            : "/approveBonafide(...)";
 
-            },
+        const oAction = oModel.bindContext(sAction);
 
-            onReject: function () {
+        oAction.setParameter("ID", this._selectedTask.ID);
 
-                if (
-                    !this._selectedTask
-                ) {
+        await oAction.execute();
 
-                    MessageToast.show("Please select a request");
+        MessageToast.show("Approved Successfully");
 
-                    return;
+        await this._loadTasks();
 
-                }
+        this.byId("txtRemarks").setValue("");
+        this.byId("taskList").removeSelections(true);
 
-                var sRemarks = this.byId("txtRemarks").getValue();
+        this._selectedTask = null;
 
-                if (!sRemarks) {
+    } catch (oError) {
 
-                    MessageToast.show("Please enter remarks before rejecting");
+        console.error("Approve Error :", oError);
 
-                    return;
+        MessageToast.show("Approval Failed");
 
-                }
+    }
 
-                MessageToast.show("Rejected Successfully");
+},
 
-            }
+          onReject: async function () {
+
+    if (!this._selectedTask) {
+        MessageToast.show("Please select a request");
+        return;
+    }
+
+    const sRemarks = this.byId("txtRemarks").getValue().trim();
+
+    if (!sRemarks) {
+        MessageToast.show("Please enter remarks before rejecting");
+        return;
+    }
+
+    try {
+
+        const oModel = this.getOwnerComponent().getModel();
+
+        const sAction = this._selectedTask.type === "Leave"
+            ? "/rejectLeave(...)"
+            : "/rejectBonafide(...)";
+
+        const oAction = oModel.bindContext(sAction);
+
+        oAction.setParameter("ID", this._selectedTask.ID);
+        oAction.setParameter("comment", sRemarks);
+
+        await oAction.execute();
+
+        MessageToast.show("Rejected Successfully");
+
+        this.byId("txtRemarks").setValue("");
+
+        await this._loadTasks();
+
+        this.byId("taskList").removeSelections(true);
+
+        this._selectedTask = null;
+
+    } catch (oError) {
+
+        console.error("Reject Error :", oError);
+
+        MessageToast.show("Reject Failed");
+
+    }
+
+},
 
         }
 

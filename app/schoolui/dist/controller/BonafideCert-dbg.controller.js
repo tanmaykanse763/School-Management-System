@@ -24,77 +24,116 @@ sap.ui.define([
 
             // INIT
 
-            onInit: async function () {
+            onInit: function () {
 
                 var oModel = this.getOwnerComponent().getModel();
-
-
                 this.getView().setModel(oModel);
 
-                var oFilterModel = new JSONModel({
-
-                    selectedButton: "All"
-
-                });
-
                 this.getView().setModel(
-                    oFilterModel,
+                    new JSONModel({
+                        selectedButton: "All"
+                    }),
                     "filterModel"
                 );
 
-                // TEMPORARY EMAIL FOR TESTING
+                this.getOwnerComponent()
+                    .getRouter()
+                    .getRoute("BonafideCert")
+                    .attachMatched(this._onRouteMatched, this);
+
+            },
+
+            _onRouteMatched: async function () {
+
+                var oModel = this.getOwnerComponent().getModel();
+
+                await oModel.getMetaModel().requestObject("/");
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
+                console.log("=================================");
+                console.log("Logged User :", sEmail);
+                console.log("=================================");
 
+                if (!sEmail) {
+                    console.error("Logged user email not found");
+                    return;
+                }
+
+                // Header User Info
                 var oUserBinding = oModel.bindList(
                     "/Users",
-                    undefined,
-                    undefined,
-                    undefined,
-                    {
-                        $filter: "email eq '" + sEmail + "'"
-                    }
+                    null,
+                    null,
+                    [
+                        new Filter(
+                            "email",
+                            FilterOperator.EQ,
+                            sEmail
+                        )
+                    ]
                 );
 
-                var aUserContexts = await oUserBinding.requestContexts();
+                var aUser = await oUserBinding.requestContexts();
 
-                if (aUserContexts.length > 0) {
+                if (aUser.length > 0) {
 
-                    var oUserData = aUserContexts[0].getObject();
+                    var oUser = aUser[0].getObject();
 
-                    console.log(oUserData);
+                    this.byId("selectedStudentName").setText(oUser.name);
+                    this.byId("selectedStudentEmail").setText(oUser.email);
+                    this.byId("selectedDepartment").setText(oUser.department);
 
-                    this.byId("selectedStudentName")
-                        .setText(oUserData.name);
-
-                    this.byId("selectedStudentEmail")
-                        .setText(oUserData.email);
-
-                    this.byId("selectedDepartment")
-                        .setText(oUserData.department);
                 }
+
+                // Bonafide Table Filter
                 var oTable = this.byId("bonafideTable");
 
-                oTable.attachEventOnce(
-                    "updateFinished",
-                    function () {
+                var oBinding = oTable.getBinding("items");
 
-                        var oBinding =
-                            oTable.getBinding("items");
+                if (oBinding) {
 
-                        oBinding.filter([
+                    oBinding.filter([
+                        new Filter(
+                            "studentEmail",
+                            FilterOperator.EQ,
+                            sEmail
+                        )
+                    ]);
 
-                            new Filter(
-                                "studentEmail",
-                                FilterOperator.EQ,
-                                sEmail
-                            )
+                    oBinding.refresh();
 
-                        ]);
+                }
 
-                    }
-                );
+            },
+
+            onTabSelect: function (oEvent) {
+
+                var sKey = oEvent.getParameter("key");
+
+                var oBinding = this.byId("bonafideTable").getBinding("items");
+
+                if (sKey === "All") {
+
+                    this.onFilterAll();
+
+                } else if (sKey === "Pending") {
+
+                    this.onFilterPending();
+
+                } else if (sKey === "Approved") {
+
+                    this.onFilterApproved();
+
+                } else if (sKey === "Rejected") {
+
+                    this.onFilterRejected();
+
+                }
+
+                this.getView()
+                    .getModel("filterModel")
+                    .setProperty("/selectedButton", sKey);
 
             },
             // onAfterRendering: function () {
@@ -163,66 +202,6 @@ sap.ui.define([
 
             },
 
-
-            // SEARCH FUNCTION
-
-            onSearchBonafide: function (oEvent) {
-
-                var sValue =
-                    oEvent.getParameter("newValue");
-
-                var sEmail = this.getOwnerComponent().loggedInUser;
-
-                var oTable =
-                    this.byId("bonafideTable");
-
-                var oBinding =
-                    oTable.getBinding("items");
-
-                var aFilters = [];
-
-                // Email Filter
-                aFilters.push(
-                    new Filter(
-                        "studentEmail",
-                        FilterOperator.EQ,
-                        sEmail
-                    )
-                );
-
-                // Search Filter
-                if (sValue) {
-
-                    var oFilter =
-                        new Filter({
-
-                            filters: [
-
-                                new Filter(
-                                    "purpose",
-                                    FilterOperator.Contains,
-                                    sValue
-                                ),
-
-                                new Filter(
-                                    "requestDate",
-                                    FilterOperator.Contains,
-                                    sValue
-                                )
-
-                            ],
-
-                            and: false
-
-                        });
-
-                    aFilters.push(oFilter);
-
-                }
-
-                oBinding.filter(aFilters);
-
-            },
             // SUBMIT REQUEST
 
             onSubmitRequest: function () {
@@ -588,29 +567,31 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                var oTable =
-                    this.byId("bonafideTable");
+                console.log("==================================");
+                console.log("Logged In User Email :", sEmail);
+                console.log("==================================");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oTable = this.byId("bonafideTable");
+                var oBinding = oTable.getBinding("items");
 
-                var oEmailFilter =
-                    new Filter(
-                        "studentEmail",
-                        FilterOperator.EQ,
-                        sEmail
-                    );
+                var oFilter = new Filter(
+                    "studentEmail",
+                    FilterOperator.EQ,
+                    sEmail
+                );
 
-                oBinding.filter([
-                    oEmailFilter
-                ]);
+                console.log("Created Filter :", oFilter);
+
+                oBinding.filter([oFilter]);
+
+                console.log("Binding :", oBinding);
+                console.log("Current Contexts :", oBinding.getCurrentContexts());
+
+                oBinding.refresh();
 
                 this.getView()
                     .getModel("filterModel")
-                    .setProperty(
-                        "/selectedButton",
-                        "All"
-                    );
+                    .setProperty("/selectedButton", "All");
 
             },
 
@@ -620,10 +601,21 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
+                console.log("========================================");
+                console.log("PENDING TAB");
+                console.log("Logged User Email :", sEmail);
+                console.log("========================================");
+
+                if (!sEmail) {
+                    console.error("Logged user email not available.");
+                    return;
+                }
 
                 var oTable = this.byId("bonafideTable");
 
                 var oBinding = oTable.getBinding("items");
+
+                console.log("Table Binding :", oBinding);
 
                 var oCombinedFilter = new Filter({
 
@@ -649,6 +641,8 @@ sap.ui.define([
 
                 oBinding.filter([oCombinedFilter]);
 
+                oBinding.refresh();
+
                 this.getView()
                     .getModel("filterModel")
                     .setProperty("/selectedButton", "Pending");
@@ -661,9 +655,21 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
+                console.log("========================================");
+                console.log("APPROVED TAB");
+                console.log("Logged User Email :", sEmail);
+                console.log("========================================");
+
+                if (!sEmail) {
+                    console.error("Logged user email not available.");
+                    return;
+                }
+
                 var oTable = this.byId("bonafideTable");
 
                 var oBinding = oTable.getBinding("items");
+
+                console.log("Table Binding :", oBinding);
 
                 var oCombinedFilter = new Filter({
 
@@ -689,6 +695,8 @@ sap.ui.define([
 
                 oBinding.filter([oCombinedFilter]);
 
+                oBinding.refresh();
+
                 this.getView()
                     .getModel("filterModel")
                     .setProperty("/selectedButton", "Approved");
@@ -700,9 +708,21 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
+                console.log("========================================");
+                console.log("REJECTED TAB");
+                console.log("Logged User Email :", sEmail);
+                console.log("========================================");
+
+                if (!sEmail) {
+                    console.error("Logged user email not available.");
+                    return;
+                }
+
                 var oTable = this.byId("bonafideTable");
 
                 var oBinding = oTable.getBinding("items");
+
+                console.log("Table Binding :", oBinding);
 
                 var oCombinedFilter = new Filter({
 
@@ -727,6 +747,8 @@ sap.ui.define([
                 });
 
                 oBinding.filter([oCombinedFilter]);
+
+                oBinding.refresh();
 
                 this.getView()
                     .getModel("filterModel")

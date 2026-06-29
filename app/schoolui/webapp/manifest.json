@@ -1,163 +1,194 @@
 {
- "_version": "1.58.0",
- "sap.app": {
-  "id": "schoolui",
-  "type": "application",
-  "i18n": "i18n/i18n.properties",
-  "applicationVersion": {
-   "version": "1.0.0"
-  },
-  "title": "{{appTitle}}",
-  "description": "{{appDescription}}",
-  "resources": "resources.json",
-  "dataSources": {
-   "mainService": {
-    "uri": "/odata/v4/school/",
-    "type": "OData",
-    "settings": {
-     "odataVersion": "4.0"
-    }
-   }
-  },
- "crossNavigation": {
-  "inbounds": {
-    "semanticobjecthelloworld-show": {
-      "semanticObject": "School",
-      "action": "show",
-      "title": "{{SchoolCapm}}",
-      "signature": {
-        "parameters": {},
-        "additionalParameters": "allowed"
+  "_version": "1.85.0",
+
+  "sap.app": {
+    "id": "schoolui",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+
+    "dataSources": {
+      "mainService": {
+        "uri": "/school/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+
+    "crossNavigation": {
+      "inbounds": {
+        "semanticobjecthelloworld-show": {
+          "semanticObject": "School",
+          "action": "show",
+          "title": "{{SchoolCapm}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
       }
     }
+  },
+
+  "sap.ui": {
+    "technology": "UI5",
+
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": false
+    }
+  },
+
+  "sap.cloud": {
+    "public": true,
+    "service": "school-capm.service"
+  },
+
+  "sap.ui5": {
+
+    "rootView": {
+      "viewName": "schoolui.view.App",
+      "type": "XML",
+      "id": "appView",
+      "async": true
+    },
+
+    "flexEnabled": true,
+
+    "dependencies": {
+      "minUI5Version": "1.149.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.tnt": {}
+      }
+    },
+
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+
+    "models": {
+
+      "": {
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true
+        }
+      },
+
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "schoolui.i18n.i18n"
+        }
+      }
+
+    },
+
+    "routing": {
+
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "appNav",
+        "transition": "slide",
+        "viewType": "XML",
+        "viewPath": "schoolui.view",
+        "async": true
+      },
+
+      "routes": [
+        {
+          "name": "Dashboard",
+          "pattern": "",
+          "target": "Dashboard"
+        },
+        {
+          "name": "LeaveRequests",
+          "pattern": "LeaveRequests",
+          "target": "LeaveRequests"
+        },
+        {
+          "name": "BonafideCert",
+          "pattern": "BonafideCert",
+          "target": "BonafideCert"
+        },
+        {
+          "name": "Approval",
+          "pattern": "Approval",
+          "target": "Approval"
+        },
+        {
+          "name": "MyProfile",
+          "pattern": "MyProfile",
+          "target": "MyProfile"
+        },
+        {
+          "name": "Settings",
+          "pattern": "Settings",
+          "target": "Settings"
+        }
+      ],
+
+      "targets": {
+
+        "Dashboard": {
+          "viewName": "Dashboard",
+          "viewId": "Dashboard",
+          "viewLevel": 1
+        },
+
+        "LeaveRequests": {
+          "viewName": "LeaveRequests",
+          "viewId": "LeaveRequests",
+          "viewLevel": 2
+        },
+
+        "BonafideCert": {
+          "viewName": "BonafideCert",
+          "viewId": "BonafideCert",
+          "viewLevel": 2
+        },
+
+        "Approval": {
+          "viewName": "Approval",
+          "viewId": "Approval",
+          "viewLevel": 2
+        },
+
+        "MyProfile": {
+          "viewName": "MyProfile",
+          "viewId": "MyProfile",
+          "viewLevel": 2
+        },
+
+        "Settings": {
+          "viewName": "Settings",
+          "viewId": "Settings",
+          "viewLevel": 2
+        }
+
+      }
+
+    }
+
   }
-}
-},
- "sap.ui": {
-  "technology": "UI5",
-  "deviceTypes": {
-   "desktop": true,
-   "tablet": true,
-   "phone": false
-  }
- },
- "sap.cloud": {
-  "public": true,
-  "service": "school-capm.service"
- },
- "sap.ui5": {
-  "rootView": {
-   "viewName": "schoolui.view.App",
-   "type": "XML",
-   "id": "appView",
-   "async": true
-  },
-  "flexEnabled": true,
-  "dependencies": {
-   "minUI5Version": "1.108.0",
-   "libs": {
-    "sap.m": {},
-    "sap.ui.core": {},
-    "sap.f": {},
-    "sap.ui.layout": {},
-    "sap.tnt": {}
-   }
-  },
-  "contentDensities": {
-   "compact": true,
-   "cozy": true
-  },
-  "models": {
-   "i18n": {
-    "type": "sap.ui.model.resource.ResourceModel",
-    "settings": {
-     "bundleName": "schoolui.i18n.i18n"
-    }
-   },
-   "": {
-    "dataSource": "mainService",
-    "settings": {
-     "synchronizationMode": "None",
-     "operationMode": "Server",
-     "autoExpandSelect": true,
-     "odataVersion": "4.0"
-    }
-   }
-  },
-  "routing": {
-   "config": {
-    "routerClass": "sap.m.routing.Router",
-    "controlAggregation": "pages",
-    "controlId": "appNav",
-    "transition": "slide",
-    "viewType": "XML",
-    "viewPath": "schoolui.view",
-    "async": true
-   },
-   "routes": [
-    {
-     "name": "Dashboard",
-     "pattern": "",
-     "target": "Dashboard"
-    },
-    {
-     "name": "LeaveRequests",
-     "pattern": "LeaveRequests",
-     "target": "LeaveRequests"
-    },
-    {
-     "name": "BonafideCert",
-     "pattern": "BonafideCert",
-     "target": "BonafideCert"
-    },
-    {
-     "name": "Approval",
-     "pattern": "Approval",
-     "target": "Approval"
-    },
-    {
-     "name": "MyProfile",
-     "pattern": "MyProfile",
-     "target": "MyProfile"
-    },
-    {
-     "name": "Settings",
-     "pattern": "Settings",
-     "target": "Settings"
-    }
-   ],
-   "targets": {
-    "Dashboard": {
-     "viewName": "Dashboard",
-     "viewId": "Dashboard",
-     "viewLevel": 1
-    },
-    "LeaveRequests": {
-     "viewName": "LeaveRequests",
-     "viewId": "LeaveRequests",
-     "viewLevel": 2
-    },
-    "BonafideCert": {
-     "viewName": "BonafideCert",
-     "viewId": "BonafideCert",
-     "viewLevel": 2
-    },
-    "Approval": {
-     "viewName": "Approval",
-     "viewId": "Approval",
-     "viewLevel": 2
-    },
-    "MyProfile": {
-     "viewName": "MyProfile",
-     "viewId": "MyProfile",
-     "viewLevel": 2
-    },
-    "Settings": {
-     "viewName": "Settings",
-     "viewId": "Settings",
-     "viewLevel": 2
-    }
-   }
-  }
- }
+
 }

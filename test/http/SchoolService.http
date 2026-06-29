@@ -5,162 +5,211 @@
 
 ### Leaves
 # @name Leaves_GET
-GET {{server}}/odata/v4/school/Leaves
+GET {{server}}/school/Leaves
 Authorization: Basic {{username}}:{{password}}
 
 
 ### Leaves
 # @name Leaves_POST
-POST {{server}}/odata/v4/school/Leaves
+POST {{server}}/school/Leaves
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "23995451-8f3c-4969-bf70-8df42e211ad6",
-  "studentName": "Samruddhi Chaure",
-  "studentEmail": "samruddhi.chaure@cloudstine.com",
-  "department": "Computer Science",
-  "leaveType": "Sick Leave",
-  "fromDate": "2026-06-15",
-  "toDate": "2026-06-17",
-  "reason": "Personal Health Issues",
-  "status": "Pending",
-  "appliedOn": "2026-06-14T00:00:00.000Z",
-  "comment": "comment-23995451"
+  "ID": "23221483-dded-4d80-b984-a4d2cd372c57",
+  "studentName": "studentName-23221483",
+  "studentEmail": "studentEmail-23221483",
+  "department": "department-23221483",
+  "leaveType": "leaveType-23221483",
+  "fromDate": "2006-11-06",
+  "toDate": "2000-11-09",
+  "reason": "reason-23221483",
+  "status": "status-23221483",
+  "appliedOn": "2017-03-02T00:00:00.000Z",
+  "comment": "comment-23221483"
 }
 
 
 ### Leaves
 # @name Leaves_PATCH
-PATCH {{server}}/odata/v4/school/Leaves/23995451-8f3c-4969-bf70-8df42e251ad6
+PATCH {{server}}/school/Leaves/23221483-dded-4d80-b984-a4d2cd372c57
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "23995451-8f3c-4969-bf70-8df42e251ad6",
-  "studentName": "studentName-23995451",
-  "studentEmail": "studentEmail-23995451",
-  "department": "department-23995451",
-  "leaveType": "leaveType-23995451",
-  "fromDate": "2007-02-14",
-  "toDate": "2000-04-11",
-  "reason": "reason-23995451",
-  "status": "status-23995451",
-  "appliedOn": "2001-05-18T00:00:00.000Z",
-  "comment": "comment-23995451"
+  "ID": "23221483-dded-4d80-b984-a4d2cd372c57",
+  "studentName": "studentName-23221483",
+  "studentEmail": "studentEmail-23221483",
+  "department": "department-23221483",
+  "leaveType": "leaveType-23221483",
+  "fromDate": "2006-11-06",
+  "toDate": "2000-11-09",
+  "reason": "reason-23221483",
+  "status": "status-23221483",
+  "appliedOn": "2017-03-02T00:00:00.000Z",
+  "comment": "comment-23221483"
 }
 
 
 ### Leaves
 # @name Leaves_DELETE
-DELETE {{server}}/odata/v4/school/Leaves/23995451-8f3c-4969-bf70-8df42e251ad6
+DELETE {{server}}/school/Leaves/23221483-dded-4d80-b984-a4d2cd372c57
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 
 ### Bonafide
 # @name Bonafide_GET
-GET {{server}}/odata/v4/school/Bonafide
+GET {{server}}/school/Bonafide
 Authorization: Basic {{username}}:{{password}}
 
 
 ### Bonafide
 # @name Bonafide_POST
-POST {{server}}/odata/v4/school/Bonafide
+POST {{server}}/school/Bonafide
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "24343716-95ae-4768-8edf-cfb3d9be067a",
+  "ID": "36487923-4060-4e13-98d4-2dc54dc376ff",
   "studentName": "Samruddhi Chaure",
   "studentEmail": "samruddhi.chaure@cloudstine.com",
   "department": "Computer Science",
   "purpose": "Education Loan",
   "noOfCopies": 1,
-  "remark": "Remark for Education Loan",
-  "status": "Approved",
-  "comment": "comment-24343716",
-  "createdAt": "2026-05-27T00:00:00.000Z",
-  "createdBy": "createdBy.ehrqc@example.net",
-  "modifiedAt": "2026-05-25T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.ehrqc@example.org"
+  "remark": "dfghjkgv",
+  "status": "Pending",
+  "comment": "comment-3648792",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "createdBy": "createdBy.267fc@example.com",
+  "modifiedAt": "2026-06-06T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.267fc@example.org"
 }
 
 
 ### Bonafide
 # @name Bonafide_PATCH
-PATCH {{server}}/odata/v4/school/Bonafide/24343716-95ae-4768-8edf-cfb3d9be039a
+PATCH {{server}}/school/Bonafide/36487923-4060-4e13-98d4-2dc54dc776ff
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "ID": "24343716-95ae-4768-8edf-cfb3d9be452a",
-  "studentName": "Samruddhi Chaure",
-  "studentEmail": "samruddhi.chaure@cloudstine.com",
-  "department": "Computer Science",
-  "purpose": "Scholarship",
-  "noOfCopies": 2,
-  "remark": "sedrfgh",
-  "status": "Approved",
-  "comment": "comment-24343716",
-  "createdAt": "2026-05-21T00:00:00.000Z",
-  "createdBy": "createdBy.ehrqc@example.net",
-  "modifiedAt": "2026-05-20T00:00:00.000Z",
-  "modifiedBy": "modifiedBy.ehrqc@example.org"
+  "ID": "36487923-4060-4e13-98d4-2dc54dc776ff",
+  "studentName": "studentName-3648792",
+  "studentEmail": "studentEmail-3648792",
+  "department": "department-3648792",
+  "purpose": "purpose-3648792",
+  "noOfCopies": 12,
+  "remark": "remark-3648792",
+  "status": "status-3648792",
+  "comment": "comment-3648792",
+  "createdAt": "2004-07-10T00:00:00.000Z",
+  "createdBy": "createdBy.267fc@example.com",
+  "modifiedAt": "2018-02-06T00:00:00.000Z",
+  "modifiedBy": "modifiedBy.267fc@example.org"
 }
 
 
 ### Bonafide
 # @name Bonafide_DELETE
-DELETE {{server}}/odata/v4/school/Bonafide/24343716-95ae-4768-8edf-cfb3d9be039a
+DELETE {{server}}/school/Bonafide/36487923-4060-4e13-98d4-2dc54dc776ff
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 
 ### Users
 # @name Users_GET
-GET {{server}}/odata/v4/school/Users
+GET {{server}}/school/Users
 Authorization: Basic {{username}}:{{password}}
 
 
 ### Users
 # @name Users_POST
-POST {{server}}/odata/v4/school/Users
+POST {{server}}/school/Users
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "email": "samruddhi.chaure@cloudstine.com",
-  "name": "Samruddhi Chaure",
-  "mobileNumber": "9876543210",
-  "dateOfBirth": "2002-03-28",
-  "address": "Kharadi, Pune, Maharashtra",
-  "department": "Computer Science",
-  "guardianName": "Tanmay",
-  "guardianNumber": "9876543210"
+  "email": "Users-694306",
+  "name": "name-694306",
+  "firstName": "firstName-694306",
+  "lastName": "lastName-694306",
+  "mobileNumber": "mobileNumber-694306",
+  "dateOfBirth": "2004-07-14",
+  "address": "address-694306",
+  "department": "department-694306",
+  "guardianName": "guardianName-694306",
+  "guardianNumber": "uardianNumber-694306",
+  "role": "role-694306"
 }
 
 
 ### Users
 # @name Users_PATCH
-PATCH {{server}}/odata/v4/school/Users/Users-3935862
+PATCH {{server}}/school/Users/Users-694306
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "email": "Users-3935862",
-  "name": "name-3935862",
-  "mobileNumber": "mobileNumber-3935862",
-  "dateOfBirth": "2008-08-23",
-  "address": "address-3935862",
-  "department": "department-3935862",
-  "guardianName": "guardianName-3935862",
-  "guardianNumber": "ardianNumber-3935862"
+  "email": "Users-694306",
+  "name": "name-694306",
+  "firstName": "firstName-694306",
+  "lastName": "lastName-694306",
+  "mobileNumber": "mobileNumber-694306",
+  "dateOfBirth": "2004-07-14",
+  "address": "address-694306",
+  "department": "department-694306",
+  "guardianName": "guardianName-694306",
+  "guardianNumber": "uardianNumber-694306",
+  "role": "role-694306"
 }
 
 
 ### Users
 # @name Users_DELETE
-DELETE {{server}}/odata/v4/school/Users/Users-3935862
+DELETE {{server}}/school/Users/Users-694306
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+
+### UserInfo
+# @name UserInfo_GET
+GET {{server}}/school/UserInfo
+Authorization: Basic {{username}}:{{password}}
+
+
+### UserInfo
+# @name UserInfo_POST
+POST {{server}}/school/UserInfo
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "id": "UserInfo-12192372",
+  "name": "name-12192372",
+  "email": "email-12192372",
+  "role": "role-12192372",
+  "token": "token-12192372"
+}
+
+
+### UserInfo
+# @name UserInfo_PATCH
+PATCH {{server}}/school/UserInfo/UserInfo-12192372
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "id": "UserInfo-12192372",
+  "name": "name-12192372",
+  "email": "email-12192372",
+  "role": "role-12192372",
+  "token": "token-12192372"
+}
+
+
+### UserInfo
+# @name UserInfo_DELETE
+DELETE {{server}}/school/UserInfo/UserInfo-12192372
 Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}

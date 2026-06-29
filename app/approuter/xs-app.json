@@ -1,4 +1,5 @@
 {
+  "welcomeFile": "/schoolui/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
@@ -21,6 +22,5 @@
       "authenticationType": "xsuaa",
       "target": "$1"
     }
-  ],
-  "welcomeFile": "/index.html"
+  ]
 }

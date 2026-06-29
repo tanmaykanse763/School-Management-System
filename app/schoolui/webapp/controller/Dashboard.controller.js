@@ -22,9 +22,21 @@ sap.ui.define([
         {
 
 
-            onInit: function () {
+            onInit: async function () {
 
-                this._loadDashboardData();
+                // Wait until Component.js finishes loading JWT data
+                while (!this.getOwnerComponent().loggedInUser) {
+                    await new Promise(function (resolve) {
+                        setTimeout(resolve, 200);
+                    });
+                }
+
+                console.log(
+                    "Dashboard Started For :",
+                    this.getOwnerComponent().loggedInUser
+                );
+
+                await this._loadDashboardData();
 
                 this._refreshGreeting();
 
@@ -49,7 +61,7 @@ sap.ui.define([
                         .getModel();
 
 
-               
+
                 // FOR FLP LOGIN
                 // var oUser =
                 //     sap.ushell.Container
@@ -61,7 +73,12 @@ sap.ui.define([
 
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
-                    await oModel.getMetaModel().requestObject("/");
+
+                if (!sEmail) {
+                    console.error("Logged user email not available.");
+                    return;
+                }
+                await oModel.getMetaModel().requestObject("/");
 
                 console.log(
                     "Login Email:",
@@ -95,27 +112,22 @@ sap.ui.define([
                     var oUserData =
                         aUserContexts[0].getObject();
 
-                    var sPath =
-                        aUserContexts[0].getPath();
-
-                    this.getView().bindElement({
-                        path: sPath
-                    });
-
-                    // ADD THIS
+                    console.log("================================");
+                    console.log("User Found In Database");
+                    console.log(oUserData);
+                    console.log("================================");
 
                     this._loggedInUserName =
                         oUserData.name;
 
-                    console.log(
-                        "Logged User Name:",
-                        this._loggedInUserName
-                    );
-
                     this._refreshGreeting();
 
-                }
+                } else {
 
+                    console.error("User not found in Users table");
+                    console.error("Login Email :", sEmail);
+
+                }
 
 
                 // APPROVED LEAVES COUNT
