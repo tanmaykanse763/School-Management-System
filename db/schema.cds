@@ -31,7 +31,6 @@ entity Bonafide : managed {
     comment           : String(500);
 
 }
-
 entity Users {
 
     key email         : String(100);

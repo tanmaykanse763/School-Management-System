@@ -130,11 +130,11 @@ Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "email": "samruddhichaure9000@gmail.com",
-  "name": "Samruddhi Chaure",
-  "firstName": "Samruddhi",
-  "lastName": "Chaure",
-  "mobileNumber": "496588310",
+  "email": "manikanta.dharam@cloudstine.com",
+  "name": "Mk",
+  "firstName": "M",
+  "lastName": "D",
+  "mobileNumber": "436588310",
   "dateOfBirth": "2002-03-07",
   "address": "kharadi Pune",
   "department": "Computer Science",
