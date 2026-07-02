@@ -56,10 +56,7 @@ sap.ui.define([
 
 
                 // ODATA MODEL
-                var oModel =
-                    this.getOwnerComponent()
-                        .getModel();
-
+                var oModel = this.getOwnerComponent().getModel();
 
 
                 // FOR FLP LOGIN
@@ -80,10 +77,7 @@ sap.ui.define([
                 }
                 await oModel.getMetaModel().requestObject("/");
 
-                console.log(
-                    "Login Email:",
-                    sEmail
-                );
+                console.log("Login Email:", sEmail);
 
 
                 // User entity binding
@@ -103,22 +97,17 @@ sap.ui.define([
                         [oUserFilter]
                     );
 
-                var aUserContexts =
-                    await oUserBinding
-                        .requestContexts();
+                var aUserContexts = await oUserBinding.requestContexts();
 
                 if (aUserContexts.length > 0) {
 
-                    var oUserData =
-                        aUserContexts[0].getObject();
+                    var oUserData = aUserContexts[0].getObject();
 
-                    console.log("================================");
+
                     console.log("User Found In Database");
                     console.log(oUserData);
-                    console.log("================================");
 
-                    this._loggedInUserName =
-                        oUserData.name;
+                    this._loggedInUserName = oUserData.name;
 
                     this._refreshGreeting();
 
@@ -163,10 +152,7 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Approved Leaves:",
-                    iTotalLeaves
-                );
+                console.log("Approved Leaves:", iTotalLeaves);
 
 
 
@@ -204,12 +190,7 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Approved Bonafide:",
-                    iBonafideIssued
-                );
-
-
+                console.log("Approved Bonafide:",iBonafideIssued);
 
                 // PENDING LEAVES COUNT
 
@@ -245,10 +226,7 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Pending Leaves:",
-                    iPendingLeaves
-                );
+                console.log("Pending Leaves:", iPendingLeaves);
 
 
 
@@ -286,10 +264,7 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Pending Bonafide:",
-                    iPendingBonafide
-                );
+                console.log("Pending Bonafide:",iPendingBonafide);
 
 
 
@@ -300,10 +275,7 @@ sap.ui.define([
                     iPendingLeaves +
                     iPendingBonafide;
 
-                console.log(
-                    "Final Pending:",
-                    iPending
-                );
+                console.log("Final Pending:",iPending);
 
 
 
@@ -341,10 +313,7 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Rejected Leaves:",
-                    iRejectedLeaves
-                );
+                console.log("Rejected Leaves:",iRejectedLeaves);
 
 
 
@@ -382,24 +351,16 @@ sap.ui.define([
                             .requestContexts()
                     ).length;
 
-                console.log(
-                    "Rejected Bonafide:",
-                    iRejectedBonafide
-                );
+                console.log("Rejected Bonafide:",iRejectedBonafide);
 
 
 
                 // FINAL REJECTED COUNT
 
 
-                var iRejected =
-                    iRejectedLeaves +
-                    iRejectedBonafide;
+                var iRejected = iRejectedLeaves + iRejectedBonafide;
 
-                console.log(
-                    "Final Rejected:",
-                    iRejected
-                );
+                console.log("Final Rejected:",iRejected);
 
 
 
@@ -469,20 +430,15 @@ sap.ui.define([
                 // BONAFIDE ACTIVITIES
 
 
-                var oBonafideBinding =
-                    oModel.bindList("/Bonafide");
+                var oBonafideBinding = oModel.bindList("/Bonafide");
 
-                var aBonafideContexts =
-                    await oBonafideBinding.requestContexts();
+                var aBonafideContexts = await oBonafideBinding.requestContexts();
 
                 aBonafideContexts.forEach(function (oContext) {
 
-                    var oData =
-                        oContext.getObject();
+                    var oData = oContext.getObject();
 
-                    var sCreatedAt =
-                        oData.createdAt ||
-                        oData.CreatedAt;
+                    var sCreatedAt = oData.createdAt || oData.CreatedAt;
 
                     if (
                         oData.studentEmail &&
@@ -558,15 +514,9 @@ sap.ui.define([
 
                     });
 
-                this.getView().setModel(
-                    oActivityModel,
-                    "activityModel"
-                );
+                this.getView().setModel(oActivityModel,"activityModel");
 
-                console.log(
-                    "Recent Activities:",
-                    aActivities
-                );
+                console.log("Recent Activities:",aActivities);
 
                 // LEAVE BALANCE
 
@@ -578,8 +528,7 @@ sap.ui.define([
 
                 aLeaveContexts.forEach(function (oContext) {
 
-                    var oData =
-                        oContext.getObject();
+                    var oData = oContext.getObject();
 
                     // ONLY LOGGED USER
 
@@ -623,17 +572,13 @@ sap.ui.define([
 
                 // BALANCE
 
-                var iMedicalBalance =
-                    15 - iMedicalUsed;
+                var iMedicalBalance = 15 - iMedicalUsed;
 
-                var iSickBalance =
-                    10 - iSickUsed;
+                var iSickBalance = 10 - iSickUsed;
 
-                var iCasualBalance =
-                    10 - iCasualUsed;
+                var iCasualBalance = 10 - iCasualUsed;
 
-                var iEmergencyBalance =
-                    5 - iEmergencyUsed;
+                var iEmergencyBalance = 5 - iEmergencyUsed;
 
                 // TEXT UPDATE
 
@@ -828,8 +773,7 @@ sap.ui.define([
 
             onOpenLeaveRequest: async function () {
 
-                var oView =
-                    this.getView();
+                var oView = this.getView();
 
                 // LOAD ONLY ONCE
                 if (!this._oLeaveDialog) {
@@ -935,9 +879,7 @@ sap.ui.define([
                     !dToDate ||
                     !sReason
                 ) {
-                    MessageToast.show(
-                        "Please fill all required fields"
-                    );
+                    MessageToast.show("Please fill all required fields");
                     return;
                 }
 
@@ -949,9 +891,7 @@ sap.ui.define([
 
                 // REASON VALIDATION
                 if (sReason.length < 5) {
-                    MessageToast.show(
-                        "Reason minimum 5 characters required"
-                    );
+                    MessageToast.show("Reason minimum 5 characters required");
                     return;
                 }
 
@@ -991,9 +931,7 @@ sap.ui.define([
                 oBinding.create(oPayload);
 
                 // SUCCESS MESSAGE
-                MessageToast.show(
-                    "Leave Request Submitted Successfully"
-                );
+                MessageToast.show("Leave Request Submitted Successfully");
 
                 // RESET FIELDS
                 oStudentName.setValue("");
@@ -1112,9 +1050,7 @@ sap.ui.define([
                     !sDepartment ||
                     sDepartment === "--Select--"
                 ) {
-                    MessageToast.show(
-                        "Please fill all required fields"
-                    );
+                    MessageToast.show("Please fill all required fields");
                     return;
                 }
 
@@ -1142,9 +1078,7 @@ sap.ui.define([
                 oBinding.create(oPayload);
 
                 // SUCCESS MESSAGE
-                MessageToast.show(
-                    "Bonafide Request Submitted Successfully"
-                );
+                MessageToast.show("Bonafide Request Submitted Successfully");
 
                 // RESET FIELDS
                 oPurpose.setSelectedKey("--Select--");
@@ -1193,18 +1127,14 @@ sap.ui.define([
             // NAVIGATE TO LEAVE HISTORY
             onViewLeaveHistory: function () {
 
-                this.getOwnerComponent()
-                    .getRouter()
-                    .navTo("LeaveRequests");
+                this.getOwnerComponent().getRouter().navTo("LeaveRequests");
 
             },
 
             // NAVIGATE TO CERTIFICATES
             onViewRequest: function () {
 
-                this.getOwnerComponent()
-                    .getRouter()
-                    .navTo("BonafideCert");
+                this.getOwnerComponent().getRouter().navTo("BonafideCert");
 
             }
 

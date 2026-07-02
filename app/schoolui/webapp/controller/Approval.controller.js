@@ -178,10 +178,7 @@ sap.ui.define([
 
                     });
 
-                    console.log(
-                        "Final Tasks:",
-                        aTasks
-                    );
+                    console.log("Final Tasks:",aTasks);
 
                     var iPending = aTasks.filter(function (oItem) {
                         return oItem.status === "Pending";

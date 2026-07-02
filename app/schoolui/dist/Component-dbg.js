@@ -1,6 +1,8 @@
 sap.ui.define([
-    "sap/ui/core/UIComponent"
-], function (UIComponent) {
+    "sap/ui/core/UIComponent",
+    "sap/ui/model/json/JSONModel"
+], function (UIComponent, JSONModel) {
+
     "use strict";
 
     return UIComponent.extend("schoolui.Component", {
@@ -28,9 +30,9 @@ sap.ui.define([
                 // Wait until metadata is loaded
                 await oModel.getMetaModel().requestObject("/");
 
-                console.log("========================================");
+               
                 console.log("✅ Metadata Loaded Successfully");
-                console.log("========================================");
+                
 
                 // Call CAP Function Import
                 const oBinding = oModel.bindContext("/getUserInfo(...)");
@@ -53,15 +55,28 @@ sap.ui.define([
                 this.userInfo = oUser;
                 this.loggedInUser = (oUser.email || "").trim().toLowerCase();
 
-                console.log("========================================");
+                this.loggedInRole = oUser.role || "";
+
+                console.log("Role             :", this.loggedInRole);
+
+                const oRoleModel = new JSONModel({
+
+                    isAdmin: this.loggedInRole === "Admin",
+
+                    isStudent: this.loggedInRole === "Student"
+
+                });
+
+                this.setModel(oRoleModel, "role");
+
+                
                 console.log("JWT USER INFORMATION");
-                console.log("========================================");
 
                 console.table({
                     ID: oUser.id,
                     Name: oUser.name,
                     Email: oUser.email,
-                    Role: oUser.role,
+                    Role: this.loggedInRole,
                     Token: oUser.token
                 });
 
@@ -70,15 +85,14 @@ sap.ui.define([
                 console.log("Email from JWT   :", oUser.email);
                 console.log("Stored Email     :", this.loggedInUser);
                 console.log("Role             :", oUser.role);
+                console.log("Is Admin         :", oRoleModel.getProperty("/isAdmin"));
+                console.log("Is Student       :", oRoleModel.getProperty("/isStudent"));
                 console.log("Token            :", oUser.token);
 
-                console.log("========================================");
 
             } catch (oError) {
 
-                console.error("========================================");
                 console.error("❌ ERROR WHILE LOADING USER");
-                console.error("========================================");
 
                 console.error(oError);
 
@@ -87,12 +101,21 @@ sap.ui.define([
                 }
 
                 this.loggedInUser = "";
+
+                this.loggedInRole = "";
+
+                this.setModel(new JSONModel({
+
+                    isAdmin: false,
+
+                    isStudent: false
+
+                }), "role");
             }
 
-            console.log("========================================");
-            console.log("🚀 Initializing Router");
+            console.log(" Initializing Router");
             console.log("Logged User :", this.loggedInUser);
-            console.log("========================================");
+            console.log("Logged Role :", this.loggedInRole);
 
             // Initialize Router after user info is loaded
             this.getRouter().initialize();

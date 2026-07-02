@@ -112,10 +112,9 @@ sap.ui.define([
                     var oUserData =
                         aUserContexts[0].getObject();
 
-                    console.log("================================");
+
                     console.log("User Found In Database");
                     console.log(oUserData);
-                    console.log("================================");
 
                     this._loggedInUserName =
                         oUserData.name;

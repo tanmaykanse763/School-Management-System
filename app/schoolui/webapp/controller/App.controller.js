@@ -112,11 +112,9 @@ sap.ui.define([
 
         addNotification: function (oNotif) {
 
-            var oNotificationModel =
-                this.getOwnerComponent().getModel("notification");
+            var oNotificationModel = this.getOwnerComponent().getModel("notification");
 
-            var aNotifications =
-                oNotificationModel.getProperty("/notifications") || [];
+            var aNotifications = oNotificationModel.getProperty("/notifications") || [];
 
             oNotif.read = false;
 

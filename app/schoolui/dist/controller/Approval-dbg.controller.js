@@ -465,94 +465,94 @@ sap.ui.define([
 
             },
 
-           onApprove: async function () {
+            onApprove: async function () {
 
-    if (!this._selectedTask) {
-        MessageToast.show("Please select a request");
-        return;
-    }
+                if (!this._selectedTask) {
+                    MessageToast.show("Please select a request");
+                    return;
+                }
 
-    try {
+                try {
 
-        const oModel = this.getOwnerComponent().getModel();
+                    const oModel = this.getOwnerComponent().getModel();
 
-        const sAction = this._selectedTask.type === "Leave"
-            ? "/approveLeave(...)"
-            : "/approveBonafide(...)";
+                    const sAction = this._selectedTask.type === "Leave"
+                        ? "/approveLeave(...)"
+                        : "/approveBonafide(...)";
 
-        const oAction = oModel.bindContext(sAction);
+                    const oAction = oModel.bindContext(sAction);
 
-        oAction.setParameter("ID", this._selectedTask.ID);
+                    oAction.setParameter("ID", this._selectedTask.ID);
 
-        await oAction.execute();
+                    await oAction.execute();
 
-        MessageToast.show("Approved Successfully");
+                    MessageToast.show("Approved Successfully");
 
-        await this._loadTasks();
+                    await this._loadTasks();
 
-        this.byId("txtRemarks").setValue("");
-        this.byId("taskList").removeSelections(true);
+                    this.byId("txtRemarks").setValue("");
+                    this.byId("taskList").removeSelections(true);
 
-        this._selectedTask = null;
+                    this._selectedTask = null;
 
-    } catch (oError) {
+                } catch (oError) {
 
-        console.error("Approve Error :", oError);
+                    console.error("Approve Error :", oError);
 
-        MessageToast.show("Approval Failed");
+                    MessageToast.show("Approval Failed");
 
-    }
+                }
 
-},
+            },
 
-          onReject: async function () {
+            onReject: async function () {
 
-    if (!this._selectedTask) {
-        MessageToast.show("Please select a request");
-        return;
-    }
+                if (!this._selectedTask) {
+                    MessageToast.show("Please select a request");
+                    return;
+                }
 
-    const sRemarks = this.byId("txtRemarks").getValue().trim();
+                const sRemarks = this.byId("txtRemarks").getValue().trim();
 
-    if (!sRemarks) {
-        MessageToast.show("Please enter remarks before rejecting");
-        return;
-    }
+                if (!sRemarks) {
+                    MessageToast.show("Please enter remarks before rejecting");
+                    return;
+                }
 
-    try {
+                try {
 
-        const oModel = this.getOwnerComponent().getModel();
+                    const oModel = this.getOwnerComponent().getModel();
 
-        const sAction = this._selectedTask.type === "Leave"
-            ? "/rejectLeave(...)"
-            : "/rejectBonafide(...)";
+                    const sAction = this._selectedTask.type === "Leave"
+                        ? "/rejectLeave(...)"
+                        : "/rejectBonafide(...)";
 
-        const oAction = oModel.bindContext(sAction);
+                    const oAction = oModel.bindContext(sAction);
 
-        oAction.setParameter("ID", this._selectedTask.ID);
-        oAction.setParameter("comment", sRemarks);
+                    oAction.setParameter("ID", this._selectedTask.ID);
+                    oAction.setParameter("comment", sRemarks);
 
-        await oAction.execute();
+                    await oAction.execute();
 
-        MessageToast.show("Rejected Successfully");
+                    MessageToast.show("Rejected Successfully");
 
-        this.byId("txtRemarks").setValue("");
+                    this.byId("txtRemarks").setValue("");
 
-        await this._loadTasks();
+                    await this._loadTasks();
 
-        this.byId("taskList").removeSelections(true);
+                    this.byId("taskList").removeSelections(true);
 
-        this._selectedTask = null;
+                    this._selectedTask = null;
 
-    } catch (oError) {
+                } catch (oError) {
 
-        console.error("Reject Error :", oError);
+                    console.error("Reject Error :", oError);
 
-        MessageToast.show("Reject Failed");
+                    MessageToast.show("Reject Failed");
 
-    }
+                }
 
-},
+            },
 
         }
 

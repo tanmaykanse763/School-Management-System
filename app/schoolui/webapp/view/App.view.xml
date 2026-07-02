@@ -63,26 +63,26 @@
                         key="Dashboard"
                         text="Dashboard"
                         icon="sap-icon://home"
-                        visible="{user>/isStudent}" 
+                        visible="{role>/isStudent}" 
                     />
                     <tnt:NavigationListItem
                         key="LeaveRequests"
                         text="Leave Requests"
                         icon="sap-icon://timesheet"
-                        visible="{user>/isStudent}"
+                        visible="{role>/isStudent}"
                     />
                     <tnt:NavigationListItem
                         key="BonafideCert"
                         text="Bonafide Cert."
                         icon="sap-icon://document"
-                        visible="{user>/isStudent}"
+                        visible="{role>/isStudent}"
                     />
 
                     <tnt:NavigationListItem
                         key="Approval"
                         text="Approval"
                         icon="sap-icon://task"
-                        visible="{user>/isAdmin}"
+                        visible="{role>/isAdmin}"
                     />
                 </tnt:NavigationList>
 

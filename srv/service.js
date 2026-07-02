@@ -4,15 +4,15 @@ module.exports = cds.service.impl(async function () {
 
     const { Bonafide, Users, Leaves } = this.entities;
 
-    // ==========================
+
     // RESTRICT LEAVES TO LOGGED-IN USER ONLY
-    // ==========================
+
 
     this.before("READ", Leaves, (req) => {
 
-        console.log("================================");
+
         console.log("REQ USER :", req.user);
-        console.log("================================");
+
 
         const sEmail =
             req.user?.attr?.email ||
@@ -42,10 +42,10 @@ module.exports = cds.service.impl(async function () {
 
     this.before("READ", Bonafide, (req) => {
 
-        console.log("================================");
+
         console.log("READ Bonafide");
         console.log("REQ USER :", req.user);
-        console.log("================================");
+
 
         const sEmail =
             req.user?.attr?.email ||
@@ -131,9 +131,9 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-    // ==========================
+
     // GET LOGGED-IN USER INFO
-    // ==========================
+
 
     this.on("getUserInfo", async (req) => {
 
@@ -144,15 +144,21 @@ module.exports = cds.service.impl(async function () {
             req.user?.id ||
             "";
 
-        console.log("================================");
+
         console.log("Logged In Email :", sEmail);
+        console.log("User ID      :", req.user.id);
+        console.log("Admin?       :", req.user.is("Admin"));
+        console.log("Student?     :", req.user.is("Student"));
+        console.log("Roles        :", req.user.roles);
+        console.log("Attributes   :", req.user.attr);
+        console.log("Complete User:", req.user);
 
         const oUser = await SELECT.one
             .from(Users)
             .where({ email: sEmail });
 
         console.log("DB User :", oUser);
-        console.log("================================");
+
 
         return {
             id: req.user?.id || "",
@@ -170,9 +176,9 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-    // ==========================
+
     // BONAFIDE VALIDATIONS
-    // ==========================
+
 
     this.before("CREATE", Bonafide, async (req) => {
 

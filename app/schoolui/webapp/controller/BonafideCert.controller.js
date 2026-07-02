@@ -36,10 +36,7 @@ sap.ui.define([
                     "filterModel"
                 );
 
-                this.getOwnerComponent()
-                    .getRouter()
-                    .getRoute("BonafideCert")
-                    .attachMatched(this._onRouteMatched, this);
+                this.getOwnerComponent().getRouter().getRoute("BonafideCert").attachMatched(this._onRouteMatched, this);
 
             },
 
@@ -51,9 +48,7 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("=================================");
                 console.log("Logged User :", sEmail);
-                console.log("=================================");
 
                 if (!sEmail) {
                     console.error("Logged user email not found");
@@ -131,9 +126,7 @@ sap.ui.define([
 
                 }
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty("/selectedButton", sKey);
+                this.getView().getModel("filterModel").setProperty("/selectedButton", sKey);
 
             },
             // onAfterRendering: function () {
@@ -163,8 +156,7 @@ sap.ui.define([
 
             onRequestCertificate: function () {
 
-                var oView =
-                    this.getView();
+                var oView = this.getView();
 
                 // LOAD FRAGMENT ONLY ONCE
 
@@ -255,9 +247,7 @@ sap.ui.define([
                     !oCopies
                 ) {
 
-                    MessageToast.show(
-                        "Fragment Controls Not Found"
-                    );
+                    MessageToast.show("Fragment Controls Not Found");
 
                     return;
 
@@ -296,9 +286,7 @@ sap.ui.define([
                     sDepartment === "--Select--"
                 ) {
 
-                    MessageToast.show(
-                        "Please fill all required fields"
-                    );
+                    MessageToast.show("Please fill all required fields");
 
                     return;
 
@@ -310,9 +298,7 @@ sap.ui.define([
                     sPurpose.trim().length < 5
                 ) {
 
-                    MessageToast.show(
-                        "Purpose minimum 5 characters required"
-                    );
+                    MessageToast.show("Purpose minimum 5 characters required");
 
                     return;
 
@@ -324,9 +310,7 @@ sap.ui.define([
                     !sStudentEmail.includes("@")
                 ) {
 
-                    MessageToast.show(
-                        "Enter valid email"
-                    );
+                    MessageToast.show("Enter valid email");
 
                     return;
 
@@ -334,8 +318,7 @@ sap.ui.define([
 
                 // ODATA MODEL
 
-                var oModel =
-                    this.getView().getModel();
+                var oModel = this.getView().getModel();
 
                 // PAYLOAD
 
@@ -365,22 +348,17 @@ sap.ui.define([
 
                 // CREATE POST CALL
 
-                var oBinding =
-                    oModel.bindList("/Bonafide");
+                var oBinding = oModel.bindList("/Bonafide");
 
                 oBinding.create(oPayload);
 
                 // SUCCESS MESSAGE
 
-                MessageToast.show(
-                    "Bonafide Request Submitted Successfully"
-                );
+                MessageToast.show("Bonafide Request Submitted Successfully");
 
                 // REFRESH TABLE
 
-                this.byId("bonafideTable")
-                    .getBinding("items")
-                    .refresh();
+                this.byId("bonafideTable").getBinding("items").refresh();
 
                 // RESET FIELDS
 
@@ -428,17 +406,13 @@ sap.ui.define([
 
             onNameLiveChange: function (oEvent) {
 
-                var sValue =
-                    oEvent.getParameter("value");
+                var sValue = oEvent.getParameter("value");
 
                 // REMOVE DIGITS & SPECIAL CHARACTERS
 
-                sValue =
-                    sValue.replace(/[^a-zA-Z ]/g, "");
+                sValue = sValue.replace(/[^a-zA-Z ]/g, "");
 
-                oEvent.getSource().setValue(
-                    sValue
-                );
+                oEvent.getSource().setValue(sValue);
 
             },
 
@@ -446,16 +420,13 @@ sap.ui.define([
 
             onEmailLiveChange: function (oEvent) {
 
-                var oInput =
-                    oEvent.getSource();
+                var oInput = oEvent.getSource();
 
-                var sValue =
-                    oInput.getValue();
+                var sValue = oInput.getValue();
 
                 // CHECK GMAIL FORMAT
 
-                var gmailPattern =
-                    /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                var gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
                 if (
                     sValue === "" ||
@@ -468,9 +439,7 @@ sap.ui.define([
 
                     oInput.setValueState("Error");
 
-                    oInput.setValueStateText(
-                        "Enter valid Email address"
-                    );
+                    oInput.setValueStateText("Enter valid Email address");
 
                 }
 
@@ -480,16 +449,13 @@ sap.ui.define([
 
                 // SEARCH VALUE
 
-                var sValue =
-                    oEvent.getParameter("newValue");
+                var sValue = oEvent.getParameter("newValue");
 
                 // TABLE
 
-                var oTable =
-                    this.byId("bonafideTable");
+                var oTable = this.byId("bonafideTable");
 
-                var oBinding =
-                    oTable.getBinding("items");
+                var oBinding = oTable.getBinding("items");
 
                 // FILTERS
 
@@ -504,30 +470,6 @@ sap.ui.define([
                         new sap.ui.model.Filter({
 
                             filters: [
-
-                                // STUDENT NAME
-
-                                new sap.ui.model.Filter(
-                                    "studentName",
-                                    sap.ui.model.FilterOperator.Contains,
-                                    sValue
-                                ),
-
-                                // EMAIL
-
-                                new sap.ui.model.Filter(
-                                    "studentEmail",
-                                    sap.ui.model.FilterOperator.Contains,
-                                    sValue
-                                ),
-
-                                // DEPARTMENT
-
-                                new sap.ui.model.Filter(
-                                    "department",
-                                    sap.ui.model.FilterOperator.Contains,
-                                    sValue
-                                ),
 
                                 // PURPOSE
 
@@ -567,9 +509,7 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("==================================");
                 console.log("Logged In User Email :", sEmail);
-                console.log("==================================");
 
                 var oTable = this.byId("bonafideTable");
                 var oBinding = oTable.getBinding("items");
@@ -589,9 +529,7 @@ sap.ui.define([
 
                 oBinding.refresh();
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty("/selectedButton", "All");
+                this.getView().getModel("filterModel").setProperty("/selectedButton", "All");
 
             },
 
@@ -601,10 +539,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("PENDING TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
@@ -643,9 +580,7 @@ sap.ui.define([
 
                 oBinding.refresh();
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty("/selectedButton", "Pending");
+                this.getView().getModel("filterModel").setProperty("/selectedButton", "Pending");
 
             },
 
@@ -655,10 +590,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("APPROVED TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
@@ -697,9 +631,7 @@ sap.ui.define([
 
                 oBinding.refresh();
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty("/selectedButton", "Approved");
+                this.getView().getModel("filterModel").setProperty("/selectedButton", "Approved");
 
             },
             // FILTER REJECTED
@@ -708,10 +640,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("REJECTED TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
@@ -750,9 +681,7 @@ sap.ui.define([
 
                 oBinding.refresh();
 
-                this.getView()
-                    .getModel("filterModel")
-                    .setProperty("/selectedButton", "Rejected");
+                this.getView().getModel("filterModel").setProperty("/selectedButton", "Rejected");
 
             }
         }

@@ -130,17 +130,17 @@ Content-Type: application/json
 Authorization: Basic {{username}}:{{password}}
 
 {
-  "email": "Users-694306",
-  "name": "name-694306",
-  "firstName": "firstName-694306",
-  "lastName": "lastName-694306",
-  "mobileNumber": "mobileNumber-694306",
-  "dateOfBirth": "2004-07-14",
-  "address": "address-694306",
-  "department": "department-694306",
-  "guardianName": "guardianName-694306",
-  "guardianNumber": "uardianNumber-694306",
-  "role": "role-694306"
+  "email": "samruddhichaure9000@gmail.com",
+  "name": "Samruddhi Chaure",
+  "firstName": "Samruddhi",
+  "lastName": "Chaure",
+  "mobileNumber": "496588310",
+  "dateOfBirth": "2002-03-07",
+  "address": "kharadi Pune",
+  "department": "Computer Science",
+  "guardianName": "Aman",
+  "guardianNumber": "2134567890",
+  "role": "Admin"
 }
 
 

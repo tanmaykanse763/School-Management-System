@@ -51,9 +51,7 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("=================================");
                 console.log("Logged User :", sEmail);
-                console.log("=================================");
 
                 if (!sEmail) {
                     console.error("Logged user email not found");
@@ -567,9 +565,7 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("==================================");
                 console.log("Logged In User Email :", sEmail);
-                console.log("==================================");
 
                 var oTable = this.byId("bonafideTable");
                 var oBinding = oTable.getBinding("items");
@@ -601,10 +597,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("PENDING TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
@@ -655,10 +650,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("APPROVED TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
@@ -708,10 +702,9 @@ sap.ui.define([
 
                 var sEmail = this.getOwnerComponent().loggedInUser;
 
-                console.log("========================================");
                 console.log("REJECTED TAB");
                 console.log("Logged User Email :", sEmail);
-                console.log("========================================");
+
 
                 if (!sEmail) {
                     console.error("Logged user email not available.");
